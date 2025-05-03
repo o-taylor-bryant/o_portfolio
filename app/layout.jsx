@@ -10,7 +10,7 @@ import ClientTopProgressBar from "@/components/ClientTopProgressBar";
 export const metadata = {
   title: "Taylor Bryant | Portfolio",
   description: "Portfolio of Taylor Bryant, an entry-level tech professional.",
-  metadataBase: new URL("http://localhost:3000"),
+  metadataBase: new URL("https://otaylorbryant.vercel.app/"),
 };
 
 export default function RootLayout({ children }) {

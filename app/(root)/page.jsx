@@ -95,15 +95,8 @@ const MyPage = () => {
                       type: "spring",
                     }}
                   >
-                    <Button variation="primary">
-                      <Link
-                        href="/docs/cv.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        download
-                      >
-                        Resume
-                      </Link>
+                    <Button variation="primary" disabled>
+                      Resume Coming Soon
                     </Button>
                     <Button variation="secondary">
                       <a href="#contact">Ping Me</a>
