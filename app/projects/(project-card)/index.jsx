@@ -5,17 +5,15 @@ import PropTypes from "prop-types";
 export default function ProjectCard({ project }) {
   return (
     <div className="relative group w-full max-w-sm mx-auto bg-[#f9f9f9] border border-gray-300 rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-gray-400 hover:-translate-y-1">
-      {/* Terminal Header */}
       <div className="bg-black text-white text-xs font-mono px-4 py-2 border-b border-gray-800 flex items-center gap-2 tracking-tight">
         <span className="text-white">●</span>
         <span className="text-white">●</span>
         <span className="text-white">●</span>
         <span className="ml-4">
-          // open file: {project.title.toLowerCase().replaceAll(" ", "_")}.md
+          {project.title.toLowerCase().replaceAll(" ", "_")}.md
         </span>
       </div>
 
-      {/* Project Image */}
       <div className="relative w-full h-48 bg-gray-100">
         <Image
           src={project.thumbnail}
@@ -26,7 +24,6 @@ export default function ProjectCard({ project }) {
         />
       </div>
 
-      {/* Content */}
       <div className="p-5 flex flex-col items-center text-center bg-white">
         <h3 className="text-md font-semibold text-gray-800 mb-3 tracking-wide">
           {project.title}

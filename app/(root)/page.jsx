@@ -1,16 +1,15 @@
 "use client";
 import ReactFullpage from "@fullpage/react-fullpage";
 import Image from "next/legacy/image";
-// import "../globals.css";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
 // components
 import Button from "@/components/Button";
-import Me from "@/public/image/me.jpg"; // Replace with your own image
-import MeAbout from "@/public/image/me2.png"; // Replace with your own image
-import Workspace1 from "@/public/image/Workspace1.jpg"; // Updated import
-import Workspace2 from "@/public/image/Workspace2.jpg"; // Updated import
+import Me from "@/public/image/me.jpg";
+import MeAbout from "@/public/image/me2.png";
+import Workspace1 from "@/public/image/Workspace1.jpg";
+import Workspace2 from "@/public/image/Workspace2.jpg";
 import Hr from "@/components/Hr";
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -63,7 +62,7 @@ const MyPage = () => {
                       type: "spring",
                     }}
                   >
-                    Hi, I'm Taylor Bryant
+                    Hi, I&apos;m Taylor Bryant
                   </motion.h3>
                   <motion.h1
                     className="text-black text-5xl md:text-6xl lg:text-7xl 2xl:text-8xl font-bold my-2 md:my-5"
@@ -186,7 +185,7 @@ const MyPage = () => {
                       type: "spring",
                     }}
                   >
-                    A look into my personal processing file.
+                    A look into my personal processing file!
                   </motion.p>
                   <motion.div
                     initial={{ y: 40, opacity: 0 }}
@@ -197,7 +196,7 @@ const MyPage = () => {
                     }}
                   >
                     <Button variation="primary">
-                      <Link href="/about">Learn More</Link>
+                      <Link href="/about">View</Link>
                     </Button>
                   </motion.div>
                 </div>
@@ -226,10 +225,10 @@ const MyPage = () => {
                     }}
                   >
                     <Image
-                      src={Workspace1} // Updated to Workspace1
+                      src={Workspace1}
                       layout="fill"
                       className="object-cover"
-                      alt="Workspace 1" // Updated alt text
+                      alt="Workspace 1"
                       placeholder="blur"
                     />
                   </motion.div>
@@ -267,7 +266,7 @@ const MyPage = () => {
                     }}
                   >
                     <Button variation="primary">
-                      <Link href="/projects">Learn More</Link>
+                      <Link href="/projects">View</Link>
                     </Button>
                   </motion.div>
                 </div>
@@ -296,10 +295,10 @@ const MyPage = () => {
                     }}
                   >
                     <Image
-                      src={Workspace2} // Updated to Workspace2
+                      src={Workspace2}
                       layout="fill"
                       className="object-cover"
-                      alt="Workspace 2" // Updated alt text
+                      alt="Workspace 2"
                       placeholder="blur"
                     />
                   </motion.div>
@@ -326,7 +325,7 @@ const MyPage = () => {
                       type: "spring",
                     }}
                   >
-                    You had a good signal - now, let's get in touch!
+                    You had a good signal - now, let&apos;s get in touch!
                   </motion.p>
                   <motion.p
                     className="title text-xl mt-4 tracking-wider text-black leading-[1.7rem] mb-5"
@@ -341,7 +340,6 @@ const MyPage = () => {
                       o.taylor.bryant@gmail.com
                     </a>
                   </motion.p>
-                  {/* icons */}
                   <div className="flex justify-center items-center space-x-4">
                     <motion.a
                       href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hello Taylor,"
