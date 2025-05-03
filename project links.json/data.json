@@ -1,0 +1,22 @@
+{
+  "Projects": [
+    {
+      "show": true,
+      "title": "Project: Audit NO.001_Botium Toys",
+      "slug": "audit-no-001-botium-toys",
+      "desc": [
+        "This is my reimagined internal audit for a fictional company that I created in 2024 while studying for the Google Cybersecurity Professional Certificate on Coursera.",
+        "During my training with Merit America, I decided to revisit the project with more structure and clarity, taking time to reabsorb internal audit standards and rebuild it from the ground up.",
+        "To reflect my personal brand, I designed a custom audit template in Affinity, using my graphic design skills to bring my original report alive."
+      ],
+      "pdf": "https://drive.google.com/file/d/1k49Qtl3O8pXP7eicWljQvAIPurRcV-56/view?usp=sharing",
+      "thumbnail": "/image/projects/Project 1/P1.png",
+      "images": [
+        "/image/projects/Project 1/P2.png",
+        "/image/projects/Project 1/P3.png",
+        "/image/projects/Project 1/P4.png",
+        "/image/projects/Project 1/P5.png"
+      ]
+    }
+  ]
+}
