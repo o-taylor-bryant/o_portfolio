@@ -15,7 +15,7 @@ export default function ProjectDetails({ params }) {
   }
 
   const [currentPage, setCurrentPage] = useState(0);
-  const previewImages = project.images.slice(1); // 3 preview pages
+  const previewImages = project.images.slice(1);
 
   const handleNext = () => {
     setCurrentPage((prev) => (prev + 1) % previewImages.length);
@@ -29,17 +29,15 @@ export default function ProjectDetails({ params }) {
 
   return (
     <main className="px-6 py-10 bg-gray-100 min-h-screen font-[Nunito]">
-      {/* Terminal-style Header */}
       <div className="bg-black text-white text-xs font-mono px-4 py-2 border-b border-gray-800 flex items-center gap-2 tracking-tight rounded-t-xl max-w-4xl mx-auto mt-6">
         <span className="text-white">●</span>
         <span className="text-white">●</span>
         <span className="text-white">●</span>
         <span className="ml-4">
-          // project: {project.title.toLowerCase().replaceAll(" ", "_")}.md
+          {project.title.toLowerCase().replaceAll(" ", "_")}.md
         </span>
       </div>
 
-      {/* Main Mockup Image */}
       <div className="relative w-full max-w-4xl h-64 md:h-96 mx-auto rounded-b-xl overflow-hidden shadow-lg mb-10 bg-white">
         <Image
           src={project.images[0]}
@@ -50,17 +48,15 @@ export default function ProjectDetails({ params }) {
         />
       </div>
 
-      {/* Description */}
       <section className="max-w-3xl mx-auto text-black text-[1rem] leading-relaxed space-y-4 mb-12">
         {project.desc.map((paragraph, index) => (
           <p key={index}>{paragraph}</p>
         ))}
       </section>
 
-      {/* PDF-style Flip Viewer */}
       <section className="max-w-3xl mx-auto mb-12 bg-white border border-gray-300 rounded-xl shadow-md overflow-hidden">
         <div className="bg-black text-white text-xs font-mono px-4 py-2 border-b border-gray-800 tracking-tight">
-          // preview: page_{currentPage + 1}.png
+          page_{currentPage + 1}.png
         </div>
         <div className="relative w-full h-96">
           <Image
@@ -90,7 +86,6 @@ export default function ProjectDetails({ params }) {
         </div>
       </section>
 
-      {/* PDF Link */}
       <div className="text-center">
         <a
           href={project.pdf}
