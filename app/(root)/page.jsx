@@ -306,7 +306,7 @@ const MyPage = () => {
                       type: "spring",
                     }}
                   >
-                    Ping Recieved.
+                    Ping Received.
                   </motion.h1>
                   <Hr />
                   <motion.p
