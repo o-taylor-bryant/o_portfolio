@@ -1,18 +1,19 @@
 import Link from "next/link";
 
+/* [PROJECT FILE PREVIEW CARD] */
 export default function ProjectFilePreview({ project }) {
   return (
     <div className="relative w-full max-w-sm mx-auto font-mono text-sm text-black flex flex-col items-center justify-center p-4 animate-fade-in">
-      {/* 📄 Main Card */}
+      {/* [CARD CONTAINER] */}
       <div className="relative z-10 w-full h-full bg-white/90 backdrop-blur-md border border-neutral-200 rounded-2xl shadow-xl overflow-hidden group transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(180,180,180,0.3)]">
-        {/* 🗞️ Top Left Filetype Badge */}
+        {/* [FILETYPE BADGE] */}
         {project.filetype && (
           <span className="absolute top-2 left-3 text-[10px] font-medium text-neutral-500 tracking-wide bg-neutral-100 px-1.5 py-[2px] rounded shadow-sm">
             {project.filetype}
           </span>
         )}
 
-        {/* 📎 Top Right Icon (flashes gently) */}
+        {/* [ICON] */}
         {project.icon && (
           <img
             src={project.icon}
@@ -21,7 +22,7 @@ export default function ProjectFilePreview({ project }) {
           />
         )}
 
-        {/* 🔲 Thumbnail + Dot */}
+        {/* [THUMBNAIL + DOT] */}
         <div className="flex flex-col items-center py-5">
           <span className="w-2.5 h-2.5 bg-black rounded-full animate-blink mb-3 shadow-sm"></span>
           {project.thumbnail && (
@@ -33,10 +34,10 @@ export default function ProjectFilePreview({ project }) {
           )}
         </div>
 
-        {/* ⬜ Divider */}
+        {/* [DIVIDER] */}
         <div className="w-8 h-[1px] bg-neutral-300 mx-auto mb-2 group-hover:w-12 transition-all duration-300"></div>
 
-        {/* 📰 Title & Description */}
+        {/* [TITLE & DESCRIPTION] */}
         <div className="px-4 text-center">
           <h2 className="text-base font-semibold truncate">{project.title}</h2>
           <p className="text-neutral-600 text-xs mt-1 leading-relaxed line-clamp-3 group-hover:opacity-90 transition-opacity duration-300">
@@ -44,12 +45,12 @@ export default function ProjectFilePreview({ project }) {
           </p>
         </div>
 
-        {/* 📁 Metadata (hover reveal) */}
+        {/* [METADATA - HOVER REVEAL] */}
         <div className="absolute bottom-12 left-4 right-4 opacity-0 group-hover:opacity-100 text-[10px] text-neutral-400 font-medium transition-all duration-400 text-center tracking-tight">
           /files/projects/{project.slug}
         </div>
 
-        {/* 🖱️ Open Button */}
+        {/* [OPEN BUTTON] */}
         <div className="w-full mt-4 px-4 pb-4">
           <Link href={`/projects/${project.slug}`}>
             <button className="w-full bg-black text-white font-mono text-xs py-2 rounded-md hover:bg-neutral-900 relative transition-all duration-200 overflow-hidden">
@@ -60,7 +61,7 @@ export default function ProjectFilePreview({ project }) {
         </div>
       </div>
 
-      {/* 🎛️ CSS */}
+      {/* [CUSTOM CSS] */}
       <style jsx>{`
         @keyframes fade-in {
           from {
