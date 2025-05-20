@@ -2,8 +2,8 @@
   "Projects": [
     {
       "show": true,
-      "title": "Project: Audit NO.001_Botium Toys",
-      "slug": "audit-no-001-botium-toys",
+      "title": "Project 001: Audit",
+      "slug": "audit-no-001",
       "desc": [
         "This is my reimagined internal audit for a fictional company that I created in 2024 while studying for the Google Cybersecurity Professional Certificate on Coursera.",
         "During my training with Merit America, I decided to revisit the project with more structure and clarity, taking time to reabsorb internal audit standards and rebuild it from the ground up.",
