@@ -81,12 +81,12 @@ const MyPage = () => {
                   }}
                 >
                   <div className="block md:hidden col-span-1 mx-auto my-10">
-                    <div className="bg-slate-500 rounded-full h-60 w-60 grayscale hover:grayscale-0 transition-all ease duration-300">
+                    <div className="bg-slate-500 rounded-full overflow-hidden aspect-square w-72 h-72 border-4 border-black grayscale hover:grayscale-0 transition-all ease duration-300 flex items-center justify-center">
                       <Image
                         src={Me}
-                        width={500}
-                        height={500}
-                        className="rounded-full w-full h-full object-cover "
+                        width={288}
+                        height={288}
+                        className="object-cover w-full h-full"
                         alt="Taylor Bryant"
                         placeholder="blur"
                       />
@@ -143,7 +143,7 @@ const MyPage = () => {
                   </motion.div>
                 </motion.div>
                 <motion.div
-                  className="hidden md:flex col-span-1 mx-auto justify-center items-center "
+                  className="hidden md:flex col-span-1 mx-auto justify-center items-center"
                   initial={{ x: 100, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{
@@ -151,14 +151,14 @@ const MyPage = () => {
                     type: "spring",
                   }}
                 >
-                  <div className="rounded-full h-auto w-auto  lg:px-12 grayscale hover:grayscale-0 transition-all ease duration-300">
+                  <div className="rounded-full overflow-hidden aspect-square w-96 h-96 border-4 border-black grayscale hover:grayscale-0 transition-all ease duration-300 flex items-center justify-center">
                     <Image
                       src={Me}
-                      width={400}
-                      height={550}
+                      width={384}
+                      height={384}
                       placeholder="blur"
                       alt="Taylor Bryant"
-                      className="rounded-full w-full h-full object-cover"
+                      className="object-cover w-full h-full"
                     />
                   </div>
                 </motion.div>
@@ -166,9 +166,9 @@ const MyPage = () => {
             </div>
             <div className="section">
               <div className="relative md:h-screen w-screen gap-4 flex justify-center items-center flex-col overflow-hidden">
-                <div className="z-0 mb-48 md:mb-0  md:absolute top-1/4  md:right-[10%] md:-translate-y-16 ">
+                <div className="z-0 mb-48 md:mb-0 md:absolute top-1/4 md:right-[18%] md:-translate-y-0 flex items-center justify-center w-72 h-72 md:w-96 md:h-96">
                   <motion.div
-                    className="bg-slate-300 rounded-sm h-[400px] md:h-[600px] w-[80vw] md:w-[30vw] grayscale hover:grayscale-0"
+                    className="flex items-center justify-center w-72 h-72 md:w-96 md:h-96"
                     initial={{
                       x: 300,
                       opacity: 0,
@@ -186,13 +186,45 @@ const MyPage = () => {
                       damping: 20,
                     }}
                   >
-                    <Image
-                      src={MeAbout}
-                      layout="fill"
-                      className="object-cover"
-                      alt="Taylor Bryant"
-                      placeholder="blur"
-                    />
+                    {/* Animated code brackets SVG */}
+                    <svg
+                      width="80%"
+                      height="80%"
+                      viewBox="0 0 200 200"
+                      fill="none"
+                      className="drop-shadow-lg"
+                    >
+                      <g>
+                        <polyline
+                          points="60,30 30,100 60,170"
+                          stroke="#111"
+                          strokeWidth="10"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="animate-pulse"
+                          style={{ filter: "drop-shadow(0 0 8px #000)" }}
+                        />
+                        <polyline
+                          points="140,30 170,100 140,170"
+                          stroke="#111"
+                          strokeWidth="10"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="animate-pulse"
+                          style={{ filter: "drop-shadow(0 0 8px #000)" }}
+                        />
+                      </g>
+                      <rect
+                        x="90"
+                        y="90"
+                        width="20"
+                        height="20"
+                        rx="4"
+                        fill="#111"
+                        className="animate-ping"
+                        opacity="0.7"
+                      />
+                    </svg>
                   </motion.div>
                 </div>
                 <div className="z-10 w-full absolute md:w-auto  md:left-[10%] top-[60%] md:top-1/3 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
@@ -236,30 +268,28 @@ const MyPage = () => {
             </div>
             <div className="section">
               <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
-                <div className="z-0 mb-48 md:mb-0  md:absolute top-1/4  md:right-[10%] md:-translate-y-16 ">
+                <div className="z-0 mb-48 md:mb-0  md:absolute top-1/4  md:right-[20%] md:-translate-y-0 ">
                   <motion.div
-                    className="bg-slate-300 rounded-sm h-[400px] md:h-[600px] w-[80vw] md:w-[30vw] grayscale hover:grayscale-0 "
+                    className="rounded-full overflow-hidden w-72 h-72 md:w-96 md:h-96 border-4 border-black grayscale hover:grayscale-0 transition-all ease duration-300 flex items-center justify-center bg-slate-300"
                     initial={{
-                      x: 300,
+                      x: 60,
                       opacity: 0,
-                      z: -100,
                     }}
                     whileInView={{
                       x: 0,
                       opacity: 1,
-                      z: 0,
                     }}
                     transition={{
+                      duration: 0.8,
+                      ease: "easeOut",
                       delay: 0.5,
-                      type: "spring",
-                      stiffness: 100,
-                      damping: 20,
                     }}
                   >
                     <Image
                       src={Workspace1}
-                      layout="fill"
-                      className="object-cover"
+                      width={384}
+                      height={384}
+                      className="object-cover w-full h-full"
                       alt="Workspace 1"
                       placeholder="blur"
                     />

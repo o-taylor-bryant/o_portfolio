@@ -22,8 +22,12 @@ export default function About() {
       <Title />
       <div className="relative mx-auto container gap-4 px-10 grid grid-cols-1 md:grid-cols-2 mb-10">
         <div className="flex justify-center items-start flex-col mb-5 ">
-          <div className="images relative w-full  aspect-square">
-            <div className="absolute top-28 left-10 w-[50%]  aspect-square grayscale hover:grayscale-0 transition-all ease duration-300">
+          <div className="images relative w-full aspect-square">
+            <div
+              className="absolute top-28 left-10 w-[50%] aspect-square grayscale hover:grayscale-0 transition-all ease duration-300 rounded-full
+              before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-sky-400 before:blur-lg before:opacity-40 before:z-[-1]
+              before:transition-all before:duration-500 hover:before:opacity-70 hover:before:blur-2xl"
+            >
               <motion.div
                 initial={{ opacity: 0, scale: 0.5, x: 100 }}
                 whileInView={{
@@ -31,7 +35,7 @@ export default function About() {
                   scale: 1,
                   x: 0,
                 }}
-                className="w-full h-full"
+                className="w-full h-full rounded-full"
               >
                 <Image
                   src={Me1}
@@ -39,10 +43,15 @@ export default function About() {
                   layout="fill"
                   objectFit="cover"
                   placeholder="blur"
+                  className="rounded-full"
                 />
               </motion.div>
             </div>
-            <div className="absolute top-16 right-28 w-[30%]  aspect-square grayscale hover:grayscale-0 transition-all ease duration-300">
+            <div
+              className="absolute top-16 right-28 w-[30%] aspect-square grayscale hover:grayscale-0 transition-all ease duration-300 rounded-full
+              before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-sky-400 before:blur-lg before:opacity-40 before:z-[-1]
+              before:transition-all before:duration-500 hover:before:opacity-70 hover:before:blur-2xl"
+            >
               <motion.div
                 initial={{
                   opacity: 0,
@@ -55,7 +64,7 @@ export default function About() {
                   x: 0,
                 }}
                 transition={{ delay: 0.3 }}
-                className="w-full h-full"
+                className="w-full h-full rounded-full"
               >
                 <Image
                   src={Me2}
@@ -63,10 +72,15 @@ export default function About() {
                   layout="fill"
                   objectFit="cover"
                   placeholder="blur"
+                  className="rounded-full"
                 />
               </motion.div>
             </div>
-            <div className="absolute bottom-16 right-20 w-[40%]  aspect-square grayscale hover:grayscale-0 transition-all ease duration-300">
+            <div
+              className="absolute bottom-16 right-20 w-[40%] aspect-square grayscale hover:grayscale-0 transition-all ease duration-300 rounded-full
+              before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-sky-400 before:blur-lg before:opacity-40 before:z-[-1]
+              before:transition-all before:duration-500 hover:before:opacity-70 hover:before:blur-2xl"
+            >
               <motion.div
                 initial={{
                   opacity: 0,
@@ -81,7 +95,7 @@ export default function About() {
                 transition={{
                   delay: 0.5,
                 }}
-                className="w-full h-full"
+                className="w-full h-full rounded-full"
               >
                 <Image
                   src={Me3}
@@ -89,6 +103,7 @@ export default function About() {
                   layout="fill"
                   objectFit="cover"
                   placeholder="blur"
+                  className="rounded-full"
                 />
               </motion.div>
             </div>
