@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import ProjectCard from "./(project-card)";
 import projectData from "@/project links.json/data.json";
+import FixedButton from "@/components/FixedButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 /* [STATE & EFFECTS] */
 export default function Page() {
@@ -47,6 +50,11 @@ export default function Page() {
   /* [TERMINAL WINDOW] */
   return (
     <div className="flex items-center justify-center min-h-screen bg-[rgb(230,230,230)] px-4 pt-32 pb-12">
+      {/* [Home Button - top left] */}
+      <FixedButton href="/">
+        <FontAwesomeIcon icon={faChevronLeft} className="text-black pr-10" />
+      </FixedButton>
+      {/* [Terminal Window] */}
       <div
         className={`relative w-full max-w-6xl font-mono rounded-2xl border border-neutral-800 shadow-lg p-0 flex flex-col overflow-hidden
           transition-transform duration-300 hover:scale-105 hover:shadow-2xl

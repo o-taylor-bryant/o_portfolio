@@ -4,6 +4,16 @@ import Image from "next/image";
 import projectData from "@/project links.json/data.json";
 import { notFound } from "next/navigation";
 import { useState, useRef } from "react";
+import FixedButton from "@/components/FixedButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight,
+  faChevronDown,
+  faFileAlt,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
+import { motion } from "framer-motion";
 
 /* [PROJECT DETAILS PAGE] */
 export default function ProjectDetails({ params }) {
@@ -11,6 +21,229 @@ export default function ProjectDetails({ params }) {
     (item) => item.slug === params.slug
   );
   if (!project) notFound();
+
+  // Modal state for image preview
+  const [modalImg, setModalImg] = useState(null);
+
+  // --- MULTI-REPORT TERMINAL STYLE ---
+  if (project.reports) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-neutral-100 px-4 pt-32 pb-12 font-mono">
+        <FixedButton href="/">
+          <FontAwesomeIcon icon={faChevronLeft} className="text-black pr-10" />
+        </FixedButton>
+        <div
+          className={`relative w-full max-w-4xl rounded-2xl border border-neutral-800 shadow-lg flex flex-col overflow-hidden
+            bg-white text-black
+            before:pointer-events-none before:absolute before:inset-0 before:bg-[repeating-linear-gradient(180deg,transparent_0_2px,rgba(0,0,0,0.03)_2px,transparent_4px)] before:animate-scanlines
+            after:pointer-events-none after:absolute after:inset-0 after:rounded-2xl after:border-2 after:border-black after:opacity-0 hover:after:opacity-60 after:transition-opacity after:duration-500
+          `}
+        >
+          {/* Terminal Header */}
+          <div className="bg-white px-4 py-2 flex justify-between items-center border-b border-neutral-700 text-xs text-black">
+            <div className="flex space-x-2">
+              <span className="w-3 h-3 bg-black rounded-full"></span>
+              <span className="w-3 h-3 bg-black rounded-full"></span>
+              <span className="w-3 h-3 bg-black rounded-full"></span>
+            </div>
+            <span className="text-xs font-mono">
+              {project.title.toLowerCase().replaceAll(" ", "_")}.md
+            </span>
+          </div>
+
+          {/* Terminal "ls" style list of reports */}
+          <div className="bg-black text-white px-6 py-3 font-mono text-sm border-b border-neutral-800 animate-window-pop">
+            <span className="font-bold">$</span> ls reports/
+            <span className="ml-4">
+              {project.reports.map((r, i) => (
+                <span key={i} className="inline-block mr-4">
+                  <FontAwesomeIcon
+                    icon={faFileAlt}
+                    className="mr-1 text-gray-400"
+                  />
+                  {r.title.toLowerCase().replaceAll(" ", "_")}.pdf
+                </span>
+              ))}
+            </span>
+          </div>
+
+          {/* Project Description */}
+          <section className="px-6 py-6 text-black text-[1rem] leading-relaxed space-y-4 border-b border-neutral-300 bg-white animate-window-pop">
+            <div className="text-xs text-neutral-400 pb-2 border-b border-neutral-200 mb-4 font-mono">
+              [project_readme.md]
+            </div>
+            {project.desc.map((paragraph, index) => (
+              <motion.p
+                key={index}
+                className="whitespace-pre-line"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * index, type: "spring" }}
+              >
+                {paragraph}
+              </motion.p>
+            ))}
+          </section>
+
+          {/* Animated Report Sections */}
+          <div className="space-y-10 px-6 py-8 bg-white">
+            {project.reports.map((report, idx) => {
+              // Carousel state for each report
+              const [imgIdx, setImgIdx] = useState(0);
+              const images = report.images || [];
+              return (
+                <motion.div
+                  key={idx}
+                  className="border border-neutral-200 rounded-xl shadow-lg pb-8 mb-8 bg-neutral-50 relative animate-window-pop"
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{
+                    delay: 0.1 * idx,
+                    type: "spring",
+                    stiffness: 80,
+                  }}
+                >
+                  {/* "Tab" header for each report */}
+                  <div className="flex items-center gap-2 px-4 py-2 bg-neutral-900 text-white rounded-t-xl border-b border-neutral-800 font-mono text-xs">
+                    <FontAwesomeIcon
+                      icon={faFileAlt}
+                      className="text-gray-400"
+                    />
+                    <span>
+                      {report.title.toLowerCase().replaceAll(" ", "_")}.pdf
+                    </span>
+                    <span className="ml-auto text-neutral-400">[open]</span>
+                  </div>
+                  <div className="px-6 pt-4">
+                    <h2 className="text-xl font-semibold mb-2 text-black">
+                      {report.title}
+                    </h2>
+                    {report.desc.map((d, i) => (
+                      <p key={i} className="mb-2 text-neutral-700">
+                        {d}
+                      </p>
+                    ))}
+                    {/* Image Carousel */}
+                    {images.length > 0 && (
+                      <div className="flex items-center justify-center gap-2 my-4">
+                        <button
+                          className="p-2 rounded-full border border-neutral-300 bg-white hover:bg-neutral-200 transition"
+                          onClick={() =>
+                            setImgIdx(
+                              (imgIdx - 1 + images.length) % images.length
+                            )
+                          }
+                          aria-label="Previous image"
+                        >
+                          <FontAwesomeIcon icon={faChevronLeft} />
+                        </button>
+                        <div
+                          className="relative w-60 h-40 rounded shadow border bg-white cursor-pointer overflow-hidden"
+                          onClick={() => setModalImg(images[imgIdx])}
+                        >
+                          <Image
+                            src={images[imgIdx]}
+                            alt={report.title + " image " + (imgIdx + 1)}
+                            fill
+                            style={{ objectFit: "contain" }}
+                            className="rounded shadow border transition-transform duration-300 hover:scale-105"
+                          />
+                        </div>
+                        <button
+                          className="p-2 rounded-full border border-neutral-300 bg-white hover:bg-neutral-200 transition"
+                          onClick={() =>
+                            setImgIdx((imgIdx + 1) % images.length)
+                          }
+                          aria-label="Next image"
+                        >
+                          <FontAwesomeIcon icon={faChevronRight} />
+                        </button>
+                      </div>
+                    )}
+                    {images.length > 1 && (
+                      <div className="flex justify-center gap-1 mb-2">
+                        {images.map((_, i) => (
+                          <span
+                            key={i}
+                            className={`inline-block w-2 h-2 rounded-full ${
+                              i === imgIdx ? "bg-black" : "bg-neutral-300"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    )}
+                    <a
+                      href={report.pdf}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block mt-2 px-4 py-2 bg-black text-white rounded-full hover:bg-white hover:text-black border border-black transition"
+                    >
+                      View PDF
+                    </a>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Image Modal */}
+          {modalImg && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+              onClick={() => setModalImg(null)}
+            >
+              <div className="relative">
+                <Image
+                  src={modalImg}
+                  alt="Preview"
+                  width={800}
+                  height={600}
+                  className="rounded shadow-lg max-w-[90vw] max-h-[80vh]"
+                  style={{ objectFit: "contain" }}
+                />
+                <button
+                  className="absolute top-2 right-2 bg-white rounded-full p-2 shadow hover:bg-neutral-200"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setModalImg(null);
+                  }}
+                  aria-label="Close"
+                >
+                  <FontAwesomeIcon icon={faTimes} className="text-black" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Footer */}
+          <div className="bg-white px-4 py-2 border-t border-neutral-300 text-center text-[10px] text-black">
+            Taylor Terminal • Your interactive space to explore my work. • All
+            rights reserved.
+          </div>
+        </div>
+        {/* Animations */}
+        <style>
+          {`
+            @keyframes scanlines {
+              0% { background-position-y: 0; }
+              100% { background-position-y: 8px; }
+            }
+            .before\\:animate-scanlines::before {
+              animation: scanlines 1s linear infinite;
+            }
+            @keyframes window-pop {
+              0% { transform: scale(0.95) translateY(30px); opacity: 0.7; }
+              60% { transform: scale(1.03) translateY(-8px); opacity: 1; }
+              100% { transform: scale(1) translateY(0); opacity: 1; }
+            }
+            .animate-window-pop {
+              animation: window-pop 0.6s cubic-bezier(.4,2,.6,1);
+            }
+          `}
+        </style>
+      </div>
+    );
+  }
 
   const [currentImage, setCurrentImage] = useState(0);
   const [zoom, setZoom] = useState(1.0);
@@ -58,6 +291,11 @@ export default function ProjectDetails({ params }) {
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
     >
+      {/* [Home Button - top left] */}
+      <FixedButton href="/">
+        <FontAwesomeIcon icon={faChevronLeft} className="text-black pr-10" />
+      </FixedButton>
+
       <div
         className={`relative w-full max-w-4xl rounded-2xl border border-neutral-800 shadow-lg flex flex-col overflow-hidden
           bg-white text-black

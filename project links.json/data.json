@@ -2,7 +2,7 @@
   "Projects": [
     {
       "show": true,
-      "title": "Project 001: Audit",
+      "title": "Project 001 : Audit",
       "slug": "audit-no-001",
       "desc": [
         "Learning the auditing process a cybersecurity professional is usually tasked with was a very interesting experience. I actually started this project in 2024 independently and didn’t really have any direction. It was one of those cases where I did the assignment and just moved on. I decided to enhance my studies and revisit the project to understand the process better.",
@@ -10,12 +10,58 @@
         "I experienced an improvement in how I represent other people through my words. Throughout the entire project, I kept in mind, “How can I make this easier to understand for someone who isn’t knowledgeable on this topic? How did I learn this process?”. I understood that multiple people would read this type of document, and everyone would have to identify the same exact problems and solutions."
       ],
       "pdf": "https://drive.google.com/file/d/1k49Qtl3O8pXP7eicWljQvAIPurRcV-56/view?usp=sharing",
-      "thumbnail": "/image/projects/Project 1/P1.png",
+      "thumbnail": "icon-terminal",
       "images": [
-        "/image/projects/Project 1/P2.png",
-        "/image/projects/Project 1/P3.png",
-        "/image/projects/Project 1/P4.png",
-        "/image/projects/Project 1/P5.png"
+        "/image/projects/001 Audit/A1.png",
+        "/image/projects/001 Audit/A2.png",
+        "/image/projects/001 Audit/A3.png",
+        "/image/projects/001 Audit/A4.png"
+      ]
+    },
+    {
+      "show": true,
+      "title": "Project 002 : Incident Reports",
+      "slug": "incident-reports-no-002",
+      "desc": [
+        "I knew that incident reporting was a crucial task in multiple tech-based roles and was excited to get some hands-on experience! For each fictional scenario, I was tasked with addressing the incident, providing evidence, and suggesting future improvements on how to reduce the risk factors within the concentrated areas."
+      ],
+      "thumbnail": "icon-cyber",
+      "reports": [
+        {
+          "title": "01 Access Error",
+          "desc": [
+            "I wanted to get more experience reading strings in real-time and understanding what happens in the backend when someone accesses a web service client. This was my first time setting up Linux on a virtual machine and I learned so much! I utilized ChatGPT to help me learn how to simulate this exact scenario and refuse my connection to the specified domain."
+          ],
+          "pdf": "https://drive.google.com/file/d/1cYa-1Xl8C8SG0mGoEtK4bfr27nO0-yRB/view?usp=sharing",
+          "images": [
+            "/image/projects/002 Incident Reports/TB01_Access Error/Images/Incident Report_DNS Access Error_Taylor Bryant_Mockup.png",
+            "/image/projects/002 Incident Reports/TB01_Access Error/Images/Incident Report_DNS Access Error_Taylor Bryant_PNG.png"
+          ]
+        },
+        {
+          "title": "Incident Report 2",
+          "desc": ["Placeholder description for Incident Report 2."],
+          "pdf": "/pdfs/incident-report-2.pdf",
+          "images": ["/image/projects/incident-reports/ir2-1.png"]
+        },
+        {
+          "title": "Incident Report 3",
+          "desc": ["Placeholder description for Incident Report 3."],
+          "pdf": "/pdfs/incident-report-3.pdf",
+          "images": ["/image/projects/incident-reports/ir3-1.png"]
+        },
+        {
+          "title": "Incident Report 4",
+          "desc": ["Placeholder description for Incident Report 4."],
+          "pdf": "/pdfs/incident-report-4.pdf",
+          "images": ["/image/projects/incident-reports/ir4-1.png"]
+        },
+        {
+          "title": "Incident Report 5",
+          "desc": ["Placeholder description for Incident Report 5."],
+          "pdf": "/pdfs/incident-report-5.pdf",
+          "images": ["/image/projects/incident-reports/ir5-1.png"]
+        }
       ]
     }
   ]
