@@ -24,7 +24,7 @@ const MyPage = () => {
   const [blink, setBlink] = useState(true);
 
   useEffect(() => {
-    const delay = setTimeout(() => setReady(true), 2500);
+    const delay = setTimeout(() => setReady(true), 1200);
     const blinkInterval = setInterval(() => setBlink((prev) => !prev), 500);
 
     return () => {
@@ -33,25 +33,66 @@ const MyPage = () => {
     };
   }, []);
 
+  // --- For moving dot with heart ---
+  const [mobileDotAngle, setMobileDotAngle] = useState(0);
+  const [desktopDotAngle, setDesktopDotAngle] = useState(0);
+
+  useEffect(() => {
+    let frame;
+    const animate = () => {
+      setMobileDotAngle((prev) => (prev + 0.5) % 360);
+      setDesktopDotAngle((prev) => (prev + 0.375) % 360);
+      frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   if (!ready) {
     // --- LOADING SCREEN ---
     return (
-      <div className="fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-[rgb(230,230,230)] z-[999] px-4">
-        <div className="w-full max-w-md rounded-md border border-neutral-800 bg-black p-6 shadow-lg font-mono text-center">
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex space-x-2">
-              <span className="w-3 h-3 bg-white rounded-full"></span>
-              <span className="w-3 h-3 bg-white rounded-full"></span>
-              <span className="w-3 h-3 bg-white rounded-full"></span>
+      <div className="fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-white z-[999] px-4">
+        {/* Computer Monitor */}
+        <div className="flex flex-col items-center">
+          <div className="relative bg-black rounded-[2.5rem] w-60 h-60 sm:w-80 sm:h-80 border-[10px] border-black flex items-center justify-center overflow-hidden shadow-2xl">
+            {/* Boot animation overlay */}
+            <motion.div
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={{ duration: 0.9, delay: 0.3 }}
+              className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-800 to-black flex flex-col items-center justify-center"
+            >
+              <div className="w-full h-full flex flex-col items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-black animate-pulse mb-4" />
+                <span className="text-white font-mono text-lg animate-pulse">
+                  Booting up...
+                </span>
+              </div>
+            </motion.div>
+            {/* "Screen" content */}
+            <div className="flex flex-col items-center justify-center w-full h-full">
+              <p className="text-xs text-neutral-400 mb-2 tracking-widest font-mono">
+                taylor_home:
+              </p>
+              <h1 className="text-2xl sm:text-3xl text-white tracking-wider font-mono">
+                opening{blink && <span className="ml-1">_</span>}
+              </h1>
             </div>
-            <span className="text-xs text-neutral-400">root-folder</span>
+            {/* Scanline effect */}
+            <motion.div
+              initial={{ opacity: 0.2 }}
+              animate={{ opacity: 0 }}
+              transition={{ duration: 1.2, delay: 0.5 }}
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "repeating-linear-gradient(180deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 6px)",
+              }}
+            />
           </div>
-          <p className="text-sm sm:text-base text-neutral-400 mb-2 tracking-widest">
-            taylor_home:
-          </p>
-          <h1 className="text-3xl sm:text-4xl text-white tracking-wider">
-            opening{blink && <span className="ml-1">_</span>}
-          </h1>
+          {/* Stand */}
+          <div className="w-16 h-4 bg-black rounded-b-2xl mt-2" />
+          <div className="w-8 h-2 bg-neutral-700 rounded-b-xl mt-1" />
         </div>
       </div>
     );
@@ -72,30 +113,99 @@ const MyPage = () => {
       <ReactFullpage
         render={({ state, fullpageApi }) => (
           <ReactFullpage.Wrapper>
-            {/* --- SECTION 1: HOME / HERO --- */}
             <div className="section">
               <div className="mx-auto container grid grid-cols-1 md:grid-cols-3 gap-4 p-10 overflow-hidden md:px-20">
-                {/* --- HERO TEXT & MOBILE IMAGE --- */}
                 <motion.div
                   className="col-span-2 flex flex-col justify-center items-center md:items-start text-center md:text-start"
                   initial={{ x: -100, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ type: "spring" }}
                 >
-                  {/* --- MOBILE PROFILE IMAGE --- */}
                   <div className="block md:hidden col-span-1 mx-auto my-10">
-                    <div className="bg-slate-500 rounded-full overflow-hidden aspect-square w-72 h-72 border-4 border-black grayscale hover:grayscale-0 transition-all ease duration-300 flex items-center justify-center">
-                      <Image
-                        src={Me}
-                        width={288}
-                        height={288}
-                        className="object-cover w-full h-full"
-                        alt="Taylor Bryant"
-                        placeholder="blur"
-                      />
+                    <div className="relative flex items-center justify-center w-72 h-72">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 288 288"
+                        className="absolute inset-0 z-40 pointer-events-none"
+                      >
+                        {Array.from({ length: 12 }).map((_, i) => {
+                          const angle = (i / 12) * 2 * Math.PI;
+                          const radius = 132;
+                          const cx = 144 + Math.cos(angle) * radius;
+                          const cy = 144 + Math.sin(angle) * radius;
+                          const delay = Math.random() * 2;
+                          const duration = 1.2 + Math.random() * 1.2;
+                          return (
+                            <motion.circle
+                              key={i}
+                              cx={cx}
+                              cy={cy}
+                              r="13"
+                              fill="#111"
+                              initial={{ opacity: 0.2 }}
+                              animate={{ opacity: [0.2, 1, 0.2] }}
+                              transition={{
+                                repeat: Infinity,
+                                duration,
+                                delay,
+                                repeatType: "loop",
+                                ease: "easeInOut",
+                              }}
+                            />
+                          );
+                        })}
+                        {(() => {
+                          const angle = mobileDotAngle;
+                          const rad = (angle * Math.PI) / 180;
+                          const radius = 132;
+                          const cx = 144 + Math.cos(rad) * radius;
+                          const cy = 144 + Math.sin(rad) * radius;
+                          return (
+                            <>
+                              <circle cx={cx} cy={cy} r="15" fill="#fff" />
+                              <g transform={`translate(${cx - 7},${cy - 7})`}>
+                                <path
+                                  d="M7 12s-5-3.33-5-7.14C2 2.5 5.5 2 7 5.09 8.5 2 12 2.5 12 4.86c0 3.81-5 7.14-5 7.14z"
+                                  fill="#888"
+                                />
+                              </g>
+                            </>
+                          );
+                        })()}
+                      </svg>
+                      <motion.div
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.8, type: "spring" }}
+                        className="relative bg-black rounded-full w-56 h-56 flex items-center justify-center overflow-hidden shadow-xl z-30"
+                      >
+                        <Image
+                          src={Me}
+                          width={224}
+                          height={224}
+                          className="object-cover w-full h-full grayscale rounded-full"
+                          alt="Taylor Bryant"
+                          placeholder="blur"
+                        />
+                        <div
+                          className="absolute inset-0 pointer-events-none rounded-full"
+                          style={{
+                            background:
+                              "repeating-linear-gradient(180deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 2px, transparent 2px, transparent 8px)",
+                          }}
+                        />
+                        <div
+                          className="absolute inset-0 pointer-events-none rounded-full"
+                          style={{
+                            backgroundImage:
+                              "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
+                            backgroundSize: "16px 16px",
+                          }}
+                        />
+                      </motion.div>
                     </div>
                   </div>
-                  {/* --- HERO TEXT --- */}
                   <motion.h3
                     className="uppercase text-xl mb-3 font-normal text tracking-[.5rem] text-black"
                     initial={{ x: -100, opacity: 0 }}
@@ -110,7 +220,7 @@ const MyPage = () => {
                     whileInView={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.3, type: "spring" }}
                   >
-                    Entry-Level Tech Professional
+                    Junior Tech Professional
                   </motion.h1>
                   <motion.p
                     className="title text-md 2xl:text-xl mt-4 tracking-wider text-black leading-[1.7rem]"
@@ -120,46 +230,124 @@ const MyPage = () => {
                   >
                     Navigating IT and Cybersecurity - one cloud at a time!
                   </motion.p>
-                  {/* --- HERO BUTTONS --- */}
-                  <motion.div
-                    className="buttons flex flex-row justify-center items-center space-x-4 mt-10"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.5, type: "spring" }}
-                  >
-                    <Button variation="primary" disabled>
-                      Resume Coming Soon
-                    </Button>
-                    <Button variation="secondary">
-                      <a href="#contact">Ping Me</a>
-                    </Button>
-                  </motion.div>
+                  <div className="flex flex-col md:flex-row justify-center items-center gap-6 mt-10">
+                    <div className="flex flex-row space-x-4">
+                      <Button variation="primary">
+                        <a
+                          href="https://tinyurl.com/o-taylor-bryant-resume"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center"
+                        >
+                          Download Resume
+                        </a>
+                      </Button>
+                      <Button variation="secondary">
+                        <a href="#contact">Ping Me</a>
+                      </Button>
+                    </div>
+                    <img
+                      src="/image/qr_resume.png"
+                      alt="Resume QR Code"
+                      className="w-24 h-24 md:w-28 md:h-28 border border-neutral-300 rounded bg-white"
+                      style={{ imageRendering: "crisp-edges" }}
+                    />
+                  </div>
                 </motion.div>
-                {/* --- DESKTOP PROFILE IMAGE --- */}
                 <motion.div
-                  className="hidden md:flex col-span-1 mx-auto justify-center items-center"
+                  className="hidden md:flex col-span-1 mx-auto justify-center items-center -ml-12"
                   initial={{ x: 100, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.7, type: "spring" }}
                 >
-                  <div className="rounded-full overflow-hidden aspect-square w-96 h-96 border-4 border-black grayscale hover:grayscale-0 transition-all ease duration-300 flex items-center justify-center">
-                    <Image
-                      src={Me}
-                      width={384}
-                      height={384}
-                      placeholder="blur"
-                      alt="Taylor Bryant"
-                      className="object-cover w-full h-full"
-                    />
+                  <div className="relative flex items-center justify-center w-[26rem] h-[26rem]">
+                    <svg
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 416 416"
+                      className="absolute inset-0 z-40 pointer-events-none"
+                    >
+                      {Array.from({ length: 14 }).map((_, i) => {
+                        const angle = (i / 14) * 2 * Math.PI;
+                        const radius = 186;
+                        const cx = 208 + Math.cos(angle) * radius;
+                        const cy = 208 + Math.sin(angle) * radius;
+                        const delay = Math.random() * 2;
+                        const duration = 1.2 + Math.random() * 1.2;
+                        return (
+                          <motion.circle
+                            key={i}
+                            cx={cx}
+                            cy={cy}
+                            r="16"
+                            fill="#111"
+                            initial={{ opacity: 0.2 }}
+                            animate={{ opacity: [0.2, 1, 0.2] }}
+                            transition={{
+                              repeat: Infinity,
+                              duration,
+                              delay,
+                              repeatType: "loop",
+                              ease: "easeInOut",
+                            }}
+                          />
+                        );
+                      })}
+                      {(() => {
+                        const angle = desktopDotAngle;
+                        const rad = (angle * Math.PI) / 180;
+                        const radius = 186;
+                        const cx = 208 + Math.cos(rad) * radius;
+                        const cy = 208 + Math.sin(rad) * radius;
+                        return (
+                          <>
+                            <circle cx={cx} cy={cy} r="18" fill="#fff" />
+                            <g transform={`translate(${cx - 8},${cy - 8})`}>
+                              <path
+                                d="M8 14s-6-4-6-8.5C2 2.5 6 2 8 6c2-4 6-3.5 6 0C14 10 8 14 8 14z"
+                                fill="#888"
+                              />
+                            </g>
+                          </>
+                        );
+                      })()}
+                    </svg>
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.8, type: "spring" }}
+                      className="relative bg-black rounded-full w-[18rem] h-[18rem] flex items-center justify-center overflow-hidden shadow-2xl z-30"
+                    >
+                      <Image
+                        src={Me}
+                        width={288}
+                        height={288}
+                        className="object-cover w-full h-full grayscale rounded-full"
+                        alt="Taylor Bryant"
+                        placeholder="blur"
+                      />
+                      <div
+                        className="absolute inset-0 pointer-events-none rounded-full"
+                        style={{
+                          background:
+                            "repeating-linear-gradient(180deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 2px, transparent 2px, transparent 8px)",
+                        }}
+                      />
+                      <div
+                        className="absolute inset-0 pointer-events-none rounded-full"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
+                          backgroundSize: "16px 16px",
+                        }}
+                      />
+                    </motion.div>
                   </div>
                 </motion.div>
               </div>
             </div>
-
-            {/* --- SECTION 2: ABOUT --- */}
             <div className="section">
               <div className="relative md:h-screen w-screen gap-4 flex justify-center items-center flex-col overflow-hidden">
-                {/* --- ANIMATED SVG / DECORATION --- */}
                 <div className="z-0 mb-48 md:mb-0 md:absolute top-1/4 md:right-[18%] md:-translate-y-0 flex items-center justify-center w-72 h-72 md:w-96 md:h-96">
                   <motion.div
                     className="flex items-center justify-center w-72 h-72 md:w-96 md:h-96"
@@ -172,7 +360,6 @@ const MyPage = () => {
                       damping: 20,
                     }}
                   >
-                    {/* Animated code brackets SVG */}
                     <svg
                       width="80%"
                       height="80%"
@@ -213,7 +400,6 @@ const MyPage = () => {
                     </svg>
                   </motion.div>
                 </div>
-                {/* --- ABOUT TEXT & BUTTON --- */}
                 <div className="z-10 w-full absolute md:w-auto  md:left-[10%] top-[60%] md:top-1/3 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
                   <motion.h1
                     className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold"
@@ -244,11 +430,8 @@ const MyPage = () => {
                 </div>
               </div>
             </div>
-
-            {/* --- SECTION 3: PROJECTS --- */}
             <div className="section">
               <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
-                {/* --- PROJECTS IMAGE --- */}
                 <div className="z-0 mb-48 md:mb-0  md:absolute top-1/4  md:right-[20%] md:-translate-y-0 ">
                   <motion.div
                     className="rounded-full overflow-hidden w-72 h-72 md:w-96 md:h-96 border-4 border-black grayscale hover:grayscale-0 transition-all ease duration-300 flex items-center justify-center bg-slate-300"
@@ -270,7 +453,6 @@ const MyPage = () => {
                     />
                   </motion.div>
                 </div>
-                {/* --- PROJECTS TEXT & BUTTON --- */}
                 <div className="z-10 w-full absolute md:w-auto  md:left-[10%] top-[60%] md:top-1/3 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
                   <motion.h1
                     className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold"
@@ -301,11 +483,8 @@ const MyPage = () => {
                 </div>
               </div>
             </div>
-
-            {/* --- SECTION 4: CONTACT --- */}
             <div className="section">
               <div className="relative md:h-screen w-screen  gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
-                {/* --- CONTACT IMAGE --- */}
                 <div className="z-0 mb-48 md:mb-0  md:absolute top-1/4  md:right-[10%] md:-translate-y-16 ">
                   <motion.div
                     className="bg-slate-300 rounded-sm h-[400px] md:h-[600px] w-[80vw] md:w-[30vw] grayscale hover:grayscale-0"
@@ -327,25 +506,8 @@ const MyPage = () => {
                     />
                   </motion.div>
                 </div>
-                {/* --- CONTACT TEXT & SOCIAL LINKS --- */}
                 <div className="z-10 w-full absolute md:w-auto  md:left-[10%] top-[60%] md:top-1/3 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 overflow-hidden">
-                  <motion.h1
-                    className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold mb-3"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.1, type: "spring" }}
-                  >
-                    Ping Received.
-                  </motion.h1>
                   <Hr />
-                  <motion.p
-                    className="title text-xl mt-4 tracking-wider text-black leading-[1.7rem] md:mb-5"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, type: "spring" }}
-                  >
-                    You had a good signal - now, let&apos;s get in touch!
-                  </motion.p>
                   <motion.p
                     className="title text-xl mt-4 tracking-wider text-black leading-[1.7rem] mb-5"
                     initial={{ x: -100, opacity: 0 }}
@@ -356,7 +518,6 @@ const MyPage = () => {
                       o.taylor.bryant@gmail.com
                     </a>
                   </motion.p>
-                  {/* --- SOCIAL ICONS --- */}
                   <div className="flex justify-center items-center space-x-4">
                     <motion.a
                       href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hello Taylor,"
@@ -402,7 +563,6 @@ const MyPage = () => {
                 </div>
               </div>
             </div>
-            {/* --- END OF SECTIONS --- */}
           </ReactFullpage.Wrapper>
         )}
         {...fullpageOptions}
