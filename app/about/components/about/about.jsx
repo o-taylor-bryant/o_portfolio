@@ -25,7 +25,7 @@ export default function About() {
           <div className="images relative w-full aspect-square">
             <div
               className="absolute top-28 left-10 w-[50%] aspect-square grayscale hover:grayscale-0 transition-all ease duration-300 rounded-full
-              before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-sky-400 before:blur-lg before:opacity-40 before:z-[-1]
+              before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-white before:blur-lg before:opacity-40 before:z-[-1]
               before:transition-all before:duration-500 hover:before:opacity-70 hover:before:blur-2xl"
             >
               <motion.div
@@ -49,7 +49,7 @@ export default function About() {
             </div>
             <div
               className="absolute top-16 right-28 w-[30%] aspect-square grayscale hover:grayscale-0 transition-all ease duration-300 rounded-full
-              before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-sky-400 before:blur-lg before:opacity-40 before:z-[-1]
+              before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-white before:blur-lg before:opacity-40 before:z-[-1]
               before:transition-all before:duration-500 hover:before:opacity-70 hover:before:blur-2xl"
             >
               <motion.div
@@ -78,7 +78,7 @@ export default function About() {
             </div>
             <div
               className="absolute bottom-16 right-20 w-[40%] aspect-square grayscale hover:grayscale-0 transition-all ease duration-300 rounded-full
-              before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-sky-400 before:blur-lg before:opacity-40 before:z-[-1]
+              before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-white before:blur-lg before:opacity-40 before:z-[-1]
               before:transition-all before:duration-500 hover:before:opacity-70 hover:before:blur-2xl"
             >
               <motion.div

@@ -13,7 +13,7 @@ export default function Page() {
   const [activeFolder, setActiveFolder] = useState(null); // Open folder index
 
   useEffect(() => {
-    const delay = setTimeout(() => setReady(true), 2500);
+    const delay = setTimeout(() => setReady(true), 1200);
     const blinkInterval = setInterval(() => setBlink((prev) => !prev), 500);
     return () => {
       clearTimeout(delay);
