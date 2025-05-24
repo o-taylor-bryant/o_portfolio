@@ -25,7 +25,57 @@ export default function ProjectDetails({ params }) {
   // Modal state for image preview
   const [modalImg, setModalImg] = useState(null);
 
-  // --- MULTI-REPORT TERMINAL STYLE ---
+  // Multi-report: track current image index for each report
+  const [reportImgIdx, setReportImgIdx] = useState(
+    project.reports ? project.reports.map(() => 0) : []
+  );
+
+  // Single-project preview states
+  const [currentImage, setCurrentImage] = useState(0);
+  const [zoom, setZoom] = useState(1.0);
+  const [drag, setDrag] = useState({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState(false);
+  const dragStart = useRef({ x: 0, y: 0 });
+  const previewImages = project.images ? project.images.slice(1) : [];
+
+  function handleNext() {
+    setCurrentImage((prev) => (prev + 1) % previewImages.length);
+  }
+  function handlePrev() {
+    setCurrentImage((prev) =>
+      prev === 0 ? previewImages.length - 1 : prev - 1
+    );
+  }
+  function handleZoomIn() {
+    setZoom((z) => Math.min(z + 0.2, 2));
+  }
+  function handleZoomOut() {
+    setZoom((z) => Math.max(z - 0.2, 0.6));
+  }
+  function handleResetZoom() {
+    setZoom(1.0);
+    setDrag({ x: 0, y: 0 });
+  }
+  function handleMouseDown(e) {
+    if (zoom === 1) return;
+    setDragging(true);
+    dragStart.current = {
+      x: e.clientX - drag.x,
+      y: e.clientY - drag.y,
+    };
+  }
+  function handleMouseMove(e) {
+    if (!dragging) return;
+    setDrag({
+      x: e.clientX - dragStart.current.x,
+      y: e.clientY - dragStart.current.y,
+    });
+  }
+  function handleMouseUp() {
+    setDragging(false);
+  }
+
+  // Multi-report mode
   if (project.reports) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-neutral-100 px-4 pt-32 pb-12 font-mono">
@@ -88,9 +138,15 @@ export default function ProjectDetails({ params }) {
           {/* Animated Report Sections */}
           <div className="space-y-10 px-6 py-8 bg-white">
             {project.reports.map((report, idx) => {
-              // Carousel state for each report
-              const [imgIdx, setImgIdx] = useState(0);
               const images = report.images || [];
+              const imgIdx = reportImgIdx[idx] || 0;
+              function setImgIdx(newIdx) {
+                setReportImgIdx((prev) => {
+                  const arr = [...prev];
+                  arr[idx] = newIdx;
+                  return arr;
+                });
+              }
               return (
                 <motion.div
                   key={idx}
@@ -239,51 +295,21 @@ export default function ProjectDetails({ params }) {
             .animate-window-pop {
               animation: window-pop 0.6s cubic-bezier(.4,2,.6,1);
             }
+            @keyframes pulse-ring {
+              0% { box-shadow: 0 0 0 0 #fff8; }
+              70% { box-shadow: 0 0 0 10px #fff0; }
+              100% { box-shadow: 0 0 0 0 #fff0; }
+            }
+            .animate-pulse-ring {
+              animation: pulse-ring 1.8s cubic-bezier(.4,0,.6,1) infinite;
+            }
           `}
         </style>
       </div>
     );
   }
 
-  const [currentImage, setCurrentImage] = useState(0);
-  const [zoom, setZoom] = useState(1.0);
-  const [drag, setDrag] = useState({ x: 0, y: 0 });
-  const [dragging, setDragging] = useState(false);
-  const dragStart = useRef({ x: 0, y: 0 });
-  const previewImages = project.images.slice(1);
-
-  const handleNext = () =>
-    setCurrentImage((prev) => (prev + 1) % previewImages.length);
-  const handlePrev = () =>
-    setCurrentImage((prev) =>
-      prev === 0 ? previewImages.length - 1 : prev - 1
-    );
-  const handleZoomIn = () => setZoom((z) => Math.min(z + 0.2, 2));
-  const handleZoomOut = () => setZoom((z) => Math.max(z - 0.2, 0.6));
-  const handleResetZoom = () => {
-    setZoom(1.0);
-    setDrag({ x: 0, y: 0 });
-  };
-
-  function handleMouseDown(e) {
-    if (zoom === 1) return;
-    setDragging(true);
-    dragStart.current = {
-      x: e.clientX - drag.x,
-      y: e.clientY - drag.y,
-    };
-  }
-  function handleMouseMove(e) {
-    if (!dragging) return;
-    setDrag({
-      x: e.clientX - dragStart.current.x,
-      y: e.clientY - dragStart.current.y,
-    });
-  }
-  function handleMouseUp() {
-    setDragging(false);
-  }
-
+  // Single-project mode
   return (
     <div
       className="flex items-center justify-center min-h-screen bg-[rgb(230,230,230)] px-4 pt-32 pb-12 font-mono"
@@ -490,8 +516,34 @@ export default function ProjectDetails({ params }) {
             </svg>
           </a>
         </div>
+        <div className="bg-white px-4 py-2 border-t border-neutral-300 text-center text-[10px] text-black">
+          Taylor Terminal • Your interactive space to explore my work. • All
+          rights reserved.
+        </div>
         <style>
           {`
+            @keyframes scanlines {
+              0% { background-position-y: 0; }
+              100% { background-position-y: 8px; }
+            }
+            .before\\:animate-scanlines::before {
+              animation: scanlines 1s linear infinite;
+            }
+            @keyframes window-pop {
+              0% { transform: scale(0.95) translateY(30px); opacity: 0.7; }
+              60% { transform: scale(1.03) translateY(-8px); opacity: 1; }
+              100% { transform: scale(1) translateY(0); opacity: 1; }
+            }
+            .animate-window-pop {
+              animation: window-pop 0.6s cubic-bezier(.4,2,.6,1);
+            }
+            @keyframes glow {
+              0%, 100% { box-shadow: 0 0 8px 2px #06b6d4aa; }
+              50% { box-shadow: 0 0 16px 4px #06b6d4cc; }
+            }
+            .animate-glow {
+              animation: glow 2s infinite alternate;
+            }
             @keyframes pulse-ring {
               0% { box-shadow: 0 0 0 0 #fff8; }
               70% { box-shadow: 0 0 0 10px #fff0; }
@@ -500,46 +552,12 @@ export default function ProjectDetails({ params }) {
             .animate-pulse-ring {
               animation: pulse-ring 1.8s cubic-bezier(.4,0,.6,1) infinite;
             }
+            .drop-shadow-glow {
+              filter: drop-shadow(0 0 8px #06b6d4aa);
+            }
           `}
         </style>
-
-        {/* [FOOTER / DOCK] */}
-        <div className="bg-white px-4 py-2 border-t border-neutral-300 text-center text-[10px] text-black">
-          Taylor Terminal • Your interactive space to explore my work. • All
-          rights reserved.
-        </div>
       </div>
-
-      {/* [CUSTOM ANIMATIONS / CSS] */}
-      <style>
-        {`
-          @keyframes scanlines {
-            0% { background-position-y: 0; }
-            100% { background-position-y: 8px; }
-          }
-          .before\\:animate-scanlines::before {
-            animation: scanlines 1s linear infinite;
-          }
-          @keyframes window-pop {
-            0% { transform: scale(0.95) translateY(30px); opacity: 0.7; }
-            60% { transform: scale(1.03) translateY(-8px); opacity: 1; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
-          }
-          .animate-window-pop {
-            animation: window-pop 0.6s cubic-bezier(.4,2,.6,1);
-          }
-          @keyframes glow {
-            0%, 100% { box-shadow: 0 0 8px 2px #06b6d4aa; }
-            50% { box-shadow: 0 0 16px 4px #06b6d4cc; }
-          }
-          .animate-glow {
-            animation: glow 2s infinite alternate;
-          }
-          .drop-shadow-glow {
-            filter: drop-shadow(0 0 8px #06b6d4aa);
-          }
-        `}
-      </style>
     </div>
   );
 }
