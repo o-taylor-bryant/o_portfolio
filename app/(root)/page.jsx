@@ -348,9 +348,9 @@ const MyPage = () => {
             </div>
             <div className="section">
               <div className="relative md:h-screen w-screen gap-4 flex justify-center items-center flex-col overflow-hidden">
-                <div className="z-0 mb-48 md:mb-0 md:absolute top-1/4 md:right-[18%] md:-translate-y-0 flex items-center justify-center w-72 h-72 md:w-96 md:h-96">
+                <div className="z-0 mb-32 md:mb-8 md:absolute top-1/3 md:right-[18%] md:-translate-y-0 flex items-center justify-center w-64 h-40 md:w-96 md:h-60">
                   <motion.div
-                    className="flex items-center justify-center w-72 h-72 md:w-96 md:h-96"
+                    className="flex items-center justify-center w-64 h-40 md:w-96 md:h-60"
                     initial={{ x: 300, opacity: 0, z: -100 }}
                     whileInView={{ x: 0, opacity: 1, z: 0 }}
                     transition={{
@@ -361,42 +361,151 @@ const MyPage = () => {
                     }}
                   >
                     <svg
-                      width="80%"
-                      height="80%"
-                      viewBox="0 0 200 200"
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 320 200"
                       fill="none"
                       className="drop-shadow-lg"
                     >
-                      <g>
-                        <polyline
-                          points="60,30 30,100 60,170"
-                          stroke="#111"
-                          strokeWidth="10"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="animate-pulse"
-                          style={{ filter: "drop-shadow(0 0 8px #000)" }}
-                        />
-                        <polyline
-                          points="140,30 170,100 140,170"
-                          stroke="#111"
-                          strokeWidth="10"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="animate-pulse"
-                          style={{ filter: "drop-shadow(0 0 8px #000)" }}
-                        />
-                      </g>
+                      {/* Card outline */}
                       <rect
-                        x="90"
-                        y="90"
-                        width="20"
-                        height="20"
-                        rx="4"
-                        fill="#111"
-                        className="animate-ping"
-                        opacity="0.7"
+                        x="10"
+                        y="10"
+                        width="300"
+                        height="180"
+                        rx="24"
+                        stroke="#fff"
+                        strokeWidth="8"
+                        fill="none"
                       />
+                      {/* Animated smaller digital dots around card */}
+                      {Array.from({ length: 12 }).map((_, i) => {
+                        const angle = (i / 12) * 2 * Math.PI;
+                        const radius = 85; // smaller circle
+                        const cx = 160 + Math.cos(angle) * radius;
+                        const cy = 100 + Math.sin(angle) * radius;
+                        return (
+                          <motion.circle
+                            key={i}
+                            cx={cx}
+                            cy={cy}
+                            r="4"
+                            stroke="#fff"
+                            strokeWidth="2"
+                            fill="none"
+                            initial={{ opacity: 0.3, scale: 1 }}
+                            animate={{
+                              opacity: [0.3, 1, 0.3],
+                              scale: [1, 1.3, 1],
+                            }}
+                            transition={{
+                              repeat: Infinity,
+                              duration: 1.5 + i * 0.07,
+                              delay: i * 0.1,
+                              ease: "easeInOut",
+                            }}
+                          />
+                        );
+                      })}
+                      {/* Card "avatar" outline */}
+                      <motion.circle
+                        cx="60"
+                        cy="70"
+                        r="28"
+                        stroke="#fff"
+                        strokeWidth="6"
+                        fill="none"
+                        initial={{ scale: 1 }}
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 2,
+                          ease: "easeInOut",
+                        }}
+                      />
+                      {/* Card "avatar" digital accent */}
+                      <motion.circle
+                        cx="60"
+                        cy="70"
+                        r="12"
+                        stroke="#fff"
+                        strokeWidth="4"
+                        fill="none"
+                        initial={{ opacity: 0.5 }}
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 1.5,
+                          ease: "easeInOut",
+                        }}
+                      />
+                      {/* TB initials (Nunito font, black) */}
+                      <motion.text
+                        x="47"
+                        y="78"
+                        fontSize="22"
+                        fontFamily="'Nunito', sans-serif"
+                        fill="#111"
+                        fontWeight="bold"
+                        initial={{ opacity: 0.7 }}
+                        animate={{ opacity: [0.7, 1, 0.7] }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 2.5,
+                          ease: "easeInOut",
+                        }}
+                        style={{ letterSpacing: 2 }}
+                      >
+                        TB
+                      </motion.text>
+                      {/* Simulated lines for "words" */}
+                      {[0, 1, 2, 3].map((line, idx) => (
+                        <motion.rect
+                          key={idx}
+                          x={110}
+                          y={60 + idx * 22}
+                          rx="3"
+                          width={idx === 0 ? 90 : idx === 3 ? 60 : 120}
+                          height="12"
+                          fill="#fff"
+                          initial={{ opacity: 0.5, width: 0 }}
+                          animate={{
+                            opacity: [0.5, 1, 0.5],
+                            width: idx === 0 ? 90 : idx === 3 ? 60 : 120,
+                          }}
+                          transition={{
+                            repeat: Infinity,
+                            duration: 2 + idx * 0.2,
+                            delay: idx * 0.1,
+                            ease: "easeInOut",
+                          }}
+                        />
+                      ))}
+                      {/* Barcode accent (outline style) */}
+                      <g>
+                        {Array.from({ length: 10 }).map((_, i) => (
+                          <motion.rect
+                            key={i}
+                            x={40 + i * 14}
+                            y="150"
+                            width={i % 2 === 0 ? 5 : 2}
+                            height={Math.random() * 18 + 14}
+                            stroke="#fff"
+                            strokeWidth="2"
+                            fill="none"
+                            initial={{ y: 160 }}
+                            animate={{ y: 150 }}
+                            transition={{
+                              delay: i * 0.07 + 0.5,
+                              repeat: Infinity,
+                              repeatType: "reverse",
+                              duration: 1.2 + Math.random(),
+                              ease: "easeInOut",
+                            }}
+                            rx="1"
+                          />
+                        ))}
+                      </g>
                     </svg>
                   </motion.div>
                 </div>
