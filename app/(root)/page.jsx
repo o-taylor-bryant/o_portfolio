@@ -348,168 +348,56 @@ const MyPage = () => {
             </div>
             <div className="section">
               <div className="relative md:h-screen w-screen gap-4 flex justify-center items-center flex-col overflow-hidden">
-                <div className="z-0 mb-32 md:mb-8 md:absolute top-1/3 md:right-[18%] md:-translate-y-0 flex items-center justify-center w-64 h-40 md:w-96 md:h-60">
-                  <motion.div
-                    className="flex items-center justify-center w-64 h-40 md:w-96 md:h-60"
-                    initial={{ x: 300, opacity: 0, z: -100 }}
-                    whileInView={{ x: 0, opacity: 1, z: 0 }}
-                    transition={{
-                      delay: 0.5,
-                      type: "spring",
-                      stiffness: 100,
-                      damping: 20,
+                {/* About Me Section */}
+                <div className="z-0 mb-32 md:mb-8 md:absolute top-[30%] md:right-[18%] md:-translate-y-0 flex items-center justify-center w-80 h-80 md:w-96 md:h-96">
+                  <div
+                    className="flex items-center justify-center w-full h-full"
+                    style={{
+                      border: "8px solid #111", // Black outline for ID card
+                      borderRadius: "1rem", // Rounded corners for ID card shape
+                      overflow: "hidden",
+                      background: "#fff", // White background for ID card
                     }}
                   >
-                    <svg
-                      width="100%"
-                      height="100%"
-                      viewBox="0 0 320 200"
-                      fill="none"
-                      className="drop-shadow-lg"
-                    >
-                      {/* Card outline */}
-                      <rect
-                        x="10"
-                        y="10"
-                        width="300"
-                        height="180"
-                        rx="24"
-                        stroke="#fff"
-                        strokeWidth="8"
-                        fill="none"
-                      />
-                      {/* Animated smaller digital dots around card */}
-                      {Array.from({ length: 12 }).map((_, i) => {
-                        const angle = (i / 12) * 2 * Math.PI;
-                        const radius = 85; // smaller circle
-                        const cx = 160 + Math.cos(angle) * radius;
-                        const cy = 100 + Math.sin(angle) * radius;
-                        return (
-                          <motion.circle
-                            key={i}
-                            cx={cx}
-                            cy={cy}
-                            r="4"
-                            stroke="#fff"
-                            strokeWidth="2"
-                            fill="none"
-                            initial={{ opacity: 0.3, scale: 1 }}
-                            animate={{
-                              opacity: [0.3, 1, 0.3],
-                              scale: [1, 1.3, 1],
-                            }}
-                            transition={{
-                              repeat: Infinity,
-                              duration: 1.5 + i * 0.07,
-                              delay: i * 0.1,
-                              ease: "easeInOut",
-                            }}
-                          />
-                        );
-                      })}
-                      {/* Card "avatar" outline */}
-                      <motion.circle
-                        cx="60"
-                        cy="70"
-                        r="28"
-                        stroke="#fff"
-                        strokeWidth="6"
-                        fill="none"
-                        initial={{ scale: 1 }}
-                        animate={{ scale: [1, 1.1, 1] }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 2,
-                          ease: "easeInOut",
-                        }}
-                      />
-                      {/* Card "avatar" digital accent */}
-                      <motion.circle
-                        cx="60"
-                        cy="70"
-                        r="12"
-                        stroke="#fff"
-                        strokeWidth="4"
-                        fill="none"
-                        initial={{ opacity: 0.5 }}
-                        animate={{ opacity: [0.5, 1, 0.5] }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 1.5,
-                          ease: "easeInOut",
-                        }}
-                      />
-                      {/* TB initials (Nunito font, black) */}
-                      <motion.text
-                        x="47"
-                        y="78"
-                        fontSize="22"
-                        fontFamily="'Nunito', sans-serif"
-                        fill="#111"
-                        fontWeight="bold"
-                        initial={{ opacity: 0.7 }}
-                        animate={{ opacity: [0.7, 1, 0.7] }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 2.5,
-                          ease: "easeInOut",
-                        }}
-                        style={{ letterSpacing: 2 }}
+                    <Image
+                      src={MeAbout}
+                      alt="About Me ID Card"
+                      width={600}
+                      height={600}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                    {/* Number Animation */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <motion.div
+                        className="text-black font-mono text-2xl md:text-4xl"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5, duration: 1 }}
                       >
-                        TB
-                      </motion.text>
-                      {/* Simulated lines for "words" */}
-                      {[0, 1, 2, 3].map((line, idx) => (
-                        <motion.rect
-                          key={idx}
-                          x={110}
-                          y={60 + idx * 22}
-                          rx="3"
-                          width={idx === 0 ? 90 : idx === 3 ? 60 : 120}
-                          height="12"
-                          fill="#fff"
-                          initial={{ opacity: 0.5, width: 0 }}
-                          animate={{
-                            opacity: [0.5, 1, 0.5],
-                            width: idx === 0 ? 90 : idx === 3 ? 60 : 120,
-                          }}
-                          transition={{
-                            repeat: Infinity,
-                            duration: 2 + idx * 0.2,
-                            delay: idx * 0.1,
-                            ease: "easeInOut",
-                          }}
-                        />
-                      ))}
-                      {/* Barcode accent (outline style) */}
-                      <g>
                         {Array.from({ length: 10 }).map((_, i) => (
-                          <motion.rect
+                          <motion.span
                             key={i}
-                            x={40 + i * 14}
-                            y="150"
-                            width={i % 2 === 0 ? 5 : 2}
-                            height={Math.random() * 18 + 14}
-                            stroke="#fff"
-                            strokeWidth="2"
-                            fill="none"
-                            initial={{ y: 160 }}
-                            animate={{ y: 150 }}
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
                             transition={{
-                              delay: i * 0.07 + 0.5,
+                              delay: i * 0.1,
                               repeat: Infinity,
-                              repeatType: "reverse",
-                              duration: 1.2 + Math.random(),
-                              ease: "easeInOut",
+                              repeatType: "loop",
+                              duration: 1,
                             }}
-                            rx="1"
-                          />
+                          >
+                            {Math.floor(Math.random() * 10)}
+                          </motion.span>
                         ))}
-                      </g>
-                    </svg>
-                  </motion.div>
+                      </motion.div>
+                    </div>
+                  </div>
                 </div>
-                <div className="z-10 w-full absolute md:w-auto  md:left-[10%] top-[60%] md:top-1/3 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
+                <div className="z-10 w-full absolute md:w-auto md:left-[10%] top-[55%] md:top-[30%] col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
                   <motion.h1
                     className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold"
                     initial={{ x: -100, opacity: 0 }}
@@ -541,28 +429,63 @@ const MyPage = () => {
             </div>
             <div className="section">
               <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
-                <div className="z-0 mb-48 md:mb-0  md:absolute top-1/4  md:right-[20%] md:-translate-y-0 ">
-                  <motion.div
-                    className="rounded-full overflow-hidden w-72 h-72 md:w-96 md:h-96 border-4 border-black grayscale hover:grayscale-0 transition-all ease duration-300 flex items-center justify-center bg-slate-300"
-                    initial={{ x: 60, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{
-                      duration: 0.8,
-                      ease: "easeOut",
-                      delay: 0.5,
+                {/* Projects Section */}
+                <div className="z-0 mb-32 md:mb-8 md:absolute top-[30%] md:right-[18%] md:-translate-y-0 flex items-center justify-center w-80 h-80 md:w-96 md:h-96">
+                  <div
+                    className="flex items-center justify-center w-full h-full"
+                    style={{
+                      border: "8px solid #111", // Black outline for photo
+                      borderRadius: "1rem", // Rounded corners to match ID card
+                      overflow: "hidden",
+                      background: "#fff", // White background for consistency
                     }}
                   >
                     <Image
                       src={Workspace1}
-                      width={384}
-                      height={384}
-                      className="object-cover w-full h-full"
                       alt="Workspace 1"
-                      placeholder="blur"
+                      width={600}
+                      height={600}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
                     />
-                  </motion.div>
+                    {/* Bigger Tail-Chasing Animation */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <svg
+                        width="150%"
+                        height="150%"
+                        viewBox="0 0 150 150"
+                        className="absolute w-40 h-40 md:w-60 md:h-60"
+                      >
+                        {Array.from({ length: 8 }).map((_, i) => {
+                          const angle = (i / 8) * 2 * Math.PI;
+                          const cx = 75 + Math.cos(angle) * 50;
+                          const cy = 75 + Math.sin(angle) * 50;
+                          return (
+                            <motion.circle
+                              key={i}
+                              cx={cx}
+                              cy={cy}
+                              r="5"
+                              fill="#111"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: [0, 1, 0] }}
+                              transition={{
+                                delay: i * 0.1,
+                                repeat: Infinity,
+                                repeatType: "loop",
+                                duration: 1,
+                              }}
+                            />
+                          );
+                        })}
+                      </svg>
+                    </div>
+                  </div>
                 </div>
-                <div className="z-10 w-full absolute md:w-auto  md:left-[10%] top-[60%] md:top-1/3 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
+                <div className="z-10 w-full absolute md:w-auto md:left-[10%] top-[55%] md:top-[30%] col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
                   <motion.h1
                     className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold"
                     initial={{ x: -100, opacity: 0 }}
