@@ -10,7 +10,6 @@
         "I experienced an improvement in how I represent other people through my words. Throughout the entire project, I kept in mind, “How can I make this easier to understand for someone who isn’t knowledgeable on this topic? How did I learn this process?”. I understood that multiple people would read this type of document, and everyone would have to identify the same exact problems and solutions."
       ],
       "pdf": "https://drive.google.com/file/d/1k49Qtl3O8pXP7eicWljQvAIPurRcV-56/view?usp=sharing",
-      "thumbnail": "icon-terminal",
       "images": [
         "/image/projects/001 Audit/A1.png",
         "/image/projects/001 Audit/A2.png",
@@ -25,7 +24,6 @@
       "desc": [
         "I knew that incident reporting was a crucial task in multiple tech-based roles and was excited to get some hands-on experience! For each fictional scenario, I was tasked with addressing the incident, providing evidence, and suggesting future improvements on how to reduce the risk factors within the concentrated areas."
       ],
-      "thumbnail": "icon-cyber",
       "reports": [
         {
           "title": "01 Access Error",
@@ -39,7 +37,7 @@
           ]
         },
         {
-          "title": "Incident Report 2",
+          "title": "02 SYN Attack",
           "desc": ["Placeholder description for Incident Report 2."],
           "pdf": "/pdfs/incident-report-2.pdf",
           "images": ["/image/projects/incident-reports/ir2-1.png"]

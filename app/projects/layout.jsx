@@ -1,4 +1,4 @@
-// generate layour with footer
+// generate layout with footer
 import Footer from "@/components/Footer";
 
 export const metadata = {

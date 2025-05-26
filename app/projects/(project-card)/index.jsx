@@ -14,12 +14,21 @@ export default function ProjectFilePreview({ project }) {
         )}
 
         {/* [ICON] */}
-        {project.icon && (
+        {project.icon ? (
           <img
             src={project.icon}
             alt="file icon"
             className="absolute top-2 right-3 w-4 h-4 opacity-70 animate-icon-blink"
           />
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="absolute top-2 right-3 w-4 h-4 text-neutral-500 opacity-70 animate-icon-blink"
+          >
+            <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+          </svg>
         )}
 
         {/* [THUMBNAIL + DOT] */}

@@ -11,6 +11,9 @@ export default function Page() {
   const [ready, setReady] = useState(false); // Loading screen control
   const [blink, setBlink] = useState(true); // Blinking cursor
   const [activeFolder, setActiveFolder] = useState(null); // Open folder index
+  const [filteredProjects, setFilteredProjects] = useState(
+    projectData.Projects
+  ); // Filtered projects state
 
   useEffect(() => {
     const delay = setTimeout(() => setReady(true), 1200);
@@ -80,7 +83,7 @@ export default function Page() {
         </div>
 
         {/* [TERMINAL MAIN AREA] */}
-        <div className="flex-1 p-6 space-y-10 pointer-events-auto">
+        <div className="flex-1 p-4 sm:p-6 space-y-6 sm:space-y-10 pointer-events-auto">
           {/* [COMMAND LINE] */}
           <div
             className={`${
@@ -90,9 +93,25 @@ export default function Page() {
             _files:
           </div>
 
+          {/* [SEARCH BAR] */}
+          <div className="mb-6">
+            <input
+              type="text"
+              placeholder="Search projects..."
+              className="w-full max-w-md px-2 py-2 border border-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+              onChange={(e) => {
+                const query = e.target.value.toLowerCase();
+                const filteredProjects = projectData.Projects.filter(
+                  (project) => project.title.toLowerCase().includes(query)
+                );
+                setFilteredProjects(filteredProjects);
+              }}
+            />
+          </div>
+
           {/* [FOLDER GRID] */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
-            {projectData.Projects.map((project, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
+            {filteredProjects.map((project, index) => (
               <div
                 key={index}
                 onClick={() =>
@@ -100,8 +119,10 @@ export default function Page() {
                     ? setActiveFolder(null)
                     : openFolder(index)
                 }
-                className={`relative w-28 h-28 sm:w-32 sm:h-32 bg-white text-black rounded-xl border border-neutral-700 transition 
-                  hover:bg-neutral-200 hover:scale-110 hover:shadow-xl cursor-pointer group
+                role="button"
+                aria-label={`Open folder for ${project.title}`}
+                className={`relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-white text-black rounded-xl border border-neutral-700 transition 
+                  hover:bg-neutral-200 hover:scale-105 hover:shadow-lg cursor-pointer group
                   ${activeFolder === index ? "ring-2 ring-white scale-110" : ""}
                   animate-folder-pop`}
                 style={{ transition: "all 0.2s cubic-bezier(.4,2,.6,1)" }}
@@ -110,10 +131,10 @@ export default function Page() {
                 <div className="absolute -top-2 left-3 w-3/5 h-3 bg-white rounded-t-md border border-neutral-700"></div>
                 {/* [FOLDER LABEL] */}
                 <div className="flex flex-col justify-center items-center h-full z-10">
-                  <p className="text-xs font-semibold text-black text-center px-2">
+                  <p className="text-[10px] sm:text-xs font-semibold text-black text-center px-2">
                     {project.title}
                   </p>
-                  <p className="text-[10px] text-neutral-500 mt-1">
+                  <p className="text-[8px] sm:text-[10px] text-neutral-500 mt-1">
                     open_folder/
                   </p>
                 </div>
@@ -121,10 +142,11 @@ export default function Page() {
             ))}
 
             {/* [PLACEHOLDER FOLDERS] */}
-            {[...Array(3)].map((_, index) => (
+            {[...Array(2)].map((_, index) => (
               <div
                 key={`placeholder-${index}`}
-                className="relative w-28 h-28 sm:w-32 sm:h-32 bg-neutral-200 text-neutral-400 rounded-xl border border-neutral-300 opacity-40 cursor-not-allowed"
+                className="relative w-24 h-24 sm:w-28 sm:h-28 bg-neutral-200 text-neutral-400 rounded-xl border border-neutral-300 opacity-40 cursor-not-allowed"
+                title="Coming Soon"
               >
                 <div className="absolute -top-2 left-3 w-3/5 h-3 bg-white rounded-t-md border border-neutral-300"></div>
                 <div className="flex flex-col justify-center items-center h-full">
@@ -146,20 +168,42 @@ export default function Page() {
                 </p>
                 <button
                   onClick={() => setActiveFolder(null)}
-                  className="text-neutral-400 hover:text-white text-xs"
+                  className="text-neutral-400 hover:text-white text-xs sm:text-sm px-2 py-1 rounded"
                 >
                   [close]
                 </button>
               </div>
+              <p className="text-sm text-gray-400 mb-4">
+                {projectData.Projects[activeFolder].desc[0]}
+              </p>
               <ProjectCard project={projectData.Projects[activeFolder]} />
             </div>
           )}
         </div>
 
         {/* [FOOTER / DOCK] */}
-        <div className="bg-white px-4 py-2 border-t border-neutral-700 text-center text-[10px] text-black">
-          Taylor Terminal • Your interactive space to explore my work. • All
-          rights reserved.
+        <div className="bg-white text-black py-4 text-center text-sm">
+          <p>© 2025 taylor terminal</p>
+          <div className="flex justify-center gap-4 mt-2">
+            <a
+              href="https://github.com/o-taylor-bryant"
+              className="hover:underline"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/o-taylor-bryant/"
+              className="hover:underline"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="mailto:taylor.bryant@example.com"
+              className="hover:underline"
+            >
+              Email
+            </a>
+          </div>
         </div>
       </div>
 
@@ -199,6 +243,14 @@ export default function Page() {
           }
           .animate-window-open {
             animation: window-open 0.6s cubic-bezier(.4,2,.6,1);
+          }
+          @keyframes folder-hover {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+          }
+          .folder-hover:hover {
+            animation: folder-hover 0.5s ease-in-out;
           }
         `}
       </style>
