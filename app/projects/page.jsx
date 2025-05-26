@@ -1,259 +1,357 @@
 "use client";
 import { useEffect, useState } from "react";
-import ProjectCard from "./(project-card)";
 import projectData from "@/project links.json/data.json";
 import FixedButton from "@/components/FixedButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faTerminal,
+  faCode,
+  faRocket,
+  faFolder,
+  faFolderOpen,
+  faClock,
+  faUser,
+  faFileAlt,
+  faImages,
+  faLaptopCode,
+  faShieldAlt,
+  faNetworkWired,
+  faBug,
+  faServer,
+} from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
-/* [STATE & EFFECTS] */
+const ProjectIcon = ({ project, isHovered }) => {
+  // Map project types to icons
+  const getProjectDetails = () => {
+    if (project.title.toLowerCase().includes("audit")) {
+      return { icon: faShieldAlt };
+    } else if (project.title.toLowerCase().includes("incident")) {
+      return { icon: faBug };
+    } else if (project.title.toLowerCase().includes("network")) {
+      return { icon: faNetworkWired };
+    } else if (project.title.toLowerCase().includes("server")) {
+      return { icon: faServer };
+    }
+    return { icon: faLaptopCode };
+  };
+
+  const { icon } = getProjectDetails();
+
+  return (
+    <motion.div
+      className="relative w-full h-48 bg-neutral-50 flex items-center justify-center overflow-hidden"
+      initial={false}
+      animate={isHovered ? { backgroundColor: "rgb(0, 0, 0, 0.05)" } : {}}
+    >
+      <motion.div
+        initial={{ scale: 1, opacity: 0.3 }}
+        animate={{
+          scale: isHovered ? 1.2 : 1,
+          opacity: isHovered ? 0.8 : 0.3,
+          rotate: isHovered ? 360 : 0,
+        }}
+        transition={{ duration: 0.5 }}
+        className="text-6xl text-black"
+      >
+        <FontAwesomeIcon icon={icon} />
+      </motion.div>
+
+      {/* Animated Background Pattern */}
+      <motion.div
+        className="absolute inset-0 opacity-10"
+        initial={false}
+        animate={isHovered ? { opacity: 0.2 } : { opacity: 0.1 }}
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(rgb(0, 0, 0, 0.2) 1px, transparent 1px)`,
+            backgroundSize: "20px 20px",
+          }}
+        />
+      </motion.div>
+
+      {/* Interactive Elements */}
+      <AnimatePresence>
+        {isHovered && (
+          <>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="absolute bottom-4 right-4 flex space-x-2"
+            >
+              {project.pdf && (
+                <motion.span
+                  whileHover={{ scale: 1.1 }}
+                  className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg"
+                >
+                  <FontAwesomeIcon icon={faFileAlt} className="text-black/60" />
+                </motion.span>
+              )}
+              {((project.images && project.images.length > 0) ||
+                (project.reports &&
+                  project.reports.some((r) => r.images?.length > 0))) && (
+                <motion.span
+                  whileHover={{ scale: 1.1 }}
+                  className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg"
+                >
+                  <FontAwesomeIcon icon={faImages} className="text-black/60" />
+                </motion.span>
+              )}
+            </motion.div>
+
+            {/* Animated Lines */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              exit={{ scaleX: 0 }}
+              className="absolute bottom-0 left-0 right-0 h-[2px] bg-black/20"
+              style={{ transformOrigin: "left" }}
+            />
+            <motion.div
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              exit={{ scaleY: 0 }}
+              className="absolute top-0 bottom-0 right-0 w-[2px] bg-black/20"
+              style={{ transformOrigin: "top" }}
+            />
+          </>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
+
 export default function Page() {
-  const [ready, setReady] = useState(false); // Loading screen control
-  const [blink, setBlink] = useState(true); // Blinking cursor
-  const [activeFolder, setActiveFolder] = useState(null); // Open folder index
-  const [filteredProjects, setFilteredProjects] = useState(
-    projectData.Projects
-  ); // Filtered projects state
+  const [ready, setReady] = useState(false);
+  const [blink, setBlink] = useState(true);
+  const [hoveredProject, setHoveredProject] = useState(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [commandHistory, setCommandHistory] = useState([]);
+  const [currentCommand, setCurrentCommand] = useState("");
 
   useEffect(() => {
     const delay = setTimeout(() => setReady(true), 1200);
     const blinkInterval = setInterval(() => setBlink((prev) => !prev), 500);
+    const timeInterval = setInterval(() => setCurrentTime(new Date()), 1000);
+
+    // Simulate terminal commands
+    const commands = [
+      "scanning system...",
+      "loading projects...",
+      "initializing interface...",
+      "ready",
+    ];
+
+    commands.forEach((cmd, i) => {
+      setTimeout(() => {
+        setCommandHistory((prev) => [...prev, cmd]);
+        setCurrentCommand(cmd);
+      }, 300 * (i + 1));
+    });
+
     return () => {
       clearTimeout(delay);
       clearInterval(blinkInterval);
+      clearInterval(timeInterval);
     };
   }, []);
 
-  const openFolder = (index) => setActiveFolder(index);
-
-  /* [LOADING SCREEN] */
   if (!ready) {
     return (
-      <div className="fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-black z-[999] px-4">
-        <div className="w-full max-w-md rounded-md border border-neutral-800 bg-white p-6 shadow-lg font-mono text-center">
+      <div className="fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-[rgb(230,230,230)] z-[999] px-4">
+        <div className="w-full max-w-4xl rounded-xl border border-black/20 bg-white p-6 shadow-2xl font-mono text-center">
           <div className="flex justify-between items-center mb-4">
             <div className="flex space-x-2">
-              <span className="w-3 h-3 bg-white rounded-full"></span>
-              <span className="w-3 h-3 bg-white rounded-full"></span>
-              <span className="w-3 h-3 bg-white rounded-full"></span>
+              <span className="w-3 h-3 bg-black/80 rounded-full"></span>
+              <span className="w-3 h-3 bg-black/60 rounded-full"></span>
+              <span className="w-3 h-3 bg-black/40 rounded-full"></span>
             </div>
-            <span className="text-xs text-neutral-400">desktop-terminal</span>
+            <span className="text-xs text-black/60">system_boot</span>
           </div>
-          <p className="text-sm sm:text-base text-neutral-400 mb-2 tracking-widest">
-            booting environment:
-          </p>
-          <h1 className="text-3xl sm:text-4xl text-neutral-400 tracking-wider">
-            launching taylor_portfolio{blink && <span className="ml-1">_</span>}
-          </h1>
+          <div className="text-left mb-4">
+            {commandHistory.map((cmd, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-sm text-black/70"
+              >
+                <span className="text-black/40">$ </span>
+                {cmd}
+              </motion.div>
+            ))}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-sm text-black/70"
+            >
+              <span className="text-black/40">$ </span>
+              {currentCommand}
+              {blink && <span className="ml-1 opacity-50">_</span>}
+            </motion.div>
+          </div>
         </div>
       </div>
     );
   }
 
-  /* [TERMINAL WINDOW] */
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[rgb(230,230,230)] px-4 pt-32 pb-12">
-      {/* [Home Button - top left] */}
+    <div className="min-h-screen bg-[rgb(230,230,230)] flex items-center justify-center px-4 py-20">
       <FixedButton href="/">
         <FontAwesomeIcon icon={faChevronLeft} className="text-black pr-10" />
       </FixedButton>
-      {/* [Terminal Window] */}
-      <div
-        className={`relative w-full max-w-6xl font-mono rounded-2xl border border-neutral-800 shadow-lg p-0 flex flex-col overflow-hidden
-          transition-transform duration-300 hover:scale-105 hover:shadow-2xl
-          before:pointer-events-none before:absolute before:inset-0 before:bg-[repeating-linear-gradient(180deg,transparent_0_2px,rgba(255,255,255,0.02)_2px,transparent_4px)] before:animate-scanlines
-          after:pointer-events-none after:absolute after:inset-0 after:rounded-2xl after:border-2 after:border-white after:opacity-0 hover:after:opacity-60 after:transition-opacity after:duration-500
-          ${
-            activeFolder !== null
-              ? "bg-white text-black animate-window-open"
-              : "bg-black text-white"
-          }`}
-        style={{
-          animation: activeFolder ? undefined : "flicker 2s infinite linear",
-        }}
-      >
-        {/* [HEADER BAR] */}
-        <div className="bg-white px-4 py-2 flex justify-between items-center border-b border-neutral-700 text-xs text-black">
-          <div className="flex space-x-2">
-            <span className="w-3 h-3 bg-black rounded-full"></span>
-            <span className="w-3 h-3 bg-black rounded-full"></span>
-            <span className="w-3 h-3 bg-black rounded-full"></span>
-          </div>
-          <div className="text-xs">taylor_portfolio:projects</div>
-        </div>
 
-        {/* [TERMINAL MAIN AREA] */}
-        <div className="flex-1 p-4 sm:p-6 space-y-6 sm:space-y-10 pointer-events-auto">
-          {/* [COMMAND LINE] */}
-          <div
-            className={`${
-              activeFolder !== null ? "text-black" : "text-white"
-            } text-sm sm:text-base tracking-wide`}
+      <div className="w-full max-w-6xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="bg-white rounded-xl border-2 border-black shadow-2xl overflow-hidden"
+          style={{
+            boxShadow:
+              "0 0 0 2px rgba(0, 0, 0, 0.1), 0 20px 40px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          {/* Terminal Header */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="bg-neutral-100 px-4 py-2 border-b border-black/10"
           >
-            _files:
-          </div>
-
-          {/* [SEARCH BAR] */}
-          <div className="mb-6">
-            <input
-              type="text"
-              placeholder="Search projects..."
-              className="w-full max-w-md px-2 py-2 border border-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
-              onChange={(e) => {
-                const query = e.target.value.toLowerCase();
-                const filteredProjects = projectData.Projects.filter(
-                  (project) => project.title.toLowerCase().includes(query)
-                );
-                setFilteredProjects(filteredProjects);
-              }}
-            />
-          </div>
-
-          {/* [FOLDER GRID] */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
-            {filteredProjects.map((project, index) => (
-              <div
-                key={index}
-                onClick={() =>
-                  activeFolder === index
-                    ? setActiveFolder(null)
-                    : openFolder(index)
-                }
-                role="button"
-                aria-label={`Open folder for ${project.title}`}
-                className={`relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-white text-black rounded-xl border border-neutral-700 transition 
-                  hover:bg-neutral-200 hover:scale-105 hover:shadow-lg cursor-pointer group
-                  ${activeFolder === index ? "ring-2 ring-white scale-110" : ""}
-                  animate-folder-pop`}
-                style={{ transition: "all 0.2s cubic-bezier(.4,2,.6,1)" }}
-              >
-                {/* [FOLDER TAB] */}
-                <div className="absolute -top-2 left-3 w-3/5 h-3 bg-white rounded-t-md border border-neutral-700"></div>
-                {/* [FOLDER LABEL] */}
-                <div className="flex flex-col justify-center items-center h-full z-10">
-                  <p className="text-[10px] sm:text-xs font-semibold text-black text-center px-2">
-                    {project.title}
-                  </p>
-                  <p className="text-[8px] sm:text-[10px] text-neutral-500 mt-1">
-                    open_folder/
-                  </p>
-                </div>
+            <div className="flex items-center justify-between">
+              <div className="flex space-x-2">
+                <span className="w-3 h-3 bg-black/80 rounded-full"></span>
+                <span className="w-3 h-3 bg-black/60 rounded-full"></span>
+                <span className="w-3 h-3 bg-black/40 rounded-full"></span>
               </div>
-            ))}
-
-            {/* [PLACEHOLDER FOLDERS] */}
-            {[...Array(2)].map((_, index) => (
-              <div
-                key={`placeholder-${index}`}
-                className="relative w-24 h-24 sm:w-28 sm:h-28 bg-neutral-200 text-neutral-400 rounded-xl border border-neutral-300 opacity-40 cursor-not-allowed"
-                title="Coming Soon"
-              >
-                <div className="absolute -top-2 left-3 w-3/5 h-3 bg-white rounded-t-md border border-neutral-300"></div>
-                <div className="flex flex-col justify-center items-center h-full">
-                  <p className="text-xs font-semibold text-neutral-400 text-center px-2">
-                    coming_soon
-                  </p>
-                  <p className="text-[10px] mt-1">empty_folder/</p>
-                </div>
+              <span className="text-xs text-black/60 font-mono">
+                taylor_projects v2.0
+              </span>
+              <div className="flex items-center space-x-4 text-xs text-black/60">
+                <span>
+                  <FontAwesomeIcon icon={faUser} className="mr-1" /> user:
+                  taylor
+                </span>
+                <span>
+                  <FontAwesomeIcon icon={faClock} className="mr-1" />{" "}
+                  {currentTime.toLocaleTimeString()}
+                </span>
               </div>
-            ))}
-          </div>
-
-          {/* [OPEN FOLDER DETAILS] */}
-          {activeFolder !== null && (
-            <div className="border border-neutral-800 rounded-xl p-6 bg-black animate-fade-in-up">
-              <div className="flex justify-between items-center mb-4">
-                <p className="text-sm text-white">
-                  _project: {projectData.Projects[activeFolder].title}
-                </p>
-                <button
-                  onClick={() => setActiveFolder(null)}
-                  className="text-neutral-400 hover:text-white text-xs sm:text-sm px-2 py-1 rounded"
-                >
-                  [close]
-                </button>
-              </div>
-              <p className="text-sm text-gray-400 mb-4">
-                {projectData.Projects[activeFolder].desc[0]}
-              </p>
-              <ProjectCard project={projectData.Projects[activeFolder]} />
             </div>
-          )}
-        </div>
+          </motion.div>
 
-        {/* [FOOTER / DOCK] */}
-        <div className="bg-white text-black py-4 text-center text-sm">
-          <p>© 2025 taylor terminal</p>
-          <div className="flex justify-center gap-4 mt-2">
-            <a
-              href="https://github.com/o-taylor-bryant"
-              className="hover:underline"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/o-taylor-bryant/"
-              className="hover:underline"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="mailto:taylor.bryant@example.com"
-              className="hover:underline"
-            >
-              Email
-            </a>
+          {/* Terminal Info Bar */}
+          <div className="bg-neutral-50 px-4 py-2 border-b border-black/10 flex justify-between items-center text-xs font-mono">
+            <div className="flex items-center space-x-4 text-black/60">
+              <span>system: windows_11</span>
+              <span>shell: powershell</span>
+              <span>theme: modern_light</span>
+            </div>
+            <span className="text-black/60">
+              total_projects: {projectData.Projects.length}
+            </span>
           </div>
-        </div>
-      </div>
 
-      {/* [CUSTOM ANIMATIONS / CSS] */}
-      <style>
-        {`
-          @keyframes scanlines {
-            0% { background-position-y: 0; }
-            100% { background-position-y: 8px; }
-          }
-          .before\\:animate-scanlines::before {
-            animation: scanlines 1s linear infinite;
-          }
-          @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            97%, 99% { opacity: 0.95; }
-            98% { opacity: 0.85; }
-          }
-          @keyframes folder-pop {
-            0% { transform: scale(0.95); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-          }
-          .animate-folder-pop {
-            animation: folder-pop 0.4s cubic-bezier(.4,2,.6,1);
-          }
-          @keyframes fade-in-up {
-            0% { opacity: 0; transform: translateY(30px);}
-            100% { opacity: 1; transform: translateY(0);}
-          }
-          .animate-fade-in-up {
-            animation: fade-in-up 0.5s cubic-bezier(.4,2,.6,1);
-          }
-          @keyframes window-open {
-            0% { transform: scale(0.97) translateY(30px); opacity: 0.7; }
-            60% { transform: scale(1.03) translateY(-8px); opacity: 1; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
-          }
-          .animate-window-open {
-            animation: window-open 0.6s cubic-bezier(.4,2,.6,1);
-          }
-          @keyframes folder-hover {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-          }
-          .folder-hover:hover {
-            animation: folder-hover 0.5s ease-in-out;
-          }
-        `}
-      </style>
+          {/* Projects Grid */}
+          <div className="p-6">
+            {/* Directory Path */}
+            <div className="mb-4 font-mono text-sm text-black/70 border-b border-black/10 pb-2">
+              <span className="text-black/40">current_directory: </span>
+              ~/projects/portfolio/
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <AnimatePresence>
+                {projectData.Projects.map((project, index) => (
+                  <motion.div
+                    key={project.slug}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ delay: index * 0.1 }}
+                    onHoverStart={() => setHoveredProject(project.slug)}
+                    onHoverEnd={() => setHoveredProject(null)}
+                  >
+                    <Link href={`/projects/${project.slug}`}>
+                      <div className="group relative bg-white border-2 border-black/10 rounded-xl overflow-hidden hover:border-black/30 transition-all duration-300">
+                        {/* Project Header */}
+                        <div className="bg-neutral-50 px-3 py-2 border-b border-black/10 flex items-center justify-between">
+                          <div className="flex items-center">
+                            <FontAwesomeIcon
+                              icon={
+                                hoveredProject === project.slug
+                                  ? faFolderOpen
+                                  : faFolder
+                              }
+                              className="text-black/60 mr-2"
+                            />
+                            <span className="font-mono text-sm text-black/80">
+                              {project.title.toLowerCase()}
+                            </span>
+                          </div>
+                          <span className="text-xs text-black/40">
+                            modified: {new Date().toLocaleDateString()}
+                          </span>
+                        </div>
+
+                        {/* Project Icon/Preview */}
+                        <ProjectIcon
+                          project={project}
+                          isHovered={hoveredProject === project.slug}
+                        />
+
+                        {/* Project Info */}
+                        <div className="p-4">
+                          <p className="text-black/70 text-sm font-mono mb-4 line-clamp-2">
+                            {project.description || project.desc?.[0]}
+                          </p>
+
+                          {/* Command Line */}
+                          <div className="mt-4 pt-3 border-t border-black/10">
+                            <div className="font-mono text-xs text-black/40 flex items-center">
+                              <span className="mr-2">$</span>
+                              <span className="text-black/60">open</span>
+                              <span className="mx-1 text-black/40">
+                                --project
+                              </span>
+                              <span className="text-black/80">
+                                {project.slug}
+                              </span>
+                              {blink && hoveredProject === project.slug && (
+                                <span className="ml-1 opacity-50">_</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Terminal Footer */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="bg-neutral-100 px-4 py-2 border-t border-black/10"
+          >
+            <p className="text-center text-black/40 text-xs font-mono">
+              © 2024 Taylor Terminal • Interactive Portfolio Interface • Click
+              any project to explore
+            </p>
+          </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 }

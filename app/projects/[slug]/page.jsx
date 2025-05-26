@@ -1,375 +1,835 @@
 "use client";
 
 import projectData from "@/project links.json/data.json";
-import { notFound } from "next/navigation";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { notFound, useParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import FixedButton from "@/components/FixedButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
-  faChevronRight,
-  faTimes,
+  faLink,
+  faCode,
+  faRocket,
+  faImages,
+  faFileAlt,
+  faSearch,
   faSearchPlus,
   faSearchMinus,
+  faArrowLeft,
+  faArrowRight,
+  faTimes,
+  faFile,
+  faFolder,
+  faFolderOpen,
+  faShieldAlt,
+  faLock,
+  faUserShield,
+  faClipboardCheck,
+  faClock,
+  faUser,
+  faTerminal,
+  faBug,
 } from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
+
+const AuditSection = ({ title, content, icon, delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay }}
+    className="bg-white border-2 border-black/10 rounded-xl overflow-hidden"
+  >
+    <div className="bg-neutral-50 px-3 py-2 border-b border-black/10 flex items-center justify-between">
+      <div className="flex items-center">
+        <FontAwesomeIcon icon={icon} className="text-black/60 mr-2" />
+        <span className="font-mono text-sm text-black/80">{title}</span>
+      </div>
+    </div>
+    <div className="p-4 font-mono text-sm text-black/70">{content}</div>
+  </motion.div>
+);
+
+const IncidentSection = ({
+  title,
+  content,
+  icon,
+  severity = "low",
+  delay = 0,
+}) => {
+  const severityColors = {
+    critical: "rgb(0, 0, 0)", // Black
+    high: "rgb(0, 0, 0)",
+    medium: "rgb(0, 0, 0)",
+    low: "rgb(0, 0, 0)",
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay }}
+      className="bg-white border-2 border-black/10 rounded-xl overflow-hidden"
+    >
+      <div className="bg-neutral-50 px-3 py-2 border-b border-black/10 flex items-center justify-between">
+        <div className="flex items-center">
+          <FontAwesomeIcon icon={icon} className="text-black/60 mr-2" />
+          <span className="font-mono text-sm text-black/80">{title}</span>
+        </div>
+        <span
+          className="text-xs font-mono px-2 py-1 rounded"
+          style={{
+            backgroundColor: severityColors[severity] + "20",
+            color: severityColors[severity],
+          }}
+        >
+          {severity}
+        </span>
+      </div>
+      <div className="p-4 font-mono text-sm text-black/70">{content}</div>
+    </motion.div>
+  );
+};
+
+const PDFSection = ({ title, pdfs, icon, severity = "low" }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="bg-white border-2 border-black/10 rounded-xl overflow-hidden"
+  >
+    <div className="bg-neutral-50 px-3 py-2 border-b border-black/10 flex items-center justify-between">
+      <div className="flex items-center">
+        <FontAwesomeIcon icon={icon} className="text-black/60 mr-2" />
+        <span className="font-mono text-sm text-black/80">{title}</span>
+      </div>
+      {severity && (
+        <span
+          className="text-xs font-mono px-2 py-1 rounded"
+          style={{
+            backgroundColor: severityColors[severity] + "20",
+            color: severityColors[severity],
+          }}
+        >
+          {severity}
+        </span>
+      )}
+    </div>
+    <div className="p-4 space-y-4">
+      {pdfs.map((pdf, index) => (
+        <motion.button
+          key={index}
+          onClick={() => window.open(pdf.url, "_blank")}
+          className="w-full flex items-center justify-between p-3 bg-black/5 rounded-lg hover:bg-black/10 transition-colors font-mono text-sm text-black/70"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <div className="flex items-center space-x-3">
+            <FontAwesomeIcon icon={faFileAlt} className="text-black/60" />
+            <span>{pdf.title || `Report ${index + 1}`}</span>
+          </div>
+          <FontAwesomeIcon icon={faArrowRight} className="text-black/40" />
+        </motion.button>
+      ))}
+    </div>
+  </motion.div>
+);
 
 /* [PROJECT DETAILS PAGE] */
-export default function ProjectDetails({ params }) {
-  const project = projectData.Projects.find(
-    (item) => item.slug === params.slug
-  );
-  if (!project) {
-    console.error("Project not found:", params.slug);
-    notFound();
-  }
+export default function ProjectPage() {
+  const params = useParams();
+  const [ready, setReady] = useState(false);
+  const [blink, setBlink] = useState(true);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showImageViewer, setShowImageViewer] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [hoveredReport, setHoveredReport] = useState(null);
+  const [commandHistory, setCommandHistory] = useState([]);
+  const [currentCommand, setCurrentCommand] = useState("");
+  const [activeSection, setActiveSection] = useState("overview");
 
-  // Modal state for image preview
-  const [modalImg, setModalImg] = useState(null);
+  const project = projectData.Projects.find((p) => p.slug === params.slug);
+  const isAuditProject = project?.title.toLowerCase().includes("audit");
+  const isIncidentProject = project?.title.toLowerCase().includes("incident");
 
-  // Single-project preview states
-  const [currentImage, setCurrentImage] = useState(0);
-  const [zoom, setZoom] = useState(1.0);
-  const [drag, setDrag] = useState({ x: 0, y: 0 });
-  const [dragging, setDragging] = useState(false);
-  const dragStart = useRef({ x: 0, y: 0 });
-  const previewImages = project.images ? project.images.slice(1) : [];
-
-  // Handle keyboard navigation
-  useEffect(() => {
-    function handleKeyDown(e) {
-      if (!modalImg) return;
-      if (e.key === "ArrowRight") handleNext();
-      if (e.key === "ArrowLeft") handlePrev();
-      if (e.key === "Escape") setModalImg(null);
+  // Get all images for the project
+  const getAllImages = () => {
+    if (project.reports) {
+      return project.reports.reduce((acc, report) => {
+        if (report.images) {
+          acc.push(...report.images);
+        }
+        return acc;
+      }, []);
     }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [modalImg]);
+    return project.images || [];
+  };
 
-  const handleNext = useCallback(() => {
-    setCurrentImage((prev) => (prev + 1) % previewImages.length);
-    setModalImg(previewImages[(currentImage + 1) % previewImages.length]);
-    resetZoomAndDrag();
-  }, [currentImage, previewImages]);
+  const allImages = getAllImages();
 
-  const handlePrev = useCallback(() => {
-    setCurrentImage((prev) =>
-      prev === 0 ? previewImages.length - 1 : prev - 1
-    );
-    setModalImg(
-      previewImages[
-        currentImage === 0 ? previewImages.length - 1 : currentImage - 1
-      ]
-    );
-    resetZoomAndDrag();
-  }, [currentImage, previewImages]);
+  useEffect(() => {
+    const delay = setTimeout(() => setReady(true), 1200);
+    const blinkInterval = setInterval(() => setBlink((prev) => !prev), 500);
 
-  function handleZoomIn() {
-    setZoom((z) => Math.min(z + 0.2, 3));
-  }
-  function handleZoomOut() {
-    setZoom((z) => Math.max(z - 0.2, 1));
-  }
-  function resetZoomAndDrag() {
-    setZoom(1.0);
-    setDrag({ x: 0, y: 0 });
-  }
-  function handleMouseDown(e) {
-    if (zoom === 1) return;
-    setDragging(true);
-    dragStart.current = {
-      x: e.clientX - drag.x,
-      y: e.clientY - drag.y,
-    };
-  }
-  function handleMouseMove(e) {
-    if (!dragging) return;
-    setDrag({
-      x: e.clientX - dragStart.current.x,
-      y: e.clientY - dragStart.current.y,
+    // Project-specific boot sequence
+    let commands = [];
+    if (isAuditProject) {
+      commands = [
+        "loading audit data...",
+        "analyzing security metrics...",
+        "generating report interface...",
+        "ready",
+      ];
+    } else if (isIncidentProject) {
+      commands = [
+        "initializing incident database...",
+        "loading case files...",
+        "analyzing incident patterns...",
+        "generating incident timeline...",
+        "ready",
+      ];
+    }
+
+    commands.forEach((cmd, i) => {
+      setTimeout(() => {
+        setCommandHistory((prev) => [...prev, cmd]);
+        setCurrentCommand(cmd);
+      }, 300 * (i + 1));
     });
+
+    return () => {
+      clearTimeout(delay);
+      clearInterval(blinkInterval);
+    };
+  }, [isAuditProject, isIncidentProject]);
+
+  const handleZoom = (delta) => {
+    setZoomLevel((prev) => {
+      const newZoom = prev + delta;
+      return Math.min(Math.max(1, newZoom), 3);
+    });
+  };
+
+  const handleImageDrag = (e) => {
+    if (isDragging && zoomLevel > 1) {
+      const { movementX, movementY } = e;
+      setImagePosition((prev) => ({
+        x: prev.x + movementX,
+        y: prev.y + movementY,
+      }));
+    }
+  };
+
+  const resetZoom = () => {
+    setZoomLevel(1);
+    setImagePosition({ x: 0, y: 0 });
+  };
+
+  const navigateImages = (direction) => {
+    const totalImages = allImages.length;
+    if (totalImages > 1) {
+      setCurrentImageIndex((prev) => {
+        let newIndex = prev + direction;
+        if (newIndex >= totalImages) newIndex = 0;
+        if (newIndex < 0) newIndex = totalImages - 1;
+        resetZoom();
+        return newIndex;
+      });
+    }
+  };
+
+  // Update navigation tabs
+  const getNavigationTabs = () => {
+    if (isIncidentProject) {
+      return ["overview", "timeline", "visuals", "documentation"];
+    }
+    return ["overview", "visuals", "documentation"];
+  };
+
+  // Collect all PDFs from the project
+  const getAllPDFs = () => {
+    if (project.reports) {
+      return project.reports.map((report, index) => ({
+        title: report.title,
+        url: report.pdf,
+        severity: report.severity || "medium",
+      }));
+    }
+    return project.pdf ? [{ title: "Full Report", url: project.pdf }] : [];
+  };
+
+  if (!project) {
+    return (
+      <div className="min-h-screen bg-[rgb(230,230,230)] flex items-center justify-center px-4">
+        <div className="w-full max-w-md text-center">
+          <h1 className="text-2xl font-mono mb-4 text-black">
+            Error 404: Project Not Found
+          </h1>
+          <p className="text-black/60 mb-8 font-mono">
+            The requested project could not be found.
+          </p>
+          <FixedButton href="/projects">
+            <FontAwesomeIcon icon={faChevronLeft} className="text-black mr-2" />
+            Back to Projects
+          </FixedButton>
+        </div>
+      </div>
+    );
   }
-  function handleMouseUp() {
-    setDragging(false);
+
+  if (!ready) {
+    return (
+      <div className="fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-[rgb(230,230,230)] z-[999] px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="w-full max-w-4xl rounded-xl border-2 border-black bg-white shadow-2xl font-mono text-center p-6"
+          style={{
+            boxShadow:
+              "0 0 0 2px rgba(0, 0, 0, 0.1), 0 20px 40px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="flex justify-between items-center mb-4"
+          >
+            <div className="flex space-x-2">
+              <span className="w-3 h-3 bg-black/80 rounded-full"></span>
+              <span className="w-3 h-3 bg-black/60 rounded-full"></span>
+              <span className="w-3 h-3 bg-black/40 rounded-full"></span>
+            </div>
+            <span className="text-xs text-black/60">audit_viewer</span>
+          </motion.div>
+          <div className="text-left mb-4">
+            {commandHistory.map((cmd, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-sm text-black/70"
+              >
+                <span className="text-black/40">$ </span>
+                {cmd}
+              </motion.div>
+            ))}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-sm text-black/70"
+            >
+              <span className="text-black/40">$ </span>
+              {currentCommand}
+              {blink && <span className="ml-1 opacity-50">_</span>}
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
+    );
   }
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-[rgb(230,230,230)] px-2 sm:px-4 pt-16 sm:pt-32 pb-8 sm:pb-12 font-mono"
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-    >
-      {/* [Home Button - top left] */}
+    <div className="min-h-screen bg-[rgb(230,230,230)] flex items-center justify-center px-4 py-20">
+      {/* Back Button */}
       <FixedButton href="/projects">
         <FontAwesomeIcon icon={faChevronLeft} className="text-black pr-10" />
       </FixedButton>
 
-      <div
-        className={`relative w-full max-w-4xl rounded-2xl border border-neutral-800 shadow-lg flex flex-col overflow-hidden
-          bg-white text-black
-          before:pointer-events-none before:absolute before:inset-0 before:bg-[repeating-linear-gradient(180deg,transparent_0_2px,rgba(0,0,0,0.03)_2px,transparent_4px)] before:animate-scanlines
-          after:pointer-events-none after:absolute after:inset-0 after:rounded-2xl after:border-2 after:border-black after:opacity-0 hover:after:opacity-60 after:transition-opacity after:duration-500
-        `}
-      >
-        {/* [HEADER BAR] */}
-        <div className="bg-white px-4 py-2 flex justify-between items-center border-b border-neutral-700 text-xs text-black">
-          <div className="flex space-x-2">
-            <span className="w-3 h-3 bg-black rounded-full"></span>
-            <span className="w-3 h-3 bg-black rounded-full"></span>
-            <span className="w-3 h-3 bg-black rounded-full"></span>
-          </div>
-          <span className="text-xs font-mono">
-            {project.title.toLowerCase().replaceAll(" ", "_")}.md
-          </span>
-        </div>
-
-        {/* [MAIN IMAGE AS "WINDOW"] */}
-        <div className="relative w-full h-64 md:h-96 bg-neutral-100 border-b border-neutral-300 overflow-hidden animate-window-pop">
-          <Image
-            src={project.images[0]}
-            alt={project.title + " main mockup"}
-            layout="fill"
-            objectFit="cover"
-            className="object-center opacity-90 hover:opacity-100 transition duration-300"
-            priority
-          />
-          <div className="absolute top-2 left-4 bg-white/80 px-2 py-1 rounded text-xs border border-neutral-300 font-mono shadow">
-            main_mockup.png
-          </div>
-        </div>
-
-        {/* [README SECTION] */}
-        <section className="px-6 py-6 text-neutral-700 text-[1rem] leading-relaxed space-y-4 border-b border-neutral-300 bg-white">
-          <div className="text-xs sm:text-sm text-neutral-400 pb-2 border-b border-neutral-200 mb-4 font-mono">
-            [project_readme.md]
-          </div>
-          {project.desc.map((paragraph, index) => (
-            <p key={index} className="whitespace-pre-line">
-              {paragraph}
-            </p>
-          ))}
-        </section>
-
-        {/* [PREVIEW IMAGES AS "OPEN FILES"] */}
-        <section className="bg-white border-b border-neutral-300 px-6 py-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
-            {previewImages.map((img, idx) => (
-              <div
-                key={img}
-                className={`relative bg-neutral-100 border border-neutral-300 rounded-xl shadow-lg overflow-hidden flex flex-col items-center w-56 h-72 transition-all duration-300
-                  ${
-                    currentImage === idx
-                      ? "scale-105 ring-2 ring-black z-10 animate-window-pop"
-                      : "opacity-70"
-                  }
-                  hover:scale-105 hover:z-20`}
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  setModalImg(img); // Open the modal with the clicked image
-                  setCurrentImage(idx);
-                  setDrag({ x: 0, y: 0 });
-                  setZoom(1.0);
-                }}
-              >
-                {/* Image Header */}
-                <div className="w-full bg-white px-2 py-1 border-b border-neutral-200 text-[10px] font-mono text-neutral-500 flex items-center gap-2">
-                  <span className="w-2 h-2 bg-black rounded-full animate-pulse"></span>
-                  <span className="ml-2">{`preview_page_${idx + 1}.png`}</span>
-                </div>
-
-                {/* Image Viewer */}
-                <div className="flex-1 flex items-center justify-center overflow-hidden">
-                  <Image
-                    src={img}
-                    alt={`Preview page ${idx + 1}`}
-                    width={800}
-                    height={1000}
-                    loading="lazy"
-                    style={{
-                      objectFit: "contain",
-                      transform: "scale(1)",
-                      transition: "transform 0.3s cubic-bezier(.4,2,.6,1)",
-                    }}
-                    className="rounded shadow"
-                    draggable={false}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* [PDF BUTTON - MONOCHROME GLOW] */}
-        <div className="flex justify-center items-center py-8 bg-white">
-          <a
-            href={project.pdf}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="relative group flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-black shadow-xl border-2 border-white hover:scale-110 transition-transform duration-200"
-            title="Open PDF"
-          >
-            {/* Glowing animated ring */}
-            <span className="absolute inset-0 rounded-full border-2 border-white pointer-events-none animate-pulse-ring"></span>
-            {/* PDF icon */}
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-              <rect
-                x="4"
-                y="4"
-                width="20"
-                height="20"
-                rx="5"
-                fill="#111"
-                stroke="#fff"
-                strokeWidth="1.5"
-              />
-              <text
-                x="50%"
-                y="60%"
-                textAnchor="middle"
-                fill="#fff"
-                fontSize="10"
-                fontFamily="monospace"
-                fontWeight="bold"
-                dy=".3em"
-              >
-                PDF
-              </text>
-            </svg>
-          </a>
-        </div>
-        <div className="bg-white px-4 py-2 border-t border-neutral-300 text-center text-[10px] text-black">
-          Taylor Terminal • Your interactive space to explore my work. • All
-          rights reserved.
-        </div>
-        <style>
-          {`
-            @keyframes scanlines {
-              0% { background-position-y: 0; }
-              100% { background-position-y: 8px; }
-            }
-            .before\\:animate-scanlines::before {
-              animation: scanlines 1s linear infinite;
-            }
-            @keyframes window-pop {
-              0% { transform: scale(0.95) translateY(30px); opacity: 0.7; }
-              60% { transform: scale(1.03) translateY(-8px); opacity: 1; }
-              100% { transform: scale(1) translateY(0); opacity: 1; }
-            }
-            .animate-window-pop {
-              animation: window-pop 0.6s cubic-bezier(.4,2,.6,1);
-            }
-            @keyframes glow {
-              0%, 100% { box-shadow: 0 0 8px 2px #06b6d4aa; }
-              50% { box-shadow: 0 0 16px 4px #06b6d4cc; }
-            }
-            .animate-glow {
-              animation: glow 2s infinite alternate;
-            }
-            @keyframes pulse-ring {
-              0% { box-shadow: 0 0 0 0 #fff8; }
-              70% { box-shadow: 0 0 0 10px #fff0; }
-              100% { box-shadow: 0 0 0 0 #fff0; }
-            }
-            .animate-pulse-ring {
-              animation: pulse-ring 1.8s cubic-bezier(.4,0,.6,1) infinite;
-            }
-            .drop-shadow-glow {
-              filter: drop-shadow(0 0 8px #06b6d4aa);
-            }
-            @keyframes fadeIn {
-              from {
-                opacity: 0;
-              }
-              to {
-                opacity: 1;
-              }
-            }
-
-            .modal {
-              animation: fadeIn 0.8s ease-in-out;
-            }
-          `}
-        </style>
-      </div>
-
-      {/* Modal for Full-Screen Image Viewer */}
-      {modalImg && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
+      {/* Main Terminal Window */}
+      <div className="w-full max-w-6xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="bg-white rounded-xl border-2 border-black shadow-2xl overflow-hidden relative"
+          style={{
+            boxShadow:
+              "0 0 0 2px rgba(0, 0, 0, 0.1), 0 20px 40px rgba(0, 0, 0, 0.1)",
+          }}
         >
-          <div className="relative flex items-center justify-center max-w-[90vw] max-h-[90vh]">
-            {/* Full-Screen Image */}
-            <Image
-              src={modalImg}
-              alt="Full Screen"
-              width={1200} // Use high resolution
-              height={1600}
-              style={{
-                maxWidth: "90vw", // Constrain width to viewport
-                maxHeight: "90vh", // Constrain height to viewport
-                objectFit: "contain", // Maintain aspect ratio
-                transform: `scale(${zoom}) translate(${drag.x / zoom}px, ${
-                  drag.y / zoom
-                }px)`,
-                cursor: zoom > 1 ? "grab" : "default",
-              }}
-              className="transition-transform duration-300"
-              onMouseDown={handleMouseDown}
-              draggable={false}
-            />
+          {/* Terminal Header */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="bg-neutral-100 px-4 py-2 border-b border-black/10"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex space-x-2">
+                <span className="w-3 h-3 bg-black/80 rounded-full"></span>
+                <span className="w-3 h-3 bg-black/60 rounded-full"></span>
+                <span className="w-3 h-3 bg-black/40 rounded-full"></span>
+              </div>
+              <span className="text-xs text-black/60 font-mono">
+                project: {project.title.toLowerCase()}
+              </span>
+              <div className="flex items-center space-x-4 text-xs text-black/60">
+                <span>
+                  <FontAwesomeIcon icon={faUser} className="mr-1" /> user:
+                  taylor
+                </span>
+                <span>
+                  <FontAwesomeIcon icon={faClock} className="mr-1" />{" "}
+                  {new Date().toLocaleTimeString()}
+                </span>
+              </div>
+            </div>
+          </motion.div>
 
-            {/* Close Button */}
-            <button
-              className="absolute top-4 right-4 bg-white text-black p-2 rounded-full shadow hover:bg-neutral-200"
-              onClick={() => setModalImg(null)}
-              aria-label="Close modal"
-            >
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
+          {/* Terminal Info Bar */}
+          <div className="bg-neutral-50 px-4 py-2 border-b border-black/10 flex justify-between items-center text-xs font-mono">
+            <div className="flex items-center space-x-4 text-black/60">
+              <span>
+                type: {isIncidentProject ? "incident_report" : "security_audit"}
+              </span>
+              <span>status: complete</span>
+              <span>priority: {isIncidentProject ? "critical" : "high"}</span>
+            </div>
+            <span className="text-black/60">
+              last_modified: {new Date().toLocaleDateString()}
+            </span>
+          </div>
 
-            {/* Zoom Controls */}
-            <div className="absolute bottom-4 left-4 flex gap-2">
-              <button
-                className="bg-white text-black p-2 sm:p-1 rounded-full shadow hover:bg-neutral-200"
-                onClick={handleZoomOut}
-              >
-                <FontAwesomeIcon icon={faSearchMinus} />
-              </button>
-              <button
-                className="bg-white text-black p-2 rounded-full shadow hover:bg-neutral-200"
-                onClick={resetZoomAndDrag}
-              >
-                Reset
-              </button>
-              <button
-                className="bg-white text-black p-2 rounded-full shadow hover:bg-neutral-200"
-                onClick={handleZoomIn}
-              >
-                <FontAwesomeIcon icon={faSearchPlus} />
-              </button>
+          {/* Project Content */}
+          <div className="p-6 space-y-8">
+            {/* Navigation Tabs */}
+            <div className="flex flex-wrap gap-2 font-mono text-sm">
+              {getNavigationTabs().map((section) => (
+                <motion.button
+                  key={section}
+                  onClick={() => setActiveSection(section)}
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    activeSection === section
+                      ? "bg-black text-white"
+                      : "bg-black/5 text-black hover:bg-black/10"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {section}
+                </motion.button>
+              ))}
             </div>
 
-            {/* Navigation Controls */}
-            <button
-              className="absolute left-4 bg-white text-black p-2 rounded-full shadow hover:bg-neutral-200"
-              onClick={handlePrev}
-            >
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </button>
-            <button
-              className="absolute right-4 bg-white text-black p-2 rounded-full shadow hover:bg-neutral-200"
-              onClick={handleNext}
-            >
-              <FontAwesomeIcon icon={faChevronRight} />
-            </button>
+            <AnimatePresence mode="wait">
+              {activeSection === "overview" && (
+                <motion.div
+                  key="overview"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="space-y-6"
+                >
+                  {isIncidentProject ? (
+                    <IncidentSection
+                      title="Incident Overview"
+                      icon={faBug}
+                      severity="critical"
+                      content={project.desc.map((para, i) => (
+                        <p key={i} className="mb-4 text-black">
+                          {para}
+                        </p>
+                      ))}
+                    />
+                  ) : (
+                    <AuditSection
+                      title="Project Overview"
+                      icon={faShieldAlt}
+                      content={project.desc.map((para, i) => (
+                        <p key={i} className="mb-4 text-black">
+                          {para}
+                        </p>
+                      ))}
+                    />
+                  )}
+                </motion.div>
+              )}
+
+              {activeSection === "timeline" && isIncidentProject && (
+                <motion.div
+                  key="timeline"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="space-y-6"
+                >
+                  {project.reports?.map((report, index) => (
+                    <IncidentSection
+                      key={index}
+                      title={report.title}
+                      icon={faClock}
+                      severity={report.severity || "medium"}
+                      content={
+                        <div className="space-y-4">
+                          <p>{report.desc}</p>
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {report.tags?.map((tag, i) => (
+                              <span
+                                key={i}
+                                className="px-2 py-1 bg-black/5 rounded-full text-xs"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      }
+                    />
+                  ))}
+                </motion.div>
+              )}
+
+              {activeSection === "visuals" && (
+                <motion.div
+                  key="visuals"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                >
+                  {isIncidentProject
+                    ? project.reports?.map(
+                        (report, index) =>
+                          report.images && (
+                            <IncidentSection
+                              key={index}
+                              title={`Evidence Set ${index + 1}`}
+                              icon={faImages}
+                              severity={report.severity || "medium"}
+                              content={
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                  {report.images.map((img, imgIndex) => (
+                                    <motion.div
+                                      key={imgIndex}
+                                      className="relative aspect-video bg-neutral-50 rounded-lg overflow-hidden cursor-pointer"
+                                      whileHover={{ scale: 1.05 }}
+                                      onClick={() => {
+                                        const startIndex = project.reports
+                                          .slice(0, index)
+                                          .reduce(
+                                            (acc, r) =>
+                                              acc + (r.images?.length || 0),
+                                            0
+                                          );
+                                        setCurrentImageIndex(
+                                          startIndex + imgIndex
+                                        );
+                                        setShowImageViewer(true);
+                                      }}
+                                    >
+                                      <Image
+                                        src={img}
+                                        alt={`Evidence ${imgIndex + 1}`}
+                                        layout="fill"
+                                        objectFit="cover"
+                                        className="transition-all duration-300"
+                                      />
+                                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                                      <motion.div
+                                        className="absolute bottom-2 right-2 bg-white rounded-full p-2"
+                                        whileHover={{ scale: 1.1 }}
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={faSearch}
+                                          className="text-black/60"
+                                        />
+                                      </motion.div>
+                                    </motion.div>
+                                  ))}
+                                </div>
+                              }
+                            />
+                          )
+                      )
+                    : project.images?.map((img, index) => (
+                        <motion.div
+                          key={index}
+                          className="relative aspect-video bg-neutral-50 rounded-lg overflow-hidden cursor-pointer"
+                          whileHover={{ scale: 1.05 }}
+                          onClick={() => {
+                            setCurrentImageIndex(index);
+                            setShowImageViewer(true);
+                          }}
+                        >
+                          <Image
+                            src={img}
+                            alt={`${project.title} preview ${index + 1}`}
+                            layout="fill"
+                            objectFit="cover"
+                            className="transition-all duration-300"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                          <motion.div
+                            className="absolute bottom-2 right-2 bg-white rounded-full p-2"
+                            whileHover={{ scale: 1.1 }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faSearch}
+                              className="text-black/60"
+                            />
+                          </motion.div>
+                        </motion.div>
+                      ))}
+                </motion.div>
+              )}
+
+              {activeSection === "documentation" && (
+                <motion.div
+                  key="documentation"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="space-y-6"
+                >
+                  {isIncidentProject ? (
+                    <>
+                      <IncidentSection
+                        title="Incident Documentation"
+                        icon={faFileAlt}
+                        severity="critical"
+                        content={
+                          <div className="space-y-4">
+                            {project.reports.map((report, index) => (
+                              <motion.button
+                                key={index}
+                                onClick={() =>
+                                  window.open(report.pdf, "_blank")
+                                }
+                                className="w-full flex items-center justify-between p-3 bg-black/5 rounded-lg hover:bg-black/10 transition-colors font-mono text-sm text-black"
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                <div className="flex items-center space-x-3">
+                                  <FontAwesomeIcon
+                                    icon={faFileAlt}
+                                    className="text-black opacity-80"
+                                  />
+                                  <span className="text-black">
+                                    {report.title}
+                                  </span>
+                                </div>
+                                <FontAwesomeIcon
+                                  icon={faArrowRight}
+                                  className="text-black/60"
+                                />
+                              </motion.button>
+                            ))}
+                          </div>
+                        }
+                      />
+                      <IncidentSection
+                        title="Additional Resources"
+                        icon={faFolder}
+                        severity="medium"
+                        content={
+                          <div className="space-y-4">
+                            <p className="text-black">
+                              The documentation above includes:
+                            </p>
+                            <ul className="list-disc list-inside space-y-2 text-sm text-black">
+                              <li>
+                                Detailed incident timeline and initial findings
+                              </li>
+                              <li>
+                                In-depth technical analysis of the incident
+                              </li>
+                              <li>
+                                Assessment of business and technical impact
+                              </li>
+                              <li>
+                                Comprehensive mitigation and prevention strategy
+                              </li>
+                              <li>
+                                Post-incident analysis and recommendations
+                              </li>
+                            </ul>
+                          </div>
+                        }
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <AuditSection
+                        title="Full Documentation"
+                        icon={faFileAlt}
+                        content={
+                          <div className="space-y-4">
+                            <motion.button
+                              onClick={() => window.open(project.pdf, "_blank")}
+                              className="w-full flex items-center justify-between p-3 bg-black/5 rounded-lg hover:bg-black/10 transition-colors font-mono text-sm text-black"
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <div className="flex items-center space-x-3">
+                                <FontAwesomeIcon
+                                  icon={faFileAlt}
+                                  className="text-black opacity-80"
+                                />
+                                <span>Security Audit Report</span>
+                              </div>
+                              <FontAwesomeIcon
+                                icon={faArrowRight}
+                                className="text-black/60"
+                              />
+                            </motion.button>
+                          </div>
+                        }
+                      />
+                      <AuditSection
+                        title="Report Contents"
+                        icon={faFolder}
+                        content={
+                          <div className="space-y-4">
+                            <p className="text-black">
+                              The comprehensive security audit report includes:
+                            </p>
+                            <ul className="list-disc list-inside space-y-2 text-sm text-black">
+                              <li>Detailed Technical Findings</li>
+                              <li>Remediation Recommendations</li>
+                              <li>Security Posture Improvement Plan</li>
+                            </ul>
+                          </div>
+                        }
+                      />
+                    </>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </div>
-      )}
+
+          {/* Terminal Footer */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="bg-neutral-100 px-4 py-2 border-t border-black/10"
+          >
+            <p className="text-center text-black/40 text-xs font-mono">
+              © 2024 Taylor Terminal • Interactive Portfolio Interface
+            </p>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Full Screen Image Viewer */}
+      <AnimatePresence>
+        {showImageViewer && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/95 z-50 flex flex-col items-center justify-center p-4"
+          >
+            {/* Viewer Controls */}
+            <div className="w-full max-w-7xl flex flex-wrap justify-between items-center mb-4 text-white/80 px-4 gap-4">
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => handleZoom(-0.2)}
+                  className="p-2 hover:text-white transition-colors"
+                  aria-label="Zoom out"
+                >
+                  <FontAwesomeIcon icon={faSearchMinus} />
+                </button>
+                <span className="font-mono text-sm">
+                  {Math.round(zoomLevel * 100)}%
+                </span>
+                <button
+                  onClick={() => handleZoom(0.2)}
+                  className="p-2 hover:text-white transition-colors"
+                  aria-label="Zoom in"
+                >
+                  <FontAwesomeIcon icon={faSearchPlus} />
+                </button>
+                <button
+                  onClick={resetZoom}
+                  className="text-sm font-mono hover:text-white transition-colors"
+                >
+                  Reset
+                </button>
+              </div>
+              <div className="flex items-center space-x-4">
+                <span className="font-mono text-sm">
+                  {currentImageIndex + 1} / {allImages.length}
+                </span>
+                <button
+                  onClick={() => navigateImages(-1)}
+                  className="p-2 hover:text-white transition-colors"
+                  disabled={!allImages || allImages.length <= 1}
+                  aria-label="Previous image"
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+                <button
+                  onClick={() => navigateImages(1)}
+                  className="p-2 hover:text-white transition-colors"
+                  disabled={!allImages || allImages.length <= 1}
+                  aria-label="Next image"
+                >
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+                <button
+                  onClick={() => {
+                    resetZoom();
+                    setShowImageViewer(false);
+                  }}
+                  className="p-2 hover:text-white transition-colors"
+                  aria-label="Close viewer"
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+              </div>
+            </div>
+
+            {/* Image Container */}
+            <motion.div
+              className="relative w-full h-[calc(100vh-120px)] flex items-center justify-center overflow-hidden cursor-move"
+              onMouseDown={() => setIsDragging(true)}
+              onMouseUp={() => setIsDragging(false)}
+              onMouseLeave={() => setIsDragging(false)}
+              onMouseMove={handleImageDrag}
+              onTouchStart={() => setIsDragging(true)}
+              onTouchEnd={() => setIsDragging(false)}
+              onTouchCancel={() => setIsDragging(false)}
+              onTouchMove={handleImageDrag}
+            >
+              <motion.div
+                style={{
+                  scale: zoomLevel,
+                  x: imagePosition.x,
+                  y: imagePosition.y,
+                }}
+                className="relative"
+              >
+                <Image
+                  src={allImages[currentImageIndex]}
+                  alt={`${project.title} - Image ${currentImageIndex + 1}`}
+                  width={1200}
+                  height={800}
+                  className="max-w-full max-h-[calc(100vh-120px)] object-contain"
+                  quality={100}
+                  priority
+                />
+              </motion.div>
+            </motion.div>
+
+            {/* Image Caption */}
+            <div className="mt-4 text-center text-white/60 font-mono text-sm">
+              <p className="hidden sm:block">
+                Click and drag to pan • Use zoom controls or mouse wheel to zoom
+              </p>
+              <p className="block sm:hidden">
+                Touch and drag to pan • Pinch to zoom
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

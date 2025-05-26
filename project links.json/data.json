@@ -22,13 +22,13 @@
       "title": "Project 002 : Incident Reports",
       "slug": "incident-reports-no-002",
       "desc": [
-        "I knew that incident reporting was a crucial task in multiple tech-based roles and was excited to get some hands-on experience! For each fictional scenario, I was tasked with addressing the incident, providing evidence, and suggesting future improvements on how to reduce the risk factors within the concentrated areas."
+        "Incident reporting is a crucial task of risk assessment for multiple tech-based roles, and I was excited to get some hands-on experience! For each fictional scenario, I was tasked with thoroughly addressing the event, providing recorded evidence, and suggesting future improvements on how to reduce the chance of risk factors."
       ],
       "reports": [
         {
           "title": "01 Access Error",
           "desc": [
-            "I wanted to get more experience reading strings in real-time and understanding what happens in the backend when someone accesses a web service client. This was my first time setting up Linux on a virtual machine and I learned so much! I utilized ChatGPT to help me learn how to simulate this exact scenario and refuse my connection to the specified domain."
+            "I wanted to get more experience reading system logs in real-time and understanding of what the web service does when assessing a connection request. This was my first time setting up Linux on a virtual machine and I learned so much! I utilized ChatGPT to help learn access error simulation strategies, for this scenario, and refuse a connection to the specified domain."
           ],
           "pdf": "https://drive.google.com/file/d/1cYa-1Xl8C8SG0mGoEtK4bfr27nO0-yRB/view?usp=sharing",
           "images": [
@@ -38,27 +38,47 @@
         },
         {
           "title": "02 SYN Attack",
-          "desc": ["Placeholder description for Incident Report 2."],
-          "pdf": "/pdfs/incident-report-2.pdf",
-          "images": ["/image/projects/incident-reports/ir2-1.png"]
+          "desc": [
+            "This scenario addressed a simple request to a web service being met with a malicious response, an attack during the connection. Before this project, I was not properly aware of the inner workings of each step when attempting a connection to a website. There are steps within steps! Focusing on the SYN response chain, I was able to compare what happened and what was supposed to occur."
+          ],
+          "pdf": "https://drive.google.com/file/d/1WF_sGDmB6HQBAnFeVOuOmyFMtEH01W4h/view?usp=sharing",
+          "images": [
+            "/image/projects/002 Incident Reports/TB02_SYN Attack/Images/Incident Report_SYN Attack_Taylor Bryant_Mockup.png",
+            "/image/projects/002 Incident Reports/TB02_SYN Attack/Images/Incident Report_SYN Attack_Taylor Bryant_PNG.png"
+          ]
         },
         {
-          "title": "Incident Report 3",
-          "desc": ["Placeholder description for Incident Report 3."],
-          "pdf": "/pdfs/incident-report-3.pdf",
-          "images": ["/image/projects/incident-reports/ir3-1.png"]
+          "title": "03 OS Hardening",
+          "desc": [
+            "Navigating how to properly instruct others on how to protect their systems better opened my eyes to how to relay important information better. I altered my language to be more specific and possibly stand out to the person reading the report. Understanding the importance of having several layers of security was vital in recognizing holes on an attack surface."
+          ],
+          "pdf": "https://drive.google.com/file/d/1NkKFQrHm0JEIe2smh_jvfTSo6MBm_kty/view?usp=sharing",
+          "images": [
+            "/image/projects/002 Incident Reports/TB03_OS Hardening/Images/Incident Report_OS Hardening_Taylor Bryant_Mockup.png",
+            "/image/projects/002 Incident Reports/TB03_OS Hardening/Images/Incident Report_OS Hardening_Taylor Bryant_PNG.png"
+          ]
         },
         {
-          "title": "Incident Report 4",
-          "desc": ["Placeholder description for Incident Report 4."],
-          "pdf": "/pdfs/incident-report-4.pdf",
-          "images": ["/image/projects/incident-reports/ir4-1.png"]
+          "title": "04 Network Hardening",
+          "desc": [
+            "As a short report, I tried to address each primary concern with a detailed response that would still be easy for the reader to digest. I’m still trying to improve the wording of what I observe during an incident by being more descriptive. Expanding the dialogue I used to describe the actions, thoughts, and recommendations utilized by the team in order to properly assess the incident were part of some of my observations."
+          ],
+          "pdf": "https://drive.google.com/file/d/1GKes5R5825pVmzosnEPeJyPx7yp9tL68/view?usp=sharing",
+          "images": [
+            "/image/projects/002 Incident Reports/TB04_Network Hardening/Images/Incident Report_Network Hardening_Taylor Bryant_Mockup.png",
+            "/image/projects/002 Incident Reports/TB04_Network Hardening/Images/Incident Report_Network Hardening_Taylor Bryant_PNG.png"
+          ]
         },
         {
-          "title": "Incident Report 5",
-          "desc": ["Placeholder description for Incident Report 5."],
-          "pdf": "/pdfs/incident-report-5.pdf",
-          "images": ["/image/projects/incident-reports/ir5-1.png"]
+          "title": "05 ICMP Flood",
+          "desc": [
+            "Although it is important to visualize the possible attacks that can happen on an attack surface, learning how to report the response to attacks is vital as well. This scenario featured a DDoS attack, specifically an ICMP flood during an attempted connection to a website, that required proper escalation before and after the incident. At the bottom of the report, several changes were thoughtfully documented to address the main concerns of hardening."
+          ],
+          "pdf": "https://drive.google.com/file/d/14zhY11CvpNF93pbh9kcTl51gXBZzYW7O/view?usp=sharing",
+          "images": [
+            "/image/projects/002 Incident Reports/TB05_ICMP Attack/Images/Incident Report_ICMP Attack_Taylor Bryant_Mockup.png",
+            "/image/projects/002 Incident Reports/TB05_ICMP Attack/Images/Incident Report_ICMP Attack_Taylor Bryant_PNG.png"
+          ]
         }
       ]
     }
