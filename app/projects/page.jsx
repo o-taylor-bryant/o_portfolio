@@ -264,7 +264,7 @@ export default function Page() {
             {/* Directory Path */}
             <div className="mb-4 font-mono text-sm text-black/70 border-b border-black/10 pb-2">
               <span className="text-black/40">current_directory: </span>
-              ~/projects/portfolio/
+              /projects/portfolio/
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -346,8 +346,7 @@ export default function Page() {
             className="bg-neutral-100 px-4 py-2 border-t border-black/10"
           >
             <p className="text-center text-black/40 text-xs font-mono">
-              © 2024 Taylor Terminal • Interactive Portfolio Interface • Click
-              any project to explore
+              © 2025 Taylor Terminal • Your interactive way to view my work.
             </p>
           </motion.div>
         </motion.div>

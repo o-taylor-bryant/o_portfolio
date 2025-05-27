@@ -5,9 +5,9 @@
       "title": "Project 001 : Audit",
       "slug": "audit-no-001",
       "desc": [
-        "Learning the auditing process a cybersecurity professional is usually tasked with was a very interesting experience. I actually started this project in 2024 independently and didn’t really have any direction. It was one of those cases where I did the assignment and just moved on. I decided to enhance my studies and revisit the project to understand the process better.",
-        "I wanted to create an audit that reflected current security standards and my professional brand as well. Using Affinity, I created an audit template with a structured design in mind. Separating each step in addressing the company’s audit categories, I was able to display a clear process of my observations.",
-        "I experienced an improvement in how I represent other people through my words. Throughout the entire project, I kept in mind, “How can I make this easier to understand for someone who isn’t knowledgeable on this topic? How did I learn this process?”. I understood that multiple people would read this type of document, and everyone would have to identify the same exact problems and solutions."
+        "Learning the auditing process a cybersecurity professional is usually tasked with was a very interesting experience. I actually started this project in 2024 independently and didn't really have any direction. It was one of those cases where I did the assignment and just moved on. I decided to enhance my studies and revisit the project to understand the process better.",
+        "I wanted to create an audit that reflected current security standards and my professional brand as well. Using Affinity, I created an audit template with a structured design in mind. Separating each step in addressing the company's audit categories, I was able to display a clear process of my observations.",
+        "I experienced an improvement in how I represent other people through my words. Throughout the entire project, I kept in mind, \"How can I make this easier to understand for someone who isn't knowledgeable on this topic? How did I learn this process?\" I understood that multiple people would read this type of document, and everyone would have to identify the same exact problems and solutions."
       ],
       "pdf": "https://drive.google.com/file/d/1k49Qtl3O8pXP7eicWljQvAIPurRcV-56/view?usp=sharing",
       "images": [
@@ -61,12 +61,12 @@
         {
           "title": "04 Network Hardening",
           "desc": [
-            "As a short report, I tried to address each primary concern with a detailed response that would still be easy for the reader to digest. I’m still trying to improve the wording of what I observe during an incident by being more descriptive. Expanding the dialogue I used to describe the actions, thoughts, and recommendations utilized by the team in order to properly assess the incident were part of some of my observations."
+            "As a short report, I tried to address each primary concern with a detailed response that would still be easy for the reader to digest. I'm still trying to improve the wording of what I observe during an incident by being more descriptive. Expanding the dialogue I used to describe the actions, thoughts, and recommendations utilized by the team in order to properly assess the incident were part of some of my observations."
           ],
           "pdf": "https://drive.google.com/file/d/1GKes5R5825pVmzosnEPeJyPx7yp9tL68/view?usp=sharing",
           "images": [
-            "/image/projects/002 Incident Reports/TB04_Network Hardening/Images/Incident Report_Network Hardening_Taylor Bryant_Mockup.png",
-            "/image/projects/002 Incident Reports/TB04_Network Hardening/Images/Incident Report_Network Hardening_Taylor Bryant_PNG.png"
+            "/image/projects/002 Incident Reports/TB04_Network Hardening/Images/Incident Report_Network Hardening_Taylor Bryant Mockup.png",
+            "/image/projects/002 Incident Reports/TB04_Network Hardening/Images/Incident Report_Network Hardening_Taylor Bryant PNG.png"
           ]
         },
         {
@@ -76,8 +76,8 @@
           ],
           "pdf": "https://drive.google.com/file/d/14zhY11CvpNF93pbh9kcTl51gXBZzYW7O/view?usp=sharing",
           "images": [
-            "/image/projects/002 Incident Reports/TB05_ICMP Attack/Images/Incident Report_ICMP Attack_Taylor Bryant_Mockup.png",
-            "/image/projects/002 Incident Reports/TB05_ICMP Attack/Images/Incident Report_ICMP Attack_Taylor Bryant_PNG.png"
+            "/image/projects/002 Incident Reports/TB05_ICMP Attack/Images/Incident Report_ICMP Attack_Taylor Bryant Mockup.png",
+            "/image/projects/002 Incident Reports/TB05_ICMP Attack/Images/Incident Report_ICMP Attack_Taylor Bryant PNG.png"
           ]
         }
       ]
