@@ -16,19 +16,41 @@ import Hr from "@/components/Hr";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEnvelope,
+  faCode,
+  faRocket,
+} from "@fortawesome/free-solid-svg-icons";
 
 const MyPage = () => {
   // --- Loading Screen ---
   const [ready, setReady] = useState(false);
   const [blink, setBlink] = useState(true);
+  const [loadingStage, setLoadingStage] = useState(0);
+  const [loadingText, setLoadingText] = useState("");
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const delay = setTimeout(() => setReady(true), 1200);
+    const loadingSequence = [
+      { text: "Initializing portfolio...", delay: 0 },
+      { text: "Loading assets...", delay: 800 },
+      { text: "Preparing animations...", delay: 1600 },
+      { text: "Configuring interface...", delay: 2400 },
+      { text: "Ready", delay: 3200 },
+    ];
+
+    loadingSequence.forEach(({ text, delay }, index) => {
+      setTimeout(() => {
+        setLoadingText(text);
+        setLoadingStage(index + 1);
+      }, delay);
+    });
+
+    const finalDelay = setTimeout(() => setReady(true), 3700);
     const blinkInterval = setInterval(() => setBlink((prev) => !prev), 500);
 
     return () => {
-      clearTimeout(delay);
+      clearTimeout(finalDelay);
       clearInterval(blinkInterval);
     };
   }, []);
@@ -48,56 +70,129 @@ const MyPage = () => {
     return () => cancelAnimationFrame(frame);
   }, []);
 
+  // Add mouse move handler for the about photo effect
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setMousePosition({ x, y });
+  };
+
+  const [idHovered, setIdHovered] = useState(false);
+
   if (!ready) {
-    // --- LOADING SCREEN ---
     return (
-      <div className="fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-white z-[999] px-4">
-        {/* Computer Monitor */}
-        <div className="flex flex-col items-center">
-          <div className="relative bg-black rounded-[2.5rem] w-60 h-60 sm:w-80 sm:h-80 border-[10px] border-black flex items-center justify-center overflow-hidden shadow-2xl">
-            {/* Boot animation overlay */}
+      <div className="fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-[rgb(230,230,230)] z-[999] px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-xl"
+        >
+          {/* Loading Logo */}
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
             <motion.div
-              initial={{ opacity: 1 }}
-              animate={{ opacity: 0 }}
-              transition={{ duration: 0.9, delay: 0.3 }}
-              className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-800 to-black flex flex-col items-center justify-center"
+              className="text-6xl md:text-7xl font-bold mb-2 bg-gradient-to-r from-black via-neutral-600 to-black bg-clip-text text-transparent"
+              animate={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              style={{
+                backgroundSize: "200% 100%",
+              }}
             >
-              <div className="w-full h-full flex flex-col items-center justify-center">
-                <div className="w-10 h-10 rounded-full bg-black animate-pulse mb-4" />
-                <span className="text-white font-mono text-lg animate-pulse">
-                  Booting up...
+              _hi!
+            </motion.div>
+            <div className="text-sm text-black/60">
+              _welcome to my portfolio!
+            </div>
+          </motion.div>
+
+          {/* Loading Container */}
+          <div className="bg-white rounded-xl border border-black/20 p-6 shadow-xl">
+            {/* Loading Message */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <motion.div
+                  animate={{
+                    rotate: 360,
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{
+                    rotate: { duration: 2, repeat: Infinity, ease: "linear" },
+                    scale: { duration: 1, repeat: Infinity },
+                  }}
+                  className="text-black/60"
+                >
+                  <FontAwesomeIcon icon={faRocket} />
+                </motion.div>
+                <span className="font-mono text-sm text-black/70">
+                  {loadingText}
                 </span>
               </div>
-            </motion.div>
-            {/* "Screen" content */}
-            <div className="flex flex-col items-center justify-center w-full h-full">
-              <p className="text-xs text-neutral-400 mb-2 tracking-widest font-mono">
-                taylor_home:
-              </p>
-              <h1 className="text-2xl sm:text-3xl text-white tracking-wider font-mono">
-                opening{blink && <span className="ml-1">_</span>}
-              </h1>
+              <div className="flex space-x-2">
+                <motion.span
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="w-2 h-2 bg-black/60 rounded-full"
+                />
+                <motion.span
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
+                  className="w-2 h-2 bg-black/60 rounded-full"
+                />
+                <motion.span
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.4 }}
+                  className="w-2 h-2 bg-black/60 rounded-full"
+                />
+              </div>
             </div>
-            {/* Scanline effect */}
+
+            {/* Progress Bar */}
+            <div className="h-1 bg-neutral-100 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-black/60"
+                initial={{ width: "0%" }}
+                animate={{ width: `${(loadingStage / 5) * 100}%` }}
+                transition={{ duration: 0.5 }}
+              />
+            </div>
+
+            {/* Loading Stats */}
             <motion.div
-              initial={{ opacity: 0.2 }}
-              animate={{ opacity: 0 }}
-              transition={{ duration: 1.2, delay: 0.5 }}
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "repeating-linear-gradient(180deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 6px)",
-              }}
-            />
+              initial={{ opacity: 0 }}
+              animate={{ opacity: loadingStage > 2 ? 1 : 0 }}
+              className="mt-4 pt-4 border-t border-neutral-100"
+            >
+              <div className="grid grid-cols-3 gap-4 text-center text-xs text-black/60">
+                <div>
+                  <div className="font-medium">Projects</div>
+                  <div className="font-mono">Loaded</div>
+                </div>
+                <div>
+                  <div className="font-medium">Animations</div>
+                  <div className="font-mono">Ready</div>
+                </div>
+                <div>
+                  <div className="font-medium">System</div>
+                  <div className="font-mono">Active</div>
+                </div>
+              </div>
+            </motion.div>
           </div>
-          {/* Stand */}
-          <div className="w-16 h-4 bg-black rounded-b-2xl mt-2" />
-          <div className="w-8 h-2 bg-neutral-700 rounded-b-xl mt-1" />
-        </div>
+        </motion.div>
       </div>
     );
   }
-  // --- End Loading Screen ---
 
   // --- Fullpage.js Options ---
   const fullpageOptions = {
@@ -121,93 +216,37 @@ const MyPage = () => {
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ type: "spring" }}
                 >
-                  <div className="block md:hidden col-span-1 mx-auto my-10">
-                    <div className="relative flex items-center justify-center w-72 h-72">
-                      <svg
-                        width="100%"
-                        height="100%"
-                        viewBox="0 0 288 288"
-                        className="absolute inset-0 z-40 pointer-events-none"
-                      >
-                        {Array.from({ length: 12 }).map((_, i) => {
-                          const angle = (i / 12) * 2 * Math.PI;
-                          const radius = 132;
-                          const cx = 144 + Math.cos(angle) * radius;
-                          const cy = 144 + Math.sin(angle) * radius;
-                          const delay = Math.random() * 2;
-                          const duration = 1.2 + Math.random() * 1.2;
-                          return (
-                            <motion.circle
-                              key={i}
-                              cx={cx}
-                              cy={cy}
-                              r="13"
-                              fill="#111"
-                              initial={{ opacity: 0.2 }}
-                              animate={{ opacity: [0.2, 1, 0.2] }}
-                              transition={{
-                                repeat: Infinity,
-                                duration,
-                                delay,
-                                repeatType: "loop",
-                                ease: "easeInOut",
-                              }}
-                            />
-                          );
-                        })}
-                        {(() => {
-                          const angle = mobileDotAngle;
-                          const rad = (angle * Math.PI) / 180;
-                          const radius = 132;
-                          const cx = 144 + Math.cos(rad) * radius;
-                          const cy = 144 + Math.sin(rad) * radius;
-                          return (
-                            <>
-                              <circle cx={cx} cy={cy} r="15" fill="#fff" />
-                              <g transform={`translate(${cx - 7},${cy - 7})`}>
-                                <path
-                                  d="M7 12s-5-3.33-5-7.14C2 2.5 5.5 2 7 5.09 8.5 2 12 2.5 12 4.86c0 3.81-5 7.14-5 7.14z"
-                                  fill="#888"
-                                />
-                              </g>
-                            </>
-                          );
-                        })()}
-                      </svg>
+                  {/* Mobile Photo */}
+                  <div className="block md:hidden relative w-64 h-64 mb-10">
+                    <motion.div
+                      className="relative w-full h-full rounded-full overflow-hidden border-2 border-black/10"
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.8, type: "spring" }}
+                    >
+                      <Image
+                        src={Me}
+                        layout="fill"
+                        className="object-cover"
+                        alt="Taylor Bryant"
+                        placeholder="blur"
+                      />
                       <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.8, type: "spring" }}
-                        className="relative bg-black rounded-full w-56 h-56 flex items-center justify-center overflow-hidden shadow-xl z-30"
-                      >
-                        <Image
-                          src={Me}
-                          width={224}
-                          height={224}
-                          className="object-cover w-full h-full grayscale rounded-full"
-                          alt="Taylor Bryant"
-                          placeholder="blur"
-                        />
-                        <div
-                          className="absolute inset-0 pointer-events-none rounded-full"
-                          style={{
-                            background:
-                              "repeating-linear-gradient(180deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 2px, transparent 2px, transparent 8px)",
-                          }}
-                        />
-                        <div
-                          className="absolute inset-0 pointer-events-none rounded-full"
-                          style={{
-                            backgroundImage:
-                              "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
-                            backgroundSize: "16px 16px",
-                          }}
-                        />
-                      </motion.div>
-                    </div>
+                        className="absolute inset-0"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5 }}
+                        style={{
+                          background:
+                            "radial-gradient(circle at 50% 50%, transparent 30%, rgba(0,0,0,0.1) 100%)",
+                        }}
+                      />
+                    </motion.div>
                   </div>
+
+                  {/* Text Content */}
                   <motion.h3
-                    className="uppercase text-xl mb-3 font-normal text tracking-[.5rem] text-black"
+                    className="uppercase text-xl mb-3 font-normal tracking-[.5rem] text-black"
                     initial={{ x: -100, opacity: 0 }}
                     whileInView={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.2, type: "spring" }}
@@ -215,7 +254,7 @@ const MyPage = () => {
                     Hi, I&apos;m Taylor Bryant
                   </motion.h3>
                   <motion.h1
-                    className="text-black text-5xl md:text-6xl lg:text-7xl 2xl:text-8xl font-bold my-2 md:my-5"
+                    className="text-black text-4xl md:text-6xl lg:text-7xl 2xl:text-8xl font-bold my-2 md:my-5"
                     initial={{ x: -100, opacity: 0 }}
                     whileInView={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.3, type: "spring" }}
@@ -223,14 +262,16 @@ const MyPage = () => {
                     Junior Tech Professional
                   </motion.h1>
                   <motion.p
-                    className="title text-md 2xl:text-xl mt-4 tracking-wider text-black leading-[1.7rem]"
+                    className="title text-md 2xl:text-xl mt-4 tracking-wider text-black leading-[1.7rem] max-w-2xl"
                     initial={{ x: -100, opacity: 0 }}
                     whileInView={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.4, type: "spring" }}
                   >
                     Navigating IT and Cybersecurity - one cloud at a time!
                   </motion.p>
-                  <div className="flex flex-col md:flex-row justify-center items-center gap-6 mt-10">
+
+                  {/* Buttons and QR */}
+                  <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-6 mt-10 w-full">
                     <div className="flex flex-row space-x-4">
                       <Button variation="primary">
                         <a
@@ -254,13 +295,19 @@ const MyPage = () => {
                     />
                   </div>
                 </motion.div>
+
+                {/* Desktop Photo */}
                 <motion.div
                   className="hidden md:flex col-span-1 mx-auto justify-center items-center -ml-12"
                   initial={{ x: 100, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.7, type: "spring" }}
                 >
-                  <div className="relative flex items-center justify-center w-[26rem] h-[26rem]">
+                  <div
+                    className="relative flex items-center justify-center w-[26rem] h-[26rem]"
+                    onMouseMove={handleMouseMove}
+                  >
+                    {/* Animated dots */}
                     <svg
                       width="100%"
                       height="100%"
@@ -293,30 +340,21 @@ const MyPage = () => {
                           />
                         );
                       })}
-                      {(() => {
-                        const angle = desktopDotAngle;
-                        const rad = (angle * Math.PI) / 180;
-                        const radius = 186;
-                        const cx = 208 + Math.cos(rad) * radius;
-                        const cy = 208 + Math.sin(rad) * radius;
-                        return (
-                          <>
-                            <circle cx={cx} cy={cy} r="18" fill="#fff" />
-                            <g transform={`translate(${cx - 8},${cy - 8})`}>
-                              <path
-                                d="M8 14s-6-4-6-8.5C2 2.5 6 2 8 6c2-4 6-3.5 6 0C14 10 8 14 8 14z"
-                                fill="#888"
-                              />
-                            </g>
-                          </>
-                        );
-                      })()}
                     </svg>
+
+                    {/* Main photo container */}
                     <motion.div
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ duration: 0.8, type: "spring" }}
                       className="relative bg-black rounded-full w-[18rem] h-[18rem] flex items-center justify-center overflow-hidden shadow-2xl z-30"
+                      style={{
+                        transformStyle: "preserve-3d",
+                        transform: `perspective(1000px) rotateY(${
+                          (mousePosition.x - 0.5) * 10
+                        }deg) rotateX(${(mousePosition.y - 0.5) * -10}deg)`,
+                        transition: "transform 0.2s ease-out",
+                      }}
                     >
                       <Image
                         src={Me}
@@ -326,19 +364,26 @@ const MyPage = () => {
                         alt="Taylor Bryant"
                         placeholder="blur"
                       />
-                      <div
-                        className="absolute inset-0 pointer-events-none rounded-full"
+
+                      {/* Overlay effects */}
+                      <motion.div
+                        className="absolute inset-0 pointer-events-none"
                         style={{
-                          background:
-                            "repeating-linear-gradient(180deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 2px, transparent 2px, transparent 8px)",
+                          background: `radial-gradient(circle at ${
+                            mousePosition.x * 100
+                          }% ${
+                            mousePosition.y * 100
+                          }%, transparent 20%, rgba(0,0,0,0.4) 100%)`,
+                          transition: "background 0.2s ease-out",
                         }}
                       />
-                      <div
-                        className="absolute inset-0 pointer-events-none rounded-full"
+                      <motion.div
+                        className="absolute inset-0 pointer-events-none rounded-full opacity-30"
                         style={{
                           backgroundImage:
-                            "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
+                            "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
                           backgroundSize: "16px 16px",
+                          transform: `perspective(1000px) translateZ(20px)`,
                         }}
                       />
                     </motion.div>
@@ -347,57 +392,53 @@ const MyPage = () => {
               </div>
             </div>
             <div className="section">
-              <div className="relative md:h-screen w-screen gap-4 flex justify-center items-center flex-col overflow-hidden">
+              <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
                 {/* About Me Section */}
                 <div className="z-0 mb-32 md:mb-8 md:absolute top-[30%] md:right-[18%] md:-translate-y-0 flex items-center justify-center w-80 h-80 md:w-96 md:h-96">
-                  <div
-                    className="flex items-center justify-center w-full h-full"
-                    style={{
-                      border: "8px solid #111", // Black outline for ID card
-                      borderRadius: "1rem", // Rounded corners for ID card shape
-                      overflow: "hidden",
-                      background: "#fff", // White background for ID card
-                    }}
+                  <motion.div
+                    className="relative w-full h-full"
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
                   >
-                    <Image
-                      src={MeAbout}
-                      alt="About Me ID Card"
-                      width={600}
-                      height={600}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
+                    {/* Main Image Container */}
+                    <div className="relative w-full h-full rounded-2xl overflow-hidden border-[3px] border-black bg-black/20 backdrop-blur-sm">
+                      <Image
+                        src={MeAbout}
+                        layout="fill"
+                        objectFit="cover"
+                        className="grayscale"
+                        alt="Profile"
+                      />
+                      {/* Glass Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px)",
+                          backgroundSize: "20px 20px",
+                        }}
+                      />
+                    </div>
+                    {/* Subtle Glow */}
+                    <motion.div
+                      className="absolute -inset-[2px] rounded-2xl z-0"
+                      animate={{
+                        boxShadow: [
+                          "0 0 0 1px rgba(255,255,255,0.1)",
+                          "0 0 0 2px rgba(255,255,255,0.2)",
+                          "0 0 0 1px rgba(255,255,255,0.1)",
+                        ],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
                       }}
                     />
-                    {/* Number Animation */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <motion.div
-                        className="text-black font-mono text-2xl md:text-4xl"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5, duration: 1 }}
-                      >
-                        {Array.from({ length: 10 }).map((_, i) => (
-                          <motion.span
-                            key={i}
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{
-                              delay: i * 0.1,
-                              repeat: Infinity,
-                              repeatType: "loop",
-                              duration: 1,
-                            }}
-                          >
-                            {Math.floor(Math.random() * 10)}
-                          </motion.span>
-                        ))}
-                      </motion.div>
-                    </div>
-                  </div>
+                  </motion.div>
                 </div>
-                <div className="z-10 w-full absolute md:w-auto md:left-[10%] top-[55%] md:top-[30%] col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
+                <div className="z-10 w-full absolute md:w-auto md:left-[10%] top-[60%] md:top-1/3 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 pt-4 backdrop-filter backdrop-blur-sm md:backdrop-blur-none bg-gray-100 bg-opacity-50 md:bg-transparent md:pt-0">
                   <motion.h1
                     className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold"
                     initial={{ x: -100, opacity: 0 }}
@@ -429,61 +470,48 @@ const MyPage = () => {
             </div>
             <div className="section">
               <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
-                {/* Projects Section */}
+                {/* Projects Section - Updated Workspace1 Image */}
                 <div className="z-0 mb-32 md:mb-8 md:absolute top-[30%] md:right-[18%] md:-translate-y-0 flex items-center justify-center w-80 h-80 md:w-96 md:h-96">
-                  <div
-                    className="flex items-center justify-center w-full h-full"
-                    style={{
-                      border: "8px solid #111", // Black outline for photo
-                      borderRadius: "1rem", // Rounded corners to match ID card
-                      overflow: "hidden",
-                      background: "#fff", // White background for consistency
-                    }}
+                  <motion.div
+                    className="relative w-full h-full rounded-2xl overflow-hidden"
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
                   >
-                    <Image
-                      src={Workspace1}
-                      alt="Workspace 1"
-                      width={600}
-                      height={600}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
+                    <div className="relative w-full h-full rounded-2xl overflow-hidden border-[3px] border-black bg-black/20 backdrop-blur-sm">
+                      <Image
+                        src={Workspace1}
+                        alt="Workspace 1"
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                      {/* Glass Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px)",
+                          backgroundSize: "20px 20px",
+                        }}
+                      />
+                    </div>
+                    {/* Subtle Glow */}
+                    <motion.div
+                      className="absolute -inset-[2px] rounded-2xl z-0"
+                      animate={{
+                        boxShadow: [
+                          "0 0 0 1px rgba(255,255,255,0.1)",
+                          "0 0 0 2px rgba(255,255,255,0.2)",
+                          "0 0 0 1px rgba(255,255,255,0.1)",
+                        ],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
                       }}
                     />
-                    {/* Bigger Tail-Chasing Animation */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <svg
-                        width="150%"
-                        height="150%"
-                        viewBox="0 0 150 150"
-                        className="absolute w-40 h-40 md:w-60 md:h-60"
-                      >
-                        {Array.from({ length: 8 }).map((_, i) => {
-                          const angle = (i / 8) * 2 * Math.PI;
-                          const cx = 75 + Math.cos(angle) * 50;
-                          const cy = 75 + Math.sin(angle) * 50;
-                          return (
-                            <motion.circle
-                              key={i}
-                              cx={cx}
-                              cy={cy}
-                              r="5"
-                              fill="#111"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: [0, 1, 0] }}
-                              transition={{
-                                delay: i * 0.1,
-                                repeat: Infinity,
-                                repeatType: "loop",
-                                duration: 1,
-                              }}
-                            />
-                          );
-                        })}
-                      </svg>
-                    </div>
-                  </div>
+                  </motion.div>
                 </div>
                 <div className="z-10 w-full absolute md:w-auto md:left-[10%] top-[55%] md:top-[30%] col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
                   <motion.h1
@@ -516,16 +544,11 @@ const MyPage = () => {
               </div>
             </div>
             <div className="section">
-              <div className="relative md:h-screen w-screen  gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
-                <div className="z-0 mb-48 md:mb-0  md:absolute top-1/4  md:right-[10%] md:-translate-y-16 ">
+              <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
+                {/* Contact Section - Updated Workspace2 Image */}
+                <div className="z-0 mb-48 md:mb-0 md:absolute top-1/4 md:right-[10%] md:-translate-y-16">
                   <motion.div
-                    className="bg-slate-300 h-[400px] md:h-[600px] w-[80vw] md:w-[30vw] grayscale hover:grayscale-0"
-                    style={{
-                      border: "8px solid black", // Add black border
-                      borderRadius: "1rem", // Round the edges
-                      boxSizing: "border-box", // Ensure border doesn't affect size
-                      transform: "translateX(-10px)", // Scoot it slightly to the left
-                    }}
+                    className="relative bg-black/20 rounded-2xl overflow-hidden h-[400px] md:h-[600px] w-[85vw] md:w-[35vw]"
                     initial={{ x: 300, opacity: 0, z: -100 }}
                     whileInView={{ x: 0, opacity: 1, z: 0 }}
                     transition={{
@@ -535,16 +558,43 @@ const MyPage = () => {
                       damping: 20,
                     }}
                   >
-                    <Image
-                      src={Workspace2}
-                      layout="fill"
-                      className="object-cover"
-                      alt="Workspace 2"
-                      placeholder="blur"
+                    <div className="relative h-full w-full rounded-2xl overflow-hidden border-[3px] border-black backdrop-blur-sm">
+                      <Image
+                        src={Workspace2}
+                        layout="fill"
+                        className="object-cover"
+                        alt="My Workspace"
+                        placeholder="blur"
+                      />
+                      {/* Glass Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px)",
+                          backgroundSize: "20px 20px",
+                        }}
+                      />
+                    </div>
+                    {/* Subtle Glow */}
+                    <motion.div
+                      className="absolute -inset-[2px] rounded-2xl z-0"
+                      animate={{
+                        boxShadow: [
+                          "0 0 0 1px rgba(255,255,255,0.1)",
+                          "0 0 0 2px rgba(255,255,255,0.2)",
+                          "0 0 0 1px rgba(255,255,255,0.1)",
+                        ],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                      }}
                     />
                   </motion.div>
                 </div>
-                <div className="z-10 w-full absolute md:w-auto  md:left-[10%] top-[60%] md:top-1/3 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 overflow-hidden">
+                <div className="z-10 w-full absolute md:w-auto md:left-[10%] top-[60%] md:top-1/3 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 overflow-hidden">
                   <Hr />
                   <motion.p
                     className="title text-xl mt-4 tracking-wider text-black leading-[1.7rem] mb-5"

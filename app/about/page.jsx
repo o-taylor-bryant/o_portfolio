@@ -20,12 +20,29 @@ import About from "./components/about/about.jsx";
 export default function Page() {
   const [ready, setReady] = useState(false);
   const [blink, setBlink] = useState(true);
+  const [loadingStage, setLoadingStage] = useState(0);
+  const [loadingText, setLoadingText] = useState("");
 
   useEffect(() => {
-    const delay = setTimeout(() => setReady(true), 1200);
+    const loadingSequence = [
+      { text: "accessing files...", delay: 0 },
+      { text: "loading about section...", delay: 800 },
+      { text: "preparing content...", delay: 1600 },
+      { text: "ready", delay: 2400 },
+    ];
+
+    loadingSequence.forEach(({ text, delay }, index) => {
+      setTimeout(() => {
+        setLoadingText(text);
+        setLoadingStage(index + 1);
+      }, delay);
+    });
+
+    const finalDelay = setTimeout(() => setReady(true), 2900);
     const blinkInterval = setInterval(() => setBlink((prev) => !prev), 500);
+
     return () => {
-      clearTimeout(delay);
+      clearTimeout(finalDelay);
       clearInterval(blinkInterval);
     };
   }, []);
@@ -37,22 +54,113 @@ export default function Page() {
   if (!ready) {
     return (
       <div className="fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-[rgb(230,230,230)] z-[999] px-4">
-        <div className="w-full max-w-md rounded-md border border-neutral-800 bg-black p-6 shadow-lg font-mono text-center">
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex space-x-2">
-              <span className="w-3 h-3 bg-white rounded-full"></span>
-              <span className="w-3 h-3 bg-white rounded-full"></span>
-              <span className="w-3 h-3 bg-white rounded-full"></span>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-xl"
+        >
+          {/* Loading Logo */}
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <motion.div
+              className="text-6xl md:text-7xl font-bold mb-2 bg-gradient-to-r from-black via-neutral-600 to-black bg-clip-text text-transparent"
+              animate={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              style={{
+                backgroundSize: "200% 100%",
+              }}
+            >
+              _hi!
+            </motion.div>
+            <div className="text-sm text-black/60">
+              _welcome to my about page!
             </div>
-            <span className="text-xs text-neutral-400">about-folder</span>
+          </motion.div>
+
+          {/* Loading Container */}
+          <div className="bg-white rounded-xl border border-black/20 p-6 shadow-xl">
+            {/* Loading Message */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <motion.div
+                  animate={{
+                    rotate: 360,
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{
+                    rotate: { duration: 2, repeat: Infinity, ease: "linear" },
+                    scale: { duration: 1, repeat: Infinity },
+                  }}
+                  className="text-black/60"
+                >
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                </motion.div>
+                <span className="font-mono text-sm text-black/70">
+                  {loadingText}
+                </span>
+              </div>
+              <div className="flex space-x-2">
+                <motion.span
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="w-2 h-2 bg-black/60 rounded-full"
+                />
+                <motion.span
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
+                  className="w-2 h-2 bg-black/60 rounded-full"
+                />
+                <motion.span
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.4 }}
+                  className="w-2 h-2 bg-black/60 rounded-full"
+                />
+              </div>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="h-1 bg-neutral-100 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-black/60"
+                initial={{ width: "0%" }}
+                animate={{ width: `${(loadingStage / 4) * 100}%` }}
+                transition={{ duration: 0.5 }}
+              />
+            </div>
+
+            {/* Loading Stats */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: loadingStage > 2 ? 1 : 0 }}
+              className="mt-4 pt-4 border-t border-neutral-100"
+            >
+              <div className="grid grid-cols-3 gap-4 text-center text-xs text-black/60">
+                <div>
+                  <div className="font-medium">Content</div>
+                  <div className="font-mono">Ready</div>
+                </div>
+                <div>
+                  <div className="font-medium">Images</div>
+                  <div className="font-mono">Loaded</div>
+                </div>
+                <div>
+                  <div className="font-medium">Status</div>
+                  <div className="font-mono">Active</div>
+                </div>
+              </div>
+            </motion.div>
           </div>
-          <p className="text-sm sm:text-base text-neutral-400 mb-2 tracking-widest">
-            taylor_about:
-          </p>
-          <h1 className="text-3xl sm:text-4xl text-white tracking-wider">
-            opening{blink && <span className="ml-1">_</span>}
-          </h1>
-        </div>
+        </motion.div>
       </div>
     );
   }
