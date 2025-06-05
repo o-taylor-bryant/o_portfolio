@@ -9,8 +9,7 @@ import ClientTopProgressBar from "@/components/ClientTopProgressBar";
 
 export const metadata = {
   title: "Taylor Bryant | Portfolio",
-  description:
-    "Portfolio of Taylor Bryant, a junior tech professional with experience in cybersecurity, incident response, and network security. View my projects and experience.",
+  description: "Portfolio of Taylor Bryant, a junior tech professional.",
   metadataBase: new URL("https://otaylorbryant.vercel.app/"),
   keywords:
     "junior tech professional, cybersecurity, incident response, network security, system hardening, Taylor Bryant, portfolio",
@@ -24,18 +23,17 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "/me2.png",
+        url: "/Portfolio Image.png",
         width: 1200,
         height: 1200,
-        alt: "Taylor Bryant - Junior Tech Professional Portfolio Logo",
+        alt: "Welcome to Taylor Bryant's Portfolio!",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Taylor Bryant | Portfolio",
-    description:
-      "Portfolio of Taylor Bryant, a junior tech professional with experience in cybersecurity, incident response, and network security.",
+    description: "Portfolio of Taylor Bryant, a junior tech professional.",
     images: ["/me2.png"],
   },
   robots: {
