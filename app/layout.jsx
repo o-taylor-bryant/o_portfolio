@@ -15,8 +15,7 @@ export const metadata = {
     "junior tech professional, cybersecurity, incident response, network security, system hardening, Taylor Bryant, portfolio",
   openGraph: {
     title: "Taylor Bryant | Portfolio",
-    description:
-      "Portfolio of Taylor Bryant, a junior tech professional with experience in cybersecurity, incident response, and network security.",
+    description: "Portfolio of Taylor Bryant, a junior tech professional.",
     url: "https://otaylorbryant.vercel.app/",
     siteName: "Taylor Bryant Portfolio",
     locale: "en_US",
