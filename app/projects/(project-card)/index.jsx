@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 /* [PROJECT FILE PREVIEW CARD] */
 export default function ProjectFilePreview({ project }) {
@@ -15,9 +16,11 @@ export default function ProjectFilePreview({ project }) {
 
         {/* [ICON] */}
         {project.icon ? (
-          <img
+          <Image
             src={project.icon}
             alt="file icon"
+            width={16}
+            height={16}
             className="absolute top-2 right-3 w-4 h-4 opacity-70 animate-icon-blink"
           />
         ) : (
@@ -35,9 +38,11 @@ export default function ProjectFilePreview({ project }) {
         <div className="flex flex-col items-center py-5">
           <span className="w-2.5 h-2.5 bg-black rounded-full animate-blink mb-3 shadow-sm"></span>
           {project.thumbnail && (
-            <img
+            <Image
               src={project.thumbnail}
               alt={project.title}
+              width={64}
+              height={64}
               className="w-16 h-16 object-cover rounded-xl border border-neutral-300 shadow group-hover:rotate-[1.5deg] transition-all duration-300"
             />
           )}

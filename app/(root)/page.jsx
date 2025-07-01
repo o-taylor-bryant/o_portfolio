@@ -215,28 +215,26 @@ const MyPage = () => {
                   transition={{ type: "spring" }}
                 >
                   {/* Mobile Photo */}
-                  <div className="block md:hidden relative w-80 mx-auto mb-10">
+                  <div className="block md:hidden relative w-72 h-72 mx-auto mb-10">
                     <motion.div
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ duration: 0.8, type: "spring" }}
-                      className="relative bg-white rounded-xl border-2 border-gray-300 shadow-lg overflow-hidden"
-                      style={{ height: "300px" }}
+                      className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 flex flex-col"
                     >
                       {/* Terminal Header */}
-                      <div className="bg-gray-100 border-b border-gray-300 px-3 py-2 flex items-center justify-between">
+                      <div className="bg-gray-100 border-b border-black px-3 py-2 flex items-center justify-between">
                         <div className="flex items-center space-x-1">
-                          <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-                          <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-                          <div className="w-2 h-2 rounded-full bg-gray-400"></div>
+                          <div className="w-2 h-2 rounded-full bg-black"></div>
+                          <div className="w-2 h-2 rounded-full bg-black"></div>
+                          <div className="w-2 h-2 rounded-full bg-black"></div>
                         </div>
                         <div className="text-xs font-mono text-gray-600">
                           taylor@portfolio:~
                         </div>
                       </div>
-
                       {/* Terminal Content Area */}
-                      <div className="bg-white text-gray-700 p-3 h-full flex flex-col">
+                      <div className="bg-white text-gray-700 p-3 flex-1 flex flex-col justify-center">
                         {/* Terminal Text - Simplified for mobile */}
                         <div className="font-mono text-xs mb-2">
                           <div className="mb-1 text-gray-500">
@@ -251,18 +249,17 @@ const MyPage = () => {
                             />
                           </div>
                         </div>
-
                         {/* Profile Image in Terminal - Mobile */}
                         <div className="flex-1 flex items-center justify-center">
                           <motion.div
-                            className="relative w-32 h-32 rounded-lg overflow-hidden border border-gray-300"
+                            className="relative w-24 h-24 rounded-lg overflow-hidden border border-black"
                             whileHover={{ scale: 1.02 }}
                             transition={{ type: "spring", stiffness: 300 }}
                           >
                             <Image
                               src={Me}
-                              width={128}
-                              height={128}
+                              width={96}
+                              height={96}
                               className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
                               alt="Taylor Bryant"
                               placeholder="blur"
@@ -320,9 +317,11 @@ const MyPage = () => {
                         <a href="#contact">Ping Me</a>
                       </Button>
                     </div>
-                    <img
+                    <Image
                       src="/image/qr_resume.png"
                       alt="Resume QR Code"
+                      width={112}
+                      height={112}
                       className="w-24 h-24 md:w-28 md:h-28 border border-neutral-300 rounded bg-white"
                       style={{ imageRendering: "crisp-edges" }}
                     />
@@ -342,23 +341,21 @@ const MyPage = () => {
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ duration: 0.8, type: "spring" }}
-                      className="relative bg-white rounded-xl border-2 border-gray-300 shadow-lg overflow-hidden"
-                      style={{ width: "400px", height: "500px" }}
+                      className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-80 h-80 flex flex-col"
                     >
                       {/* Terminal Header */}
-                      <div className="bg-gray-100 border-b border-gray-300 px-6 py-3 flex items-center justify-between">
+                      <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
                         <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 rounded-full bg-gray-400"></div>
-                          <div className="w-3 h-3 rounded-full bg-gray-400"></div>
-                          <div className="w-3 h-3 rounded-full bg-gray-400"></div>
+                          <div className="w-3 h-3 rounded-full bg-black"></div>
+                          <div className="w-3 h-3 rounded-full bg-black"></div>
+                          <div className="w-3 h-3 rounded-full bg-black"></div>
                         </div>
                         <div className="text-sm font-mono text-gray-600">
                           taylor@portfolio:~
                         </div>
                       </div>
-
                       {/* Terminal Content Area */}
-                      <div className="bg-white text-gray-700 p-6 h-full flex flex-col">
+                      <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
                         {/* Terminal Text - Simplified */}
                         <div className="font-mono text-base mb-6">
                           <div className="mb-3 text-gray-500">
@@ -373,18 +370,17 @@ const MyPage = () => {
                             />
                           </div>
                         </div>
-
                         {/* Profile Image in Terminal - Moved up */}
                         <div className="flex-1 flex items-center justify-center -mt-2">
                           <motion.div
-                            className="relative w-64 h-64 rounded-lg overflow-hidden border border-gray-300"
+                            className="relative w-40 h-40 rounded-lg overflow-hidden border border-black"
                             whileHover={{ scale: 1.02 }}
                             transition={{ type: "spring", stiffness: 300 }}
                           >
                             <Image
                               src={Me}
-                              width={256}
-                              height={256}
+                              width={160}
+                              height={160}
                               className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
                               alt="Taylor Bryant"
                               placeholder="blur"
@@ -404,28 +400,27 @@ const MyPage = () => {
             <div className="section">
               <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
                 {/* About Me Section - Terminal Style */}
-                <div className="z-0 mb-32 md:mb-8 md:absolute md:right-[18%] md:top-1/2 md:-translate-y-1/2 flex items-center justify-center w-80 h-80 md:w-auto md:h-auto">
+                {/* Mobile Layout - Stacked */}
+                <div className="block md:hidden w-full flex flex-col items-center space-y-8">
                   <motion.div
-                    className="relative bg-white rounded-xl border-2 border-gray-300 shadow-lg overflow-hidden"
+                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 flex flex-col"
                     initial={{ scale: 0.95, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
-                    style={{ width: "400px", height: "500px" }}
                   >
                     {/* Terminal Header */}
-                    <div className="bg-gray-100 border-b border-gray-300 px-6 py-3 flex items-center justify-between">
+                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-gray-400"></div>
-                        <div className="w-3 h-3 rounded-full bg-gray-400"></div>
-                        <div className="w-3 h-3 rounded-full bg-gray-400"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
                       </div>
                       <div className="text-sm font-mono text-gray-600">
                         taylor@portfolio:~
                       </div>
                     </div>
-
                     {/* Terminal Content Area */}
-                    <div className="bg-white text-gray-700 p-6 h-full flex flex-col">
+                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
                       {/* Terminal Text */}
                       <div className="font-mono text-base mb-6">
                         <div className="mb-3 text-gray-500">$ ./load_about</div>
@@ -438,18 +433,110 @@ const MyPage = () => {
                           />
                         </div>
                       </div>
-
                       {/* About Image in Terminal */}
                       <div className="flex-1 flex items-center justify-center -mt-2">
                         <motion.div
-                          className="relative w-64 h-64 rounded-lg overflow-hidden border border-gray-300"
+                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
                           whileHover={{ scale: 1.02 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
                           <Image
                             src={MeAbout}
-                            width={256}
-                            height={256}
+                            width={128}
+                            height={128}
+                            className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
+                            alt="About Me"
+                            placeholder="blur"
+                          />
+                          {/* Subtle Scan Lines Effect */}
+                          <div className="absolute inset-0 opacity-5">
+                            <div className="h-full bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
+                          </div>
+                        </motion.div>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Mobile Text Content */}
+                  <motion.div
+                    className="w-full flex flex-col justify-center items-center text-center px-4"
+                    initial={{ y: 40, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, type: "spring" }}
+                  >
+                    <motion.h1
+                      className="text-black text-4xl font-bold mb-4"
+                      initial={{ x: -100, opacity: 0 }}
+                      whileInView={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.1, type: "spring" }}
+                    >
+                      About Me
+                    </motion.h1>
+                    <Hr />
+                    <motion.p
+                      className="title text-lg mt-4 tracking-wider text-black leading-relaxed mb-6 max-w-md"
+                      initial={{ x: -100, opacity: 0 }}
+                      whileInView={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.2, type: "spring" }}
+                    >
+                      A look into my personal processing file!
+                    </motion.p>
+                    <motion.div
+                      initial={{ y: 40, opacity: 0 }}
+                      whileInView={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.3, type: "spring" }}
+                    >
+                      <Button variation="primary">
+                        <Link href="/about">View</Link>
+                      </Button>
+                    </motion.div>
+                  </motion.div>
+                </div>
+
+                {/* Desktop Layout - Original overlapping design */}
+                <div className="hidden md:block z-0 mb-32 md:mb-8 md:absolute md:right-[18%] md:top-1/2 md:-translate-y-1/2 flex items-center justify-center w-72 h-72 md:w-80 md:h-80">
+                  <motion.div
+                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 md:w-80 md:h-80 flex flex-col"
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
+                  >
+                    {/* Terminal Header */}
+                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                      </div>
+                      <div className="text-sm font-mono text-gray-600">
+                        taylor@portfolio:~
+                      </div>
+                    </div>
+                    {/* Terminal Content Area */}
+                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
+                      {/* Terminal Text */}
+                      <div className="font-mono text-base mb-6">
+                        <div className="mb-3 text-gray-500">$ ./load_about</div>
+                        <div className="text-gray-600 flex items-center">
+                          Loading about section...
+                          <motion.div
+                            className="w-2 h-5 bg-gray-400 ml-1"
+                            animate={{ opacity: [1, 0, 1] }}
+                            transition={{ duration: 1, repeat: Infinity }}
+                          />
+                        </div>
+                      </div>
+                      {/* About Image in Terminal */}
+                      <div className="flex-1 flex items-center justify-center -mt-2">
+                        <motion.div
+                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
+                          whileHover={{ scale: 1.02 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <Image
+                            src={MeAbout}
+                            width={128}
+                            height={128}
                             className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
                             alt="About Me"
                             placeholder="blur"
@@ -464,7 +551,7 @@ const MyPage = () => {
                   </motion.div>
                 </div>
 
-                <div className="z-10 w-full absolute md:w-auto md:left-[10%] md:top-1/2 md:-translate-y-1/2 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 pt-4 backdrop-filter backdrop-blur-sm md:backdrop-blur-none bg-gray-100 bg-opacity-50 md:bg-transparent md:pt-0">
+                <div className="hidden md:block z-10 w-full absolute md:w-auto md:left-[10%] md:top-1/2 md:-translate-y-1/2 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 pt-4 backdrop-filter backdrop-blur-sm md:backdrop-blur-none bg-gray-100 bg-opacity-50 md:bg-transparent md:pt-0">
                   <motion.h1
                     className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold"
                     initial={{ x: -100, opacity: 0 }}
@@ -497,28 +584,27 @@ const MyPage = () => {
             <div className="section">
               <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
                 {/* Projects Section - Terminal Style */}
-                <div className="z-0 mb-32 md:mb-8 md:absolute md:right-[18%] md:top-1/2 md:-translate-y-1/2 flex items-center justify-center w-80 h-80 md:w-auto md:h-auto">
+                {/* Mobile Layout - Stacked */}
+                <div className="block md:hidden w-full flex flex-col items-center space-y-8">
                   <motion.div
-                    className="relative bg-white rounded-xl border-2 border-gray-300 shadow-lg overflow-hidden"
+                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 flex flex-col"
                     initial={{ scale: 0.95, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
-                    style={{ width: "400px", height: "500px" }}
                   >
                     {/* Terminal Header */}
-                    <div className="bg-gray-100 border-b border-gray-300 px-6 py-3 flex items-center justify-between">
+                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-gray-400"></div>
-                        <div className="w-3 h-3 rounded-full bg-gray-400"></div>
-                        <div className="w-3 h-3 rounded-full bg-gray-400"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
                       </div>
                       <div className="text-sm font-mono text-gray-600">
                         taylor@portfolio:~
                       </div>
                     </div>
-
                     {/* Terminal Content Area */}
-                    <div className="bg-white text-gray-700 p-6 h-full flex flex-col">
+                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
                       {/* Terminal Text */}
                       <div className="font-mono text-base mb-6">
                         <div className="mb-3 text-gray-500">
@@ -533,18 +619,112 @@ const MyPage = () => {
                           />
                         </div>
                       </div>
-
                       {/* Projects Image in Terminal */}
                       <div className="flex-1 flex items-center justify-center -mt-2">
                         <motion.div
-                          className="relative w-64 h-64 rounded-lg overflow-hidden border border-gray-300"
+                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
                           whileHover={{ scale: 1.02 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
                           <Image
                             src={Workspace1}
-                            width={256}
-                            height={256}
+                            width={128}
+                            height={128}
+                            className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
+                            alt="Projects"
+                            placeholder="blur"
+                          />
+                          {/* Subtle Scan Lines Effect */}
+                          <div className="absolute inset-0 opacity-5">
+                            <div className="h-full bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
+                          </div>
+                        </motion.div>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Mobile Text Content */}
+                  <motion.div
+                    className="w-full flex flex-col justify-center items-center text-center px-4"
+                    initial={{ y: 40, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, type: "spring" }}
+                  >
+                    <motion.h1
+                      className="text-black text-4xl font-bold mb-4"
+                      initial={{ x: -100, opacity: 0 }}
+                      whileInView={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.1, type: "spring" }}
+                    >
+                      Projects
+                    </motion.h1>
+                    <Hr />
+                    <motion.p
+                      className="title text-lg mt-4 tracking-wider text-black leading-relaxed mb-6 max-w-md"
+                      initial={{ x: -100, opacity: 0 }}
+                      whileInView={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.2, type: "spring" }}
+                    >
+                      My little collection of personal commits.
+                    </motion.p>
+                    <motion.div
+                      initial={{ y: 40, opacity: 0 }}
+                      whileInView={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.3, type: "spring" }}
+                    >
+                      <Button variation="primary">
+                        <Link href="/projects">View</Link>
+                      </Button>
+                    </motion.div>
+                  </motion.div>
+                </div>
+
+                {/* Desktop Layout - Original overlapping design */}
+                <div className="hidden md:block z-0 mb-32 md:mb-8 md:absolute md:right-[18%] md:top-1/2 md:-translate-y-1/2 flex items-center justify-center w-72 h-72 md:w-80 md:h-80">
+                  <motion.div
+                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 md:w-80 md:h-80 flex flex-col"
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
+                  >
+                    {/* Terminal Header */}
+                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                      </div>
+                      <div className="text-sm font-mono text-gray-600">
+                        taylor@portfolio:~
+                      </div>
+                    </div>
+                    {/* Terminal Content Area */}
+                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
+                      {/* Terminal Text */}
+                      <div className="font-mono text-base mb-6">
+                        <div className="mb-3 text-gray-500">
+                          $ ./load_projects
+                        </div>
+                        <div className="text-gray-600 flex items-center">
+                          Loading projects section...
+                          <motion.div
+                            className="w-2 h-5 bg-gray-400 ml-1"
+                            animate={{ opacity: [1, 0, 1] }}
+                            transition={{ duration: 1, repeat: Infinity }}
+                          />
+                        </div>
+                      </div>
+                      {/* Projects Image in Terminal */}
+                      <div className="flex-1 flex items-center justify-center -mt-2">
+                        <motion.div
+                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
+                          whileHover={{ scale: 1.02 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <Image
+                            src={Workspace1}
+                            width={128}
+                            height={128}
                             className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
                             alt="Projects"
                             placeholder="blur"
@@ -559,7 +739,7 @@ const MyPage = () => {
                   </motion.div>
                 </div>
 
-                <div className="z-10 w-full absolute md:w-auto md:left-[10%] md:top-1/2 md:-translate-y-1/2 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
+                <div className="hidden md:block z-10 w-full absolute md:w-auto md:left-[10%] md:top-1/2 md:-translate-y-1/2 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
                   <motion.h1
                     className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold"
                     initial={{ x: -100, opacity: 0 }}
@@ -592,9 +772,10 @@ const MyPage = () => {
             <div className="section">
               <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
                 {/* Contact Section - Terminal Style */}
-                <div className="z-0 mb-48 md:mb-0 md:absolute md:right-[18%] md:top-1/2 md:-translate-y-1/2">
+                {/* Mobile Layout - Stacked */}
+                <div className="block md:hidden w-full flex flex-col items-center space-y-8">
                   <motion.div
-                    className="relative bg-white rounded-xl border-2 border-gray-300 shadow-lg overflow-hidden"
+                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 flex flex-col"
                     initial={{ x: 300, opacity: 0, z: -100 }}
                     whileInView={{ x: 0, opacity: 1, z: 0 }}
                     transition={{
@@ -603,22 +784,20 @@ const MyPage = () => {
                       stiffness: 100,
                       damping: 20,
                     }}
-                    style={{ width: "400px", height: "500px" }}
                   >
                     {/* Terminal Header */}
-                    <div className="bg-gray-100 border-b border-gray-300 px-6 py-3 flex items-center justify-between">
+                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-gray-400"></div>
-                        <div className="w-3 h-3 rounded-full bg-gray-400"></div>
-                        <div className="w-3 h-3 rounded-full bg-gray-400"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
                       </div>
                       <div className="text-sm font-mono text-gray-600">
                         taylor@portfolio:~
                       </div>
                     </div>
-
                     {/* Terminal Content Area */}
-                    <div className="bg-white text-gray-700 p-6 h-full flex flex-col">
+                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
                       {/* Terminal Text */}
                       <div className="font-mono text-base mb-6">
                         <div className="mb-3 text-gray-500">
@@ -633,18 +812,159 @@ const MyPage = () => {
                           />
                         </div>
                       </div>
-
                       {/* Contact Image in Terminal */}
                       <div className="flex-1 flex items-center justify-center -mt-2">
                         <motion.div
-                          className="relative w-64 h-64 rounded-lg overflow-hidden border border-gray-300"
+                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
                           whileHover={{ scale: 1.02 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
                           <Image
                             src={Workspace2}
-                            width={512}
-                            height={512}
+                            width={128}
+                            height={128}
+                            className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
+                            alt="Contact"
+                            placeholder="blur"
+                            quality={95}
+                          />
+                          {/* Subtle Scan Lines Effect */}
+                          <div className="absolute inset-0 opacity-5">
+                            <div className="h-full bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
+                          </div>
+                        </motion.div>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Mobile Text Content */}
+                  <motion.div
+                    className="w-full flex flex-col justify-center items-center text-center px-4"
+                    initial={{ y: 40, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, type: "spring" }}
+                  >
+                    <motion.h1
+                      className="text-black text-4xl font-bold mb-4"
+                      initial={{ x: -100, opacity: 0 }}
+                      whileInView={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.1, type: "spring" }}
+                    >
+                      Ping Received
+                    </motion.h1>
+                    <Hr />
+                    <motion.p
+                      className="title text-lg mt-4 tracking-wider text-black leading-relaxed mb-6 max-w-md"
+                      initial={{ x: -100, opacity: 0 }}
+                      whileInView={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.3, type: "spring" }}
+                    >
+                      <a href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hi Taylor,">
+                        o.taylor.bryant@gmail.com
+                      </a>
+                    </motion.p>
+                    <div className="flex justify-center items-center space-x-4">
+                      <motion.a
+                        href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hello Taylor,"
+                        className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
+                        initial={{ y: 40, opacity: 0 }}
+                        whileInView={{ y: 0, opacity: 1 }}
+                        transition={{
+                          y: { delay: 0.1 },
+                          opacity: { delay: 0.2 },
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faEnvelope}
+                          className="text-3xl"
+                        />
+                      </motion.a>
+                      <motion.a
+                        href="https://github.com/o-taylor-bryant"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{
+                          y: { delay: 0.2 },
+                          opacity: { delay: 0.3 },
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faGithub} className="text-3xl" />
+                      </motion.a>
+                      <motion.a
+                        href="https://www.linkedin.com/in/o-taylor-bryant/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{
+                          y: { delay: 0.4 },
+                          opacity: { delay: 0.5 },
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faLinkedin}
+                          className="text-3xl"
+                        />
+                      </motion.a>
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Desktop Layout - Original overlapping design */}
+                <div className="hidden md:block z-0 mb-48 md:mb-0 md:absolute md:right-[18%] md:top-1/2 md:-translate-y-1/2 w-72 h-72 md:w-80 md:h-80 flex items-center justify-center">
+                  <motion.div
+                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 md:w-80 md:h-80 flex flex-col"
+                    initial={{ x: 300, opacity: 0, z: -100 }}
+                    whileInView={{ x: 0, opacity: 1, z: 0 }}
+                    transition={{
+                      delay: 0.5,
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 20,
+                    }}
+                  >
+                    {/* Terminal Header */}
+                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                        <div className="w-3 h-3 rounded-full bg-black"></div>
+                      </div>
+                      <div className="text-sm font-mono text-gray-600">
+                        taylor@portfolio:~
+                      </div>
+                    </div>
+                    {/* Terminal Content Area */}
+                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
+                      {/* Terminal Text */}
+                      <div className="font-mono text-base mb-6">
+                        <div className="mb-3 text-gray-500">
+                          $ ./load_contact
+                        </div>
+                        <div className="text-gray-600 flex items-center">
+                          Loading contact section...
+                          <motion.div
+                            className="w-2 h-5 bg-gray-400 ml-1"
+                            animate={{ opacity: [1, 0, 1] }}
+                            transition={{ duration: 1, repeat: Infinity }}
+                          />
+                        </div>
+                      </div>
+                      {/* Contact Image in Terminal */}
+                      <div className="flex-1 flex items-center justify-center -mt-2">
+                        <motion.div
+                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
+                          whileHover={{ scale: 1.02 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <Image
+                            src={Workspace2}
+                            width={128}
+                            height={128}
                             className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
                             alt="Contact"
                             placeholder="blur"
@@ -660,7 +980,7 @@ const MyPage = () => {
                   </motion.div>
                 </div>
 
-                <div className="z-10 w-full absolute md:w-auto md:left-[10%] md:top-1/2 md:-translate-y-1/2 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 overflow-hidden">
+                <div className="hidden md:block z-10 w-full absolute md:w-auto md:left-[10%] md:top-1/2 md:-translate-y-1/2 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 overflow-hidden">
                   <motion.h1
                     className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold"
                     initial={{ x: -100, opacity: 0 }}

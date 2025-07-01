@@ -20,7 +20,7 @@ export default function ProjectTerminal({ project }) {
   // Show project info by default
   useEffect(() => {
     handleCommand("info");
-  }, []);
+  }, [handleCommand]);
 
   const handleCommand = async (command) => {
     setLoading(true);
