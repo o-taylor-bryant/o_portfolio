@@ -4,7 +4,7 @@ import Tools from "./tools";
 
 function Wrapper({ children }) {
   return (
-    <div className="mx-auto container gap-4 p-10 grid grid-cols-1 mt-10">
+    <div className="mx-auto container gap-4 p-4 sm:p-6 md:p-10 grid grid-cols-1 mt-6 sm:mt-8 md:mt-10">
       <motion.div
         className="flex justify-center items-center flex-col mb-5 "
         initial={{
@@ -30,34 +30,61 @@ export default function Skills() {
   return (
     <>
       <Wrapper>
-        <section className="grid gap-8 md:gap-12">
+        <section className="grid gap-6 sm:gap-8 md:gap-12">
           <div className="text-center space-y-2">
             <h2 className="text-3xl font-bold mt-3 text-black">Skills</h2>
             <p className="text-muted-foreground max-w-[800px] mx-auto text-black">
               My developing toolkit.
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             <div className="flex flex-col items-center gap-2">
-              <PencilIcon className="w-12 h-12 text-black" />
-              <div className="font-medium">Creativity</div>
+              <motion.div
+                className="w-8 h-8 border-2 border-black rounded-md bg-transparent"
+                animate={{
+                  y: [0, -8, 0],
+                  boxShadow: [
+                    "0 2px 8px rgba(0,0,0,0.10)",
+                    "0 8px 24px rgba(0,0,0,0.15)",
+                    "0 2px 8px rgba(0,0,0,0.10)",
+                  ],
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <div className="font-medium text-sm sm:text-base">Leadership</div>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <CatIcon className="w-12 h-12 text-black" />
-              <div className="font-medium">Autonomous</div>
+              <motion.div
+                className="w-8 h-8 border-2 border-black rounded-md bg-transparent"
+                animate={{ rotate: [0, 10, -10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <div className="font-medium text-sm sm:text-base">
+                Independence
+              </div>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <HandshakeIcon className="w-12 h-12 text-black" />
-              <div className="font-medium">Collaborating</div>
+              <motion.div
+                className="w-8 h-8 border-2 border-black rounded-md bg-transparent"
+                animate={{ scale: [1, 1.15, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+              <div className="font-medium text-sm sm:text-base">Support</div>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <MagnifierIcon className="w-12 h-12 text-black" />
-              <div className="font-medium">Problem-Solving</div>
+              <motion.div
+                className="w-8 h-8 border-2 border-black rounded-md bg-transparent"
+                animate={{ x: [0, 8, -8, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <div className="font-medium text-sm sm:text-base">
+                Communication
+              </div>
             </div>
           </div>
         </section>
       </Wrapper>
-      <div className=" mx-auto container gap-4 p-10 grid grid-cols-1 md:grid-cols-2 mt-10 mb-24">
+      <div className="mx-auto container gap-4 p-4 sm:p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 mt-6 sm:mt-8 md:mt-10 mb-16 md:mb-24">
         <Stack />
         <Tools />
       </div>

@@ -172,81 +172,204 @@ export default function Page() {
           <FontAwesomeIcon icon={faChevronLeft} className="text-black pr-10" />
         </FixedButton>
 
-        <div className="relative h-screen gap-4 p-10 flex justify-center items-center flex-col mb-10 overflow-hidden">
-          {/* Animated image, moved up and made bigger */}
-          <div className="z-0 mb-48 md:mb-0 md:absolute top-1/4 md:right-[18%] md:-translate-y-1 flex items-center justify-center w-[350px] h-[350px] md:w-[500px] md:h-[500px]">
-            <svg
-              width="100%"
-              height="100%"
-              viewBox="0 0 500 500"
-              className="absolute inset-0 z-40 pointer-events-none"
-            >
-              {Array.from({ length: 14 }).map((_, i) => {
-                const angle = (i / 14) * 2 * Math.PI;
-                const radius = 220;
-                const cx = 250 + Math.cos(angle) * radius;
-                const cy = 250 + Math.sin(angle) * radius;
-                const delay = Math.random() * 2;
-                const duration = 1.2 + Math.random() * 1.2;
-                return (
-                  <motion.circle
-                    key={i}
-                    cx={cx}
-                    cy={cy}
-                    r="20"
-                    fill="#111"
-                    initial={{ opacity: 0.2 }}
-                    animate={{ opacity: [0.2, 1, 0.2] }}
-                    transition={{
-                      repeat: Infinity,
-                      duration,
-                      delay,
-                      repeatType: "loop",
-                      ease: "easeInOut",
-                    }}
-                  />
-                );
-              })}
-            </svg>
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, type: "spring" }}
-              className="relative bg-black rounded-full w-[320px] h-[320px] md:w-[440px] md:h-[440px] flex items-center justify-center overflow-hidden shadow-2xl z-30"
-            >
-              <Image
-                src={Hero}
-                width={440}
-                height={440}
-                className="object-cover w-full h-full grayscale rounded-full"
-                alt="Taylor Bryant"
-                placeholder="blur"
-              />
-              <div
-                className="absolute inset-0 pointer-events-none rounded-full"
-                style={{
-                  background:
-                    "repeating-linear-gradient(180deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 2px, transparent 2px, transparent 8px)",
-                }}
-              />
-              <div
-                className="absolute inset-0 pointer-events-none rounded-full"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
-                  backgroundSize: "16px 16px",
-                }}
-              />
-            </motion.div>
+        <div className="relative min-h-[480px] h-auto md:h-screen gap-4 p-2 sm:p-4 md:p-10 flex flex-col md:flex-row justify-center items-center mb-10 overflow-hidden">
+          {/* Tech-style block animation, replaces image and dots */}
+          <div className="z-0 mb-8 sm:mb-16 md:mb-0 md:absolute top-1/4 md:right-[18%] md:-translate-y-1 flex items-center justify-center w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] md:w-[440px] md:h-[440px] mx-auto md:mx-0">
+            <div className="relative w-full h-full flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="grid grid-cols-5 grid-rows-5 gap-1 sm:gap-2 w-full h-full">
+                  {Array.from({ length: 25 }).map((_, i) => {
+                    // Indices for techy white designs
+                    const techyIndices = [3, 7, 12, 18, 21];
+                    // Indices for solid white squares
+                    const whiteIndices = [2, 8, 14, 19, 23]; // 17 removed to ensure smiley is on black
+                    // Index for smiley face
+                    const smileyIndex = 17;
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{
+                          opacity: 0.4,
+                          scale: 1,
+                          borderRadius: "0.375rem",
+                        }}
+                        animate={{
+                          opacity: [0.4, 1, 0.4],
+                          scale: [1, 1.12, 1],
+                          borderRadius: ["0.375rem", "50%", "0.375rem"],
+                        }}
+                        transition={{
+                          delay: (i % 5) * 0.25 + Math.floor(i / 5) * 0.35,
+                          duration: 2.5,
+                          repeat: Infinity,
+                          repeatType: "loop",
+                          ease: "easeInOut",
+                        }}
+                        className={`${
+                          whiteIndices.includes(i) ? "bg-white" : "bg-black"
+                        } w-full h-full shadow-md flex items-center justify-center relative`}
+                        style={{ aspectRatio: "1 / 1" }}
+                      >
+                        {i === smileyIndex && (
+                          <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <svg
+                              width="40%"
+                              height="40%"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                            >
+                              {/* Poof balls/buns with black stroke */}
+                              <circle cx="8.2" cy="6.5" r="2" fill="#111" />
+                              <circle cx="15.8" cy="6.5" r="2" fill="#111" />
+                              {/* Smiley face */}
+                              <circle cx="12" cy="12" r="10" fill="white" />
+                              <circle cx="9" cy="10" r="1.2" fill="#111" />
+                              <circle cx="15" cy="10" r="1.2" fill="#111" />
+                              <path
+                                d="M9 15c1.333 1 3.667 1 5 0"
+                                stroke="#111"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                              />
+                            </svg>
+                          </span>
+                        )}
+                        {techyIndices.includes(i) &&
+                          !whiteIndices.includes(i) &&
+                          i !== smileyIndex && (
+                            <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              {/* Example techy SVGs, can be customized per index */}
+                              {i === 3 && (
+                                <svg
+                                  width="40%"
+                                  height="40%"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                >
+                                  <rect
+                                    x="4"
+                                    y="11"
+                                    width="16"
+                                    height="2"
+                                    rx="1"
+                                    fill="white"
+                                  />
+                                  <circle cx="12" cy="12" r="2" fill="white" />
+                                </svg>
+                              )}
+                              {i === 7 && (
+                                <svg
+                                  width="40%"
+                                  height="40%"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                >
+                                  <rect
+                                    x="11"
+                                    y="4"
+                                    width="2"
+                                    height="16"
+                                    rx="1"
+                                    fill="white"
+                                  />
+                                  <circle
+                                    cx="12"
+                                    cy="18"
+                                    r="1.2"
+                                    fill="white"
+                                  />
+                                </svg>
+                              )}
+                              {i === 12 && (
+                                <svg
+                                  width="40%"
+                                  height="40%"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                >
+                                  <rect
+                                    x="6"
+                                    y="6"
+                                    width="12"
+                                    height="12"
+                                    rx="2"
+                                    stroke="white"
+                                    strokeWidth="2"
+                                  />
+                                  <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="1.5"
+                                    fill="white"
+                                  />
+                                </svg>
+                              )}
+                              {i === 18 && (
+                                <svg
+                                  width="40%"
+                                  height="40%"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                >
+                                  <rect
+                                    x="8"
+                                    y="8"
+                                    width="8"
+                                    height="8"
+                                    rx="1"
+                                    fill="white"
+                                  />
+                                  <rect
+                                    x="11"
+                                    y="4"
+                                    width="2"
+                                    height="4"
+                                    rx="1"
+                                    fill="white"
+                                  />
+                                </svg>
+                              )}
+                              {i === 21 && (
+                                <svg
+                                  width="40%"
+                                  height="40%"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                >
+                                  <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="6"
+                                    stroke="white"
+                                    strokeWidth="2"
+                                  />
+                                  <rect
+                                    x="11"
+                                    y="6"
+                                    width="2"
+                                    height="6"
+                                    rx="1"
+                                    fill="white"
+                                  />
+                                </svg>
+                              )}
+                            </span>
+                          )}
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Overlayed text block */}
-          <div className="z-10 w-full absolute md:w-auto md:left-[10%] top-[60%] md:top-1/3 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 pt-4 backdrop-filter backdrop-blur-sm md:backdrop-blur-none bg-gray-100 bg-opacity-50 md:bg-transparent md:pt-0">
-            <h1 className="md:bg-white bg-transparent lg:bg-transparent bg-opacity-50 md:px-0 text-black text-5xl md:text-8xl font-bold">
+          <div className="z-10 w-full md:w-auto md:left-[10%] top-auto md:top-1/3 static md:absolute col-span-2 flex flex-col justify-center items-center md:items-start text-center md:text-start px-2 sm:px-4 md:px-10 pt-2 sm:pt-4 md:pt-0 backdrop-filter backdrop-blur-sm md:backdrop-blur-none bg-gray-100 bg-opacity-70 md:bg-transparent md:pt-0">
+            <h1 className="md:bg-white bg-transparent lg:bg-transparent bg-opacity-50 md:px-0 text-black text-3xl sm:text-4xl md:text-8xl font-bold">
               About Me
             </h1>
             <Hr />
-            <p className="title text-xl mt-4 tracking-wider text-gray-900 leading-[1.7rem] mb-5 ">
+            <p className="title text-base sm:text-lg md:text-xl mt-2 sm:mt-4 tracking-wider text-gray-900 leading-[1.5rem] sm:leading-[1.7rem] mb-3 sm:mb-5 ">
               _file opened{" "}
               <span className="bg-transparent md:bg-gray-100 bg-opacity-50 xl:bg-transparent">
                 {" "}
@@ -262,7 +385,7 @@ export default function Page() {
                   behavior: "smooth",
                 });
               }}
-              className="mb-3"
+              className="mb-2 sm:mb-3"
             >
               <Button variation="primary">scroll</Button>
             </motion.div>
