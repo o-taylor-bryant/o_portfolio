@@ -21,6 +21,7 @@ import {
   faCode,
   faRocket,
 } from "@fortawesome/free-solid-svg-icons";
+import CloudIcon from "@/public/image/Cloud Icon with BG.png";
 
 const MyPage = () => {
   // --- Loading Screen ---
@@ -53,21 +54,6 @@ const MyPage = () => {
       clearTimeout(finalDelay);
       clearInterval(blinkInterval);
     };
-  }, []);
-
-  // --- For moving dot with heart ---
-  const [mobileDotAngle, setMobileDotAngle] = useState(0);
-  const [desktopDotAngle, setDesktopDotAngle] = useState(0);
-
-  useEffect(() => {
-    let frame;
-    const animate = () => {
-      setMobileDotAngle((prev) => (prev + 0.5) % 360);
-      setDesktopDotAngle((prev) => (prev + 0.375) % 360);
-      frame = requestAnimationFrame(animate);
-    };
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
   }, []);
 
   // Add mouse move handler for the about photo effect
@@ -128,7 +114,7 @@ const MyPage = () => {
                     rotate: { duration: 2, repeat: Infinity, ease: "linear" },
                     scale: { duration: 1, repeat: Infinity },
                   }}
-                  className="text-black/60"
+                  className="text-black"
                 >
                   <FontAwesomeIcon icon={faRocket} />
                 </motion.div>
@@ -158,7 +144,7 @@ const MyPage = () => {
             {/* Progress Bar */}
             <div className="h-1 bg-neutral-100 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-black/60"
+                className="h-full bg-black"
                 initial={{ width: "0%" }}
                 animate={{ width: `${(loadingStage / 5) * 100}%` }}
                 transition={{ duration: 0.5 }}
@@ -220,7 +206,7 @@ const MyPage = () => {
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ duration: 0.8, type: "spring" }}
-                      className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 flex flex-col"
+                      className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 min-h-[18rem] h-auto flex flex-col"
                     >
                       {/* Terminal Header */}
                       <div className="bg-gray-100 border-b border-black px-3 py-2 flex items-center justify-between">
@@ -250,7 +236,7 @@ const MyPage = () => {
                           </div>
                         </div>
                         {/* Profile Image in Terminal - Mobile */}
-                        <div className="flex-1 flex items-center justify-center">
+                        <div className="flex-1 flex items-center justify-center py-2">
                           <motion.div
                             className="relative w-24 h-24 rounded-lg overflow-hidden border border-black"
                             whileHover={{ scale: 1.02 }}
@@ -289,7 +275,7 @@ const MyPage = () => {
                     whileInView={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.3, type: "spring" }}
                   >
-                    Junior Tech Professional
+                    Future IT & Cybersecurity Analyst
                   </motion.h1>
                   <motion.p
                     className="title text-md 2xl:text-xl mt-4 tracking-wider text-black leading-[1.7rem] max-w-2xl"
@@ -297,7 +283,7 @@ const MyPage = () => {
                     whileInView={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.4, type: "spring" }}
                   >
-                    Navigating IT and Cybersecurity - one cloud at a time!
+                    Navigating technology - one cloud at a time!
                   </motion.p>
 
                   {/* Buttons and QR */}
@@ -305,12 +291,12 @@ const MyPage = () => {
                     <div className="flex flex-row space-x-4">
                       <Button variation="primary">
                         <a
-                          href="https://tinyurl.com/o-taylor-bryant-resume"
+                          href="https://tinyurl.com/nyp43xm5"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center"
                         >
-                          Download Resume
+                          Resume
                         </a>
                       </Button>
                       <Button variation="secondary">
@@ -318,7 +304,7 @@ const MyPage = () => {
                       </Button>
                     </div>
                     <Image
-                      src="/image/qr_resume.png"
+                      src="/image/Taylor Bryant - Resume QR Code 2025.png"
                       alt="Resume QR Code"
                       width={112}
                       height={112}
@@ -401,9 +387,9 @@ const MyPage = () => {
               <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
                 {/* About Me Section - Terminal Style */}
                 {/* Mobile Layout - Stacked */}
-                <div className="block md:hidden w-full flex flex-col items-center space-y-8">
+                <div className="md:hidden w-full flex flex-col items-center space-y-8">
                   <motion.div
-                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 flex flex-col"
+                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 min-h-[18rem] h-auto flex flex-col"
                     initial={{ scale: 0.95, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
@@ -434,7 +420,7 @@ const MyPage = () => {
                         </div>
                       </div>
                       {/* About Image in Terminal */}
-                      <div className="flex-1 flex items-center justify-center -mt-2">
+                      <div className="flex-1 flex items-center justify-center py-2">
                         <motion.div
                           className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
                           whileHover={{ scale: 1.02 }}
@@ -459,13 +445,13 @@ const MyPage = () => {
 
                   {/* Mobile Text Content */}
                   <motion.div
-                    className="w-full flex flex-col justify-center items-center text-center px-4"
+                    className="w-full flex flex-col justify-center items-start text-left px-4"
                     initial={{ y: 40, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2, type: "spring" }}
                   >
                     <motion.h1
-                      className="text-black text-4xl font-bold mb-4"
+                      className="text-black text-4xl font-bold mb-4 text-left"
                       initial={{ x: -100, opacity: 0 }}
                       whileInView={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.1, type: "spring" }}
@@ -585,9 +571,9 @@ const MyPage = () => {
               <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
                 {/* Projects Section - Terminal Style */}
                 {/* Mobile Layout - Stacked */}
-                <div className="block md:hidden w-full flex flex-col items-center space-y-8">
+                <div className="md:hidden w-full flex flex-col items-center space-y-8">
                   <motion.div
-                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 flex flex-col"
+                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 min-h-[18rem] h-auto flex flex-col"
                     initial={{ scale: 0.95, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
@@ -620,18 +606,18 @@ const MyPage = () => {
                         </div>
                       </div>
                       {/* Projects Image in Terminal */}
-                      <div className="flex-1 flex items-center justify-center -mt-2">
+                      <div className="flex-1 flex items-center justify-center py-2">
                         <motion.div
                           className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
                           whileHover={{ scale: 1.02 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
                           <Image
-                            src={Workspace1}
+                            src={CloudIcon}
                             width={128}
                             height={128}
                             className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                            alt="Projects"
+                            alt="Cloud Projects Icon"
                             placeholder="blur"
                           />
                           {/* Subtle Scan Lines Effect */}
@@ -645,7 +631,7 @@ const MyPage = () => {
 
                   {/* Mobile Text Content */}
                   <motion.div
-                    className="w-full flex flex-col justify-center items-center text-center px-4"
+                    className="w-full flex flex-col justify-center items-start text-left px-4"
                     initial={{ y: 40, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2, type: "spring" }}
@@ -722,11 +708,11 @@ const MyPage = () => {
                           transition={{ type: "spring", stiffness: 300 }}
                         >
                           <Image
-                            src={Workspace1}
+                            src={CloudIcon}
                             width={128}
                             height={128}
                             className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                            alt="Projects"
+                            alt="Cloud Projects Icon"
                             placeholder="blur"
                           />
                           {/* Subtle Scan Lines Effect */}
@@ -773,9 +759,9 @@ const MyPage = () => {
               <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
                 {/* Contact Section - Terminal Style */}
                 {/* Mobile Layout - Stacked */}
-                <div className="block md:hidden w-full flex flex-col items-center space-y-8">
+                <div className="md:hidden w-full flex flex-col items-center space-y-8">
                   <motion.div
-                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 flex flex-col"
+                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 min-h-[18rem] h-auto flex flex-col"
                     initial={{ x: 300, opacity: 0, z: -100 }}
                     whileInView={{ x: 0, opacity: 1, z: 0 }}
                     transition={{
@@ -813,18 +799,18 @@ const MyPage = () => {
                         </div>
                       </div>
                       {/* Contact Image in Terminal */}
-                      <div className="flex-1 flex items-center justify-center -mt-2">
+                      <div className="flex-1 flex items-center justify-center py-2">
                         <motion.div
                           className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
                           whileHover={{ scale: 1.02 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
                           <Image
-                            src={Workspace2}
+                            src={Workspace1}
                             width={128}
                             height={128}
                             className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                            alt="Contact"
+                            alt="Workspace Photo"
                             placeholder="blur"
                             quality={95}
                           />
@@ -839,13 +825,13 @@ const MyPage = () => {
 
                   {/* Mobile Text Content */}
                   <motion.div
-                    className="w-full flex flex-col justify-center items-center text-center px-4"
+                    className="w-full flex flex-col justify-center items-start text-left px-4"
                     initial={{ y: 40, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2, type: "spring" }}
                   >
                     <motion.h1
-                      className="text-black text-4xl font-bold mb-4"
+                      className="text-black text-4xl font-bold mb-4 text-left"
                       initial={{ x: -100, opacity: 0 }}
                       whileInView={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.1, type: "spring" }}
@@ -853,63 +839,69 @@ const MyPage = () => {
                       Ping Received
                     </motion.h1>
                     <Hr />
-                    <motion.p
-                      className="title text-lg mt-4 tracking-wider text-black leading-relaxed mb-6 max-w-md"
-                      initial={{ x: -100, opacity: 0 }}
-                      whileInView={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.3, type: "spring" }}
-                    >
-                      <a href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hi Taylor,">
-                        o.taylor.bryant@gmail.com
-                      </a>
-                    </motion.p>
-                    <div className="flex justify-center items-center space-x-4">
-                      <motion.a
-                        href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hello Taylor,"
-                        className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
-                        initial={{ y: 40, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{
-                          y: { delay: 0.1 },
-                          opacity: { delay: 0.2 },
-                        }}
+                    {/* Group email and buttons for alignment */}
+                    <div className="flex flex-col items-start w-full gap-4 mt-4">
+                      <motion.p
+                        className="title text-lg tracking-wider text-black leading-relaxed max-w-md text-left"
+                        initial={{ x: -100, opacity: 0 }}
+                        whileInView={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.3, type: "spring" }}
                       >
-                        <FontAwesomeIcon
-                          icon={faEnvelope}
-                          className="text-3xl"
-                        />
-                      </motion.a>
-                      <motion.a
-                        href="https://github.com/o-taylor-bryant"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{
-                          y: { delay: 0.2 },
-                          opacity: { delay: 0.3 },
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faGithub} className="text-3xl" />
-                      </motion.a>
-                      <motion.a
-                        href="https://www.linkedin.com/in/o-taylor-bryant/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{
-                          y: { delay: 0.4 },
-                          opacity: { delay: 0.5 },
-                        }}
-                      >
-                        <FontAwesomeIcon
-                          icon={faLinkedin}
-                          className="text-3xl"
-                        />
-                      </motion.a>
+                        <a href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hi Taylor,">
+                          o.taylor.bryant@gmail.com
+                        </a>
+                      </motion.p>
+                      <div className="flex items-center space-x-4">
+                        <motion.a
+                          href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hello Taylor,"
+                          className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
+                          initial={{ y: 40, opacity: 0 }}
+                          whileInView={{ y: 0, opacity: 1 }}
+                          transition={{
+                            y: { delay: 0.1 },
+                            opacity: { delay: 0.2 },
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faEnvelope}
+                            className="text-3xl"
+                          />
+                        </motion.a>
+                        <motion.a
+                          href="https://github.com/o-taylor-bryant"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
+                          initial={{ opacity: 0, y: 40 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{
+                            y: { delay: 0.2 },
+                            opacity: { delay: 0.3 },
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faGithub}
+                            className="text-3xl"
+                          />
+                        </motion.a>
+                        <motion.a
+                          href="https://www.linkedin.com/in/o-taylor-bryant/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
+                          initial={{ opacity: 0, y: 40 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{
+                            y: { delay: 0.4 },
+                            opacity: { delay: 0.5 },
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faLinkedin}
+                            className="text-3xl"
+                          />
+                        </motion.a>
+                      </div>
                     </div>
                   </motion.div>
                 </div>
@@ -955,18 +947,18 @@ const MyPage = () => {
                         </div>
                       </div>
                       {/* Contact Image in Terminal */}
-                      <div className="flex-1 flex items-center justify-center -mt-2">
+                      <div className="flex-1 flex items-center justify-center py-2">
                         <motion.div
                           className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
                           whileHover={{ scale: 1.02 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
                           <Image
-                            src={Workspace2}
+                            src={Workspace1}
                             width={128}
                             height={128}
                             className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                            alt="Contact"
+                            alt="Workspace Photo"
                             placeholder="blur"
                             quality={95}
                           />
