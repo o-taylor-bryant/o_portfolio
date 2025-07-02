@@ -130,29 +130,29 @@ export default function About() {
             Taylor Bryant
           </h2>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
-            Hi there, I'm currently pursuing the{" "}
+            Hi there, I&apos;m currently pursuing the{" "}
             <span className="font-bold">Google Cybersecurity Certificate</span>{" "}
             through <span className="font-bold">Merit America</span>, but my
             learning actually began earlier through self-guided study. Computers
             have always been a part of my life, through gaming and designing,
             and I heavily enjoy the thought process behind solving complex
-            issues. I've begun building skills through these experiences and
-            desire to put them to thoughtful use.
+            issues. I&apos;ve begun building skills through these experiences
+            and desire to put them to thoughtful use.
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
-            Throughout my career, I've consistently worked in roles that
+            Throughout my career, I&apos;ve consistently worked in roles that
             required independence. At{" "}
             <span className="font-bold">TELUS Digital</span>, I evaluate
             AI-generated responses and search results in a fully remote
             environment. The work demands accuracy, adaptability, and
-            self-direction. With minimal oversight, I've learned how to manage
-            shifting expectations, absorb new technical instruction, and stay
-            grounded in quality.
+            self-direction. With minimal oversight, I&apos;ve learned how to
+            manage shifting expectations, absorb new technical instruction, and
+            stay grounded in quality.
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
             Leadership, for me, often shows up in subtle ways. At{" "}
             <span className="font-bold">Walgreens</span>, I led our Customer
-            Experience metric discussions during team meetings. I wasn't
+            Experience metric discussions during team meetings. I wasn&apos;t
             managing the team, but I helped guide the conversation—translating
             feedback into actionable suggestions that improved how we served
             people. That experience helped me see the value in data-informed
@@ -164,15 +164,15 @@ export default function About() {
             <span className="font-bold">UNC Greensboro</span>, I worked in an
             academic lab environment—answering questions, organizing materials,
             and quietly maintaining the space. That role taught me how much
-            impact steady, behind-the-scenes support can have. I've carried that
-            mindset with me ever since.
+            impact steady, behind-the-scenes support can have. I&apos;ve carried
+            that mindset with me ever since.
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
-            I've always gravitated towards roles that require a balance of care,
-            problem-solving, and overall team-based success. Being someone
+            I&apos;ve always gravitated towards roles that require a balance of
+            care, problem-solving, and overall team-based success. Being someone
             others can rely on and addressing problems with hands-on care are
             just some of the ways I would contribute to achieving company goals.
-            I'd love to bring this mindset to every single opportunity that
+            I&apos;d love to bring this mindset to every single opportunity that
             comes my way along in this career field.
           </p>
         </motion.div>
