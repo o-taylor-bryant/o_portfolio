@@ -1,355 +1,301 @@
 "use client";
-import { useEffect, useState } from "react";
-import projectData from "@/project links.json/data.json";
-import FixedButton from "@/components/FixedButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faTerminal,
-  faCode,
-  faRocket,
-  faFolder,
-  faFolderOpen,
-  faClock,
-  faUser,
-  faFileAlt,
-  faImages,
-  faLaptopCode,
-  faShieldAlt,
-  faNetworkWired,
-  faBug,
-  faServer,
-} from "@fortawesome/free-solid-svg-icons";
-import { motion, AnimatePresence } from "framer-motion";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
-const ProjectIcon = ({ project, isHovered }) => {
-  // Map project types to icons
-  const getProjectDetails = () => {
-    if (project.title.toLowerCase().includes("audit")) {
-      return { icon: faShieldAlt };
-    } else if (project.title.toLowerCase().includes("incident")) {
-      return { icon: faBug };
-    } else if (project.title.toLowerCase().includes("network")) {
-      return { icon: faNetworkWired };
-    } else if (project.title.toLowerCase().includes("server")) {
-      return { icon: faServer };
-    }
-    return { icon: faLaptopCode };
-  };
-
-  const { icon } = getProjectDetails();
-
-  return (
-    <motion.div
-      className="relative w-full h-48 bg-neutral-50 flex items-center justify-center overflow-hidden"
-      initial={false}
-      animate={isHovered ? { backgroundColor: "rgb(0, 0, 0, 0.05)" } : {}}
+// Unique, creative SVG icons for each category
+const categoryIcons = [
+  // Technical Reports: Document icon
+  ({ hovered }) => (
+    <motion.svg
+      width="36"
+      height="36"
+      viewBox="0 0 36 36"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      animate={{ y: hovered ? -4 : 0, scale: hovered ? 1.08 : 1 }}
     >
-      <motion.div
-        initial={{ scale: 1, opacity: 0.3 }}
-        animate={{
-          scale: isHovered ? 1.2 : 1,
-          opacity: isHovered ? 0.8 : 0.3,
-          rotate: isHovered ? 360 : 0,
-        }}
-        transition={{ duration: 0.5 }}
-        className="text-6xl text-black"
-      >
-        <FontAwesomeIcon icon={icon} />
-      </motion.div>
+      <rect x="7" y="6" width="22" height="26" rx="4" fill="#222" />
+      <rect
+        x="11"
+        y="12"
+        width="14"
+        height="2"
+        rx="1"
+        fill="#fff"
+        fillOpacity="0.7"
+      />
+      <rect
+        x="11"
+        y="17"
+        width="10"
+        height="2"
+        rx="1"
+        fill="#fff"
+        fillOpacity="0.5"
+      />
+      <rect
+        x="11"
+        y="22"
+        width="8"
+        height="2"
+        rx="1"
+        fill="#fff"
+        fillOpacity="0.3"
+      />
+    </motion.svg>
+  ),
+  // IT Tools & Tasks: Wrench icon
+  ({ hovered }) => (
+    <motion.svg
+      width="36"
+      height="36"
+      viewBox="0 0 36 36"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      animate={{ rotate: hovered ? -20 : 0, scale: hovered ? 1.08 : 1 }}
+    >
+      <circle cx="18" cy="18" r="16" fill="#222" />
+      <rect
+        x="16"
+        y="8"
+        width="4"
+        height="14"
+        rx="2"
+        fill="#fff"
+        fillOpacity="0.7"
+        transform="rotate(45 18 15)"
+      />
+      <rect
+        x="17"
+        y="22"
+        width="2"
+        height="6"
+        rx="1"
+        fill="#fff"
+        fillOpacity="0.5"
+      />
+    </motion.svg>
+  ),
+  // Security Tools & Tasks: Shield icon
+  ({ hovered }) => (
+    <motion.svg
+      width="36"
+      height="36"
+      viewBox="0 0 36 36"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      animate={{ scale: hovered ? 1.12 : 1 }}
+    >
+      <path
+        d="M18 6L30 10V18C30 25 24 29 18 32C12 29 6 25 6 18V10L18 6Z"
+        fill="#222"
+      />
+      <path
+        d="M18 10V27"
+        stroke="#fff"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity="0.7"
+      />
+      <circle cx="18" cy="16" r="2" fill="#fff" opacity="0.7" />
+    </motion.svg>
+  ),
+  // Learning Progress: Book icon
+  ({ hovered }) => (
+    <motion.svg
+      width="36"
+      height="36"
+      viewBox="0 0 36 36"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      animate={{ y: hovered ? -3 : 0, scale: hovered ? 1.08 : 1 }}
+    >
+      <rect x="7" y="10" width="10" height="16" rx="2" fill="#222" />
+      <rect x="19" y="10" width="10" height="16" rx="2" fill="#222" />
+      <rect
+        x="9"
+        y="13"
+        width="6"
+        height="2"
+        rx="1"
+        fill="#fff"
+        fillOpacity="0.7"
+      />
+      <rect
+        x="21"
+        y="13"
+        width="6"
+        height="2"
+        rx="1"
+        fill="#fff"
+        fillOpacity="0.7"
+      />
+    </motion.svg>
+  ),
+];
 
-      {/* Animated Background Pattern */}
-      <motion.div
-        className="absolute inset-0 opacity-10"
-        initial={false}
-        animate={isHovered ? { opacity: 0.2 } : { opacity: 0.1 }}
-      >
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(rgb(0, 0, 0, 0.2) 1px, transparent 1px)`,
-            backgroundSize: "20px 20px",
-          }}
-        />
-      </motion.div>
+const categories = [
+  {
+    key: "technical_reports",
+    name: "Technical_Reports",
+    description:
+      "Organized reports and documentation in response to real-world scenarios of various severities.",
+    href: "/projects/technical_reports",
+  },
+  {
+    key: "it_tools_tasks",
+    name: "IT_Tools_&_Tasks",
+    description:
+      "Projects related to tasks used in troubleshooting and support.",
+    href: "/projects/it_tools_tasks",
+  },
+  {
+    key: "security_tools_tasks",
+    name: "Security_Tools_&_Tasks",
+    description:
+      "Projects related to tasks used in security response and threat detection.",
+    href: "/projects/security_tools_tasks",
+  },
+  {
+    key: "learning_progress",
+    name: "Learning_Progress",
+    description:
+      "Come see what I've learned so far and what I'm currently getting into!",
+    href: "/projects/learning_progress",
+  },
+];
 
-      {/* Interactive Elements */}
-      <AnimatePresence>
-        {isHovered && (
-          <>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="absolute bottom-4 right-4 flex space-x-2"
-            >
-              {project.pdf && (
-                <motion.span
-                  whileHover={{ scale: 1.1 }}
-                  className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg"
-                >
-                  <FontAwesomeIcon icon={faFileAlt} className="text-black/60" />
-                </motion.span>
-              )}
-              {((project.images && project.images.length > 0) ||
-                (project.reports &&
-                  project.reports.some((r) => r.images?.length > 0))) && (
-                <motion.span
-                  whileHover={{ scale: 1.1 }}
-                  className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg"
-                >
-                  <FontAwesomeIcon icon={faImages} className="text-black/60" />
-                </motion.span>
-              )}
-            </motion.div>
-
-            {/* Animated Lines */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              exit={{ scaleX: 0 }}
-              className="absolute bottom-0 left-0 right-0 h-[2px] bg-black/20"
-              style={{ transformOrigin: "left" }}
-            />
-            <motion.div
-              initial={{ scaleY: 0 }}
-              animate={{ scaleY: 1 }}
-              exit={{ scaleY: 0 }}
-              className="absolute top-0 bottom-0 right-0 w-[2px] bg-black/20"
-              style={{ transformOrigin: "top" }}
-            />
-          </>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-};
-
-export default function Page() {
-  const [ready, setReady] = useState(false);
-  const [blink, setBlink] = useState(true);
-  const [hoveredProject, setHoveredProject] = useState(null);
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [commandHistory, setCommandHistory] = useState([]);
-  const [currentCommand, setCurrentCommand] = useState("");
+export default function ProjectsTerminal() {
+  const [clock, setClock] = useState("");
+  const [hovered, setHovered] = useState(-1);
+  const router = useRouter();
 
   useEffect(() => {
-    const delay = setTimeout(() => setReady(true), 1200);
-    const blinkInterval = setInterval(() => setBlink((prev) => !prev), 500);
-    const timeInterval = setInterval(() => setCurrentTime(new Date()), 1000);
-
-    // Simulate terminal commands
-    const commands = [
-      "scanning system...",
-      "loading projects...",
-      "initializing interface...",
-      "ready",
-    ];
-
-    commands.forEach((cmd, i) => {
-      setTimeout(() => {
-        setCommandHistory((prev) => [...prev, cmd]);
-        setCurrentCommand(cmd);
-      }, 300 * (i + 1));
-    });
-
-    return () => {
-      clearTimeout(delay);
-      clearInterval(blinkInterval);
-      clearInterval(timeInterval);
+    const updateClock = () => {
+      const now = new Date();
+      setClock(
+        now.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
     };
+    updateClock();
+    const interval = setInterval(updateClock, 1000);
+    return () => clearInterval(interval);
   }, []);
 
-  if (!ready) {
-    return (
-      <div className="fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-[rgb(230,230,230)] z-[999] px-4">
-        <div className="w-full max-w-4xl rounded-xl border border-black/20 bg-white p-6 shadow-2xl font-mono text-center">
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex space-x-2">
-              <span className="w-3 h-3 bg-black/80 rounded-full"></span>
-              <span className="w-3 h-3 bg-black/60 rounded-full"></span>
-              <span className="w-3 h-3 bg-black/40 rounded-full"></span>
-            </div>
-            <span className="text-xs text-black/60">system_boot</span>
-          </div>
-          <div className="text-left mb-4">
-            {commandHistory.map((cmd, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3 }}
-                className="text-sm text-black/70"
-              >
-                <span className="text-black/40">$ </span>
-                {cmd}
-              </motion.div>
-            ))}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-sm text-black/70"
+  return (
+    <div
+      className="min-h-screen flex flex-col items-center justify-center"
+      style={{ background: "rgb(230, 230, 230)" }}
+    >
+      <div className="w-full max-w-4xl h-[680px] md:h-[600px] rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col justify-between items-stretch mx-auto relative">
+        {/* Back Button inside terminal */}
+        <div className="flex items-center justify-start px-6 pt-4 pb-2">
+          <button
+            onClick={() => router.push("/")}
+            aria-label="Back to Home"
+            className="flex items-center gap-2 px-3 py-1 rounded-lg bg-black/5 border border-black/10 text-black/60 hover:bg-black/10 transition text-xs font-mono"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <span className="text-black/40">$ </span>
-              {currentCommand}
-              {blink && <span className="ml-1 opacity-50">_</span>}
-            </motion.div>
+              <path
+                d="M13 16l-5-5 5-5"
+                stroke="#222"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Back
+          </button>
+        </div>
+        {/* Terminal Header Bar (widgets/taskbar) */}
+        <div className="flex items-center justify-center px-6 py-2 bg-neutral-200 border-b border-black/10 text-xs text-black/70 w-full">
+          <div className="flex flex-wrap items-center gap-6 justify-center w-full">
+            <span>system: windows_11</span>
+            <span>shell: powershell</span>
+            <span>theme: modern_light</span>
+            <span className="font-bold text-black/80">
+              taylor_projects v2.0
+            </span>
+            <span>user: guest</span>
+            <span>{clock}</span>
+            <span>total_projects: 4</span>
           </div>
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-[rgb(230,230,230)] flex items-center justify-center px-4 py-20">
-      <FixedButton href="/">
-        <FontAwesomeIcon icon={faChevronLeft} className="text-black pr-10" />
-      </FixedButton>
-
-      <div className="w-full max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="bg-white rounded-xl border-2 border-black shadow-2xl overflow-hidden"
-          style={{
-            boxShadow:
-              "0 0 0 2px rgba(0, 0, 0, 0.1), 0 20px 40px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          {/* Terminal Header */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="bg-neutral-100 px-4 py-2 border-b border-black/10"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex space-x-2">
-                <span className="w-3 h-3 bg-black/80 rounded-full"></span>
-                <span className="w-3 h-3 bg-black/60 rounded-full"></span>
-                <span className="w-3 h-3 bg-black/40 rounded-full"></span>
-              </div>
-              <span className="text-xs text-black/60 font-mono">
-                taylor_projects v2.0
-              </span>
-              <div className="flex items-center space-x-4 text-xs text-black/60">
-                <span>
-                  <FontAwesomeIcon icon={faUser} className="mr-1" /> user:
-                  taylor
-                </span>
-                <span>
-                  <FontAwesomeIcon icon={faClock} className="mr-1" />{" "}
-                  {currentTime.toLocaleTimeString()}
-                </span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Terminal Info Bar */}
-          <div className="bg-neutral-50 px-4 py-2 border-b border-black/10 flex justify-between items-center text-xs font-mono">
-            <div className="flex items-center space-x-4 text-black/60">
-              <span>system: windows_11</span>
-              <span>shell: powershell</span>
-              <span>theme: modern_light</span>
-            </div>
-            <span className="text-black/60">
-              total_projects: {projectData.Projects.length}
-            </span>
+        {/* Current Directory */}
+        <div className="px-6 py-2 text-xs text-black/50 border-b border-black/10">
+          <span className="text-black/40">current_directory: </span>
+          /projects/portfolio/
+        </div>
+        {/* Categories Grid */}
+        <div className="flex-1 flex flex-col justify-center items-center w-full">
+          <div className="w-full h-full grid grid-cols-1 grid-rows-4 gap-4 p-4 sm:grid-cols-2 sm:grid-rows-2 sm:gap-6 sm:p-8">
+            {categories.map((cat, idx) => {
+              const Icon = categoryIcons[idx];
+              return (
+                <motion.div
+                  key={cat.key}
+                  whileHover={{
+                    y: -2,
+                    boxShadow: "0 4px 24px 0 rgba(0,0,0,0.08)",
+                  }}
+                  className="bg-neutral-50 border border-black/10 rounded-xl p-5 flex flex-col items-center transition-all duration-200 group hover:border-black/20 cursor-pointer"
+                  onMouseEnter={() => setHovered(idx)}
+                  onMouseLeave={() => setHovered(-1)}
+                  onClick={() => router.push(cat.href)}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={cat.name}
+                >
+                  <Icon hovered={hovered === idx} />
+                  <span className="mt-3 text-base text-black font-semibold mb-2 text-center w-full">
+                    {cat.name}
+                  </span>
+                  <span className="text-xs text-black/60 text-center w-full">
+                    {cat.description}
+                  </span>
+                </motion.div>
+              );
+            })}
           </div>
-
-          {/* Projects Grid */}
-          <div className="p-6">
-            {/* Directory Path */}
-            <div className="mb-4 font-mono text-sm text-black/70 border-b border-black/10 pb-2">
-              <span className="text-black/40">current_directory: </span>
-              /projects/portfolio/
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <AnimatePresence>
-                {projectData.Projects.map((project, index) => (
-                  <motion.div
-                    key={project.slug}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ delay: index * 0.1 }}
-                    onHoverStart={() => setHoveredProject(project.slug)}
-                    onHoverEnd={() => setHoveredProject(null)}
-                  >
-                    <Link href={`/projects/${project.slug}`}>
-                      <div className="group relative bg-white border-2 border-black/10 rounded-xl overflow-hidden hover:border-black/30 transition-all duration-300">
-                        {/* Project Header */}
-                        <div className="bg-neutral-50 px-3 py-2 border-b border-black/10 flex items-center justify-between">
-                          <div className="flex items-center">
-                            <FontAwesomeIcon
-                              icon={
-                                hoveredProject === project.slug
-                                  ? faFolderOpen
-                                  : faFolder
-                              }
-                              className="text-black/60 mr-2"
-                            />
-                            <span className="font-mono text-sm text-black/80">
-                              {project.title.toLowerCase()}
-                            </span>
-                          </div>
-                          <span className="text-xs text-black/40">
-                            modified: {new Date().toLocaleDateString()}
-                          </span>
-                        </div>
-
-                        {/* Project Icon/Preview */}
-                        <ProjectIcon
-                          project={project}
-                          isHovered={hoveredProject === project.slug}
-                        />
-
-                        {/* Project Info */}
-                        <div className="p-4">
-                          <p className="text-black/70 text-sm font-mono mb-4 line-clamp-2">
-                            {project.description || project.desc?.[0]}
-                          </p>
-
-                          {/* Command Line */}
-                          <div className="mt-4 pt-3 border-t border-black/10">
-                            <div className="font-mono text-xs text-black/40 flex items-center">
-                              <span className="mr-2">$</span>
-                              <span className="text-black/60">open</span>
-                              <span className="mx-1 text-black/40">
-                                --project
-                              </span>
-                              <span className="text-black/80">
-                                {project.slug}
-                              </span>
-                              {blink && hoveredProject === project.slug && (
-                                <span className="ml-1 opacity-50">_</span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          </div>
-
-          {/* Terminal Footer */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="bg-neutral-100 px-4 py-2 border-t border-black/10"
+        </div>
+        {/* Footer */}
+        <div className="px-6 py-2 bg-neutral-200 border-t border-black/10 text-center text-xs text-black/40 relative flex items-center justify-center">
+          <span>
+            © 2025 Taylor Terminal • Your interactive way to view my work.
+          </span>
+          <span
+            className="ml-2 select-none pointer-events-none align-middle"
+            style={{ position: "relative", top: "1px" }}
           >
-            <p className="text-center text-black/40 text-xs font-mono">
-              © 2025 Taylor Terminal • Your interactive way to view my work.
-            </p>
-          </motion.div>
-        </motion.div>
+            <motion.svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: [1, 0.2, 1] }}
+              transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
+              style={{ display: "inline-block", verticalAlign: "middle" }}
+            >
+              {/* Blinking terminal cursor: underscore */}
+              <rect x="3" y="12" width="10" height="2" rx="1" fill="#222" />
+            </motion.svg>
+          </span>
+        </div>
       </div>
     </div>
   );
