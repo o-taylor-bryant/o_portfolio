@@ -2,8 +2,8 @@
   "Projects": [
     {
       "show": true,
-      "title": "Project 001 : Audit",
-      "slug": "audit-no-001",
+      "title": "Audit",
+      "slug": "audit",
       "desc": [
         "Learning the auditing process a cybersecurity professional is usually tasked with was a very interesting experience. I actually started this project in 2024 independently and didn't really have any direction. It was one of those cases where I did the assignment and just moved on. I decided to enhance my studies and revisit the project to understand the process better.",
         "I wanted to create an audit that reflected current security standards and my professional brand as well. Using Affinity, I created an audit template with a structured design in mind. Separating each step in addressing the company's audit categories, I was able to display a clear process of my observations.",
