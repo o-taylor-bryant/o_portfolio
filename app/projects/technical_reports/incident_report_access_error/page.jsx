@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function IncidentReportAccessError() {
   const [clock, setClock] = useState("");
@@ -133,10 +134,12 @@ export default function IncidentReportAccessError() {
                   </span>
                 ) : (
                   images.map((img, idx) => (
-                    <img
+                    <Image
                       key={idx}
                       src={img}
                       alt={`Incident Report Image ${idx + 1}`}
+                      width={128}
+                      height={80}
                       className="w-32 h-20 object-cover rounded border border-black/10"
                     />
                   ))

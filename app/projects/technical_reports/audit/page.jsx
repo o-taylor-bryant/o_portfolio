@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function AuditProjectDetail() {
   const [clock, setClock] = useState("");
@@ -114,10 +115,12 @@ export default function AuditProjectDetail() {
                   </span>
                 ) : (
                   images.map((img, idx) => (
-                    <img
+                    <Image
                       key={idx}
                       src={img}
                       alt={`Audit Project Image ${idx + 1}`}
+                      width={500}
+                      height={320}
                       className="w-[500px] h-[320px] object-cover rounded border border-black/10"
                     />
                   ))
@@ -136,11 +139,11 @@ export default function AuditProjectDetail() {
               <div className="bg-neutral-50 border border-black/10 rounded p-3 text-black/80 text-sm min-h-[60px]">
                 <p className="mb-5">
                   Starting on this project in 2024 independently, I really
-                  didn't have any direction. It was one of those cases where I
-                  did the assignment instructions and just moved on without
-                  really grasping the content. I decided to enhance my studies
-                  and revisit the project to understand the standard auditing
-                  process better.
+                  didn&apos;t have any direction. It was one of those cases
+                  where I did the assignment instructions and just moved on
+                  without really grasping the content. I decided to enhance my
+                  studies and revisit the project to understand the standard
+                  auditing process better.
                 </p>
                 <p className="mb-5">
                   I wanted to create an audit that reflected current
@@ -157,11 +160,11 @@ export default function AuditProjectDetail() {
                 <p className="mb-2">
                   Improvements to how I represent other people through my words
                   were made by completing this project! Throughout the entire
-                  assignment, I thought to myself, "How can I make this document
-                  easier to understand for someone who isn't knowledgeable on
-                  this topic?" I understood that multiple people would handle
-                  this type of document, and everyone would have to acknowledge
-                  the same exact problems and solutions.
+                  assignment, I thought to myself, &quot;How can I make this
+                  document easier to understand for someone who isn&apos;t
+                  knowledgeable on this topic?&quot; I understood that multiple
+                  people would handle this type of document, and everyone would
+                  have to acknowledge the same exact problems and solutions.
                 </p>
               </div>
             </section>
