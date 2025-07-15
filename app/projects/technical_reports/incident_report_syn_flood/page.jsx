@@ -121,29 +121,19 @@ export default function IncidentReportSynFlood() {
                 [Project description goes here.]
               </div>
             </section>
-            {/* Images Section */}
+            {/* PDF Evidence Section */}
             <section>
               <h2 className="text-base font-semibold text-black mb-1">
-                Images
+                Log Evidence
               </h2>
-              <div className="flex flex-wrap gap-4">
-                {/* Map over images array to display images */}
-                {images.length === 0 ? (
-                  <span className="text-black/40 text-xs">
-                    [Add image URLs to display images here]
-                  </span>
-                ) : (
-                  images.map((img, idx) => (
-                    <Image
-                      key={idx}
-                      src={img}
-                      alt={`Incident Report Image ${idx + 1}`}
-                      width={128}
-                      height={80}
-                      className="w-32 h-20 object-cover rounded border border-black/10"
-                    />
-                  ))
-                )}
+              <div className="w-full flex justify-center">
+                <iframe
+                  src="https://drive.google.com/file/d/1owgxHUE5OgRFCxA15I0zoO9XP175NotJ/preview"
+                  width="900"
+                  height="600"
+                  className="border border-black/10 rounded"
+                  allow="autoplay"
+                ></iframe>
               </div>
             </section>
             {/* Optional: Add more sections as needed */}

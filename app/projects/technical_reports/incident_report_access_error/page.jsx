@@ -8,8 +8,7 @@ import Image from "next/image";
 export default function IncidentReportAccessError() {
   const [clock, setClock] = useState("");
   const [images] = useState([
-    // Add image URLs here
-    // Example: "/public/image/projects/access_error1.png"
+    "/image/projects/Technical Reports/Incident Reports/Access Error Mockup_Taylor Bryant.png",
   ]);
   const router = useRouter();
 
@@ -85,12 +84,14 @@ export default function IncidentReportAccessError() {
           <div className="flex-1 flex flex-col gap-6 min-w-[220px] max-w-md">
             {/* Project Title */}
             <h1 className="text-xl font-bold text-black mb-1">
-              Incident Report: Access Error
+              Incident Report : Access Error
             </h1>
             {/* Project Metadata */}
             <div className="flex flex-wrap gap-3 text-xs text-black/60 mb-2">
-              <span>Date: [MM/DD/YYYY]</span>
-              <span>Tags: [tag1, tag2]</span>
+              <span>Date: [05/14/2025]</span>
+              <span>
+                Tags: [incident_report, access_error, security_tools_&_tasks]
+              </span>
             </div>
             {/* PDF Report Link */}
             <section>
@@ -98,7 +99,7 @@ export default function IncidentReportAccessError() {
                 Full Report (PDF)
               </h2>
               <a
-                href="#"
+                href="https://drive.google.com/file/d/1g6vgvma0ykSCuEwvpbcw-aod3km0kXL5/view?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-4 py-2 bg-black text-white rounded-lg font-mono text-xs hover:bg-black/80 transition"
@@ -118,7 +119,11 @@ export default function IncidentReportAccessError() {
               </h2>
               <div className="bg-neutral-50 border border-black/10 rounded p-3 text-black/80 text-sm min-h-[60px]">
                 {/* Paste your Notion description here */}
-                [Project description goes here.]
+                This incident report was created to document an access error
+                that occurred during a user's attempt to connect to the server.
+                The report details the incident, the affected system, and the
+                steps taken to resolve the issue. The report also includes
+                recommendations for preventing similar incidents in the future.
               </div>
             </section>
             {/* Images Section */}
@@ -138,9 +143,9 @@ export default function IncidentReportAccessError() {
                       key={idx}
                       src={img}
                       alt={`Incident Report Image ${idx + 1}`}
-                      width={128}
-                      height={80}
-                      className="w-32 h-20 object-cover rounded border border-black/10"
+                      width={500}
+                      height={320}
+                      className="w-[500px] h-[320px] object-cover rounded border border-black/10"
                     />
                   ))
                 )}
