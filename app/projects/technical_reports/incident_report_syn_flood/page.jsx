@@ -34,7 +34,7 @@ export default function IncidentReportSynFlood() {
       className="min-h-screen flex flex-col items-center justify-center"
       style={{ background: "rgb(230, 230, 230)" }}
     >
-      <div className="w-full max-w-3xl rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col mx-auto relative mt-12 sm:mt-16">
+      <div className="w-full max-w-5xl rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col mx-auto relative mt-12 sm:mt-16">
         {/* Back Button inside terminal */}
         <div className="flex items-center justify-start px-6 pt-4 pb-2">
           <button
@@ -89,8 +89,10 @@ export default function IncidentReportSynFlood() {
             </h1>
             {/* Project Metadata */}
             <div className="flex flex-wrap gap-3 text-xs text-black/60 mb-2">
-              <span>Date: [MM/DD/YYYY]</span>
-              <span>Tags: [tag1, tag2]</span>
+              <span>Date: [05/12/2025]</span>
+              <span>
+                Tags: [incident_report, syn_flood, security_tools_&_tasks]
+              </span>
             </div>
             {/* PDF Report Link */}
             <section>
@@ -98,7 +100,7 @@ export default function IncidentReportSynFlood() {
                 Full Report (PDF)
               </h2>
               <a
-                href="#"
+                href="https://drive.google.com/file/d/1HJaNWXjbXOhNWD269QOnUilJg16yUygg/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-4 py-2 bg-black text-white rounded-lg font-mono text-xs hover:bg-black/80 transition"
@@ -111,16 +113,6 @@ export default function IncidentReportSynFlood() {
           </div>
           {/* Right Column: Description & Images */}
           <div className="flex-1 flex flex-col gap-6">
-            {/* Description Section */}
-            <section>
-              <h2 className="text-base font-semibold text-black mb-1">
-                Description
-              </h2>
-              <div className="bg-neutral-50 border border-black/10 rounded p-3 text-black/80 text-sm min-h-[60px]">
-                {/* Paste your Notion description here */}
-                [Project description goes here.]
-              </div>
-            </section>
             {/* PDF Evidence Section */}
             <section>
               <h2 className="text-base font-semibold text-black mb-1">
@@ -130,7 +122,7 @@ export default function IncidentReportSynFlood() {
                 <iframe
                   src="https://drive.google.com/file/d/1owgxHUE5OgRFCxA15I0zoO9XP175NotJ/preview"
                   width="900"
-                  height="600"
+                  height="750"
                   className="border border-black/10 rounded"
                   allow="autoplay"
                 ></iframe>
