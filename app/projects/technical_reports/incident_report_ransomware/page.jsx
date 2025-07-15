@@ -6,10 +6,7 @@ import { motion } from "framer-motion";
 
 export default function IncidentReportRansomware() {
   const [clock, setClock] = useState("");
-  const [images] = useState([
-    // Add image URLs here
-    // Example: "/public/image/projects/incident1.png"
-  ]);
+  // No images for this report
   const router = useRouter();
 
   useEffect(() => {
@@ -84,12 +81,14 @@ export default function IncidentReportRansomware() {
           <div className="flex-1 flex flex-col gap-6 min-w-[220px] max-w-md">
             {/* Project Title */}
             <h1 className="text-xl font-bold text-black mb-1">
-              Incident Report: Ransomware
+              Incident Report : Ransomware
             </h1>
             {/* Project Metadata */}
             <div className="flex flex-wrap gap-3 text-xs text-black/60 mb-2">
-              <span>Date: [MM/DD/YYYY]</span>
-              <span>Tags: [tag1, tag2]</span>
+              <span>Date: [07/03/2025]</span>
+              <span>
+                Tags: [incident_report, ransomware, incident_report_ransomware]
+              </span>
             </div>
             {/* PDF Report Link */}
             <section>
@@ -97,7 +96,7 @@ export default function IncidentReportRansomware() {
                 Full Report (PDF)
               </h2>
               <a
-                href="#"
+                href="https://drive.google.com/file/d/1vKomaZupc-GFWs8h9S-1ofnaiNST7UOk/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-4 py-2 bg-black text-white rounded-lg font-mono text-xs hover:bg-black/80 transition"
@@ -117,30 +116,52 @@ export default function IncidentReportRansomware() {
               </h2>
               <div className="bg-neutral-50 border border-black/10 rounded p-3 text-black/80 text-sm min-h-[60px]">
                 {/* Paste your Notion description here */}
-                [Project description goes here.]
+                This project was a great way to learn about each step in
+                addressing an incident like this and how to form a proper
+                report. I was able to learn how to make the best recommendations
+                for the client to return to a safe state.
               </div>
             </section>
             {/* Images Section */}
             <section>
-              <h2 className="text-base font-semibold text-black mb-1">
-                Images
-              </h2>
-              <div className="flex flex-wrap gap-4">
-                {/* Map over images array to display images */}
-                {images.length === 0 ? (
-                  <span className="text-black/40 text-xs">
-                    [Add image URLs to display images here]
-                  </span>
-                ) : (
-                  images.map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={img}
-                      alt={`Incident Report Image ${idx + 1}`}
-                      className="w-32 h-20 object-cover rounded border border-black/10"
-                    />
-                  ))
-                )}
+              <h2 className="text-base font-semibold text-black mb-1"></h2>
+              <div className="flex items-center justify-center min-h-[120px]">
+                <motion.svg
+                  width="180"
+                  height="180"
+                  viewBox="0 0 180 180"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  initial={{ rotate: 0 }}
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 2,
+                    ease: "easeInOut",
+                  }}
+                  style={{}}
+                >
+                  <rect
+                    x="10"
+                    y="10"
+                    width="160"
+                    height="160"
+                    rx="32"
+                    fill="#222"
+                  />
+                  <text
+                    x="50%"
+                    y="56%"
+                    textAnchor="middle"
+                    fontSize="110"
+                    fontWeight="bold"
+                    fill="#fff"
+                    fontFamily="monospace"
+                    dominantBaseline="middle"
+                  >
+                    $
+                  </text>
+                </motion.svg>
               </div>
             </section>
             {/* Optional: Add more sections as needed */}

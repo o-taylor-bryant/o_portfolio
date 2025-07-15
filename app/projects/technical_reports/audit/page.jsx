@@ -7,8 +7,7 @@ import { motion } from "framer-motion";
 export default function AuditProjectDetail() {
   const [clock, setClock] = useState("");
   const [images] = useState([
-    // Add image URLs here
-    // Example: "/public/image/projects/audit1.png"
+    "/image/projects/Technical Reports/Audit/Botium Toys_Internal Audit_Taylor Bryant_Mockup.png",
   ]);
   const router = useRouter();
 
@@ -33,7 +32,7 @@ export default function AuditProjectDetail() {
       className="min-h-screen flex flex-col items-center justify-center"
       style={{ background: "rgb(230, 230, 230)" }}
     >
-      <div className="w-full max-w-3xl rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col mx-auto relative mt-12 sm:mt-16">
+      <div className="w-full max-w-4xl rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col mx-auto relative mt-12 sm:mt-16">
         {/* Back Button inside terminal */}
         <div className="flex items-center justify-start px-6 pt-4 pb-2">
           <button
@@ -83,13 +82,11 @@ export default function AuditProjectDetail() {
           {/* Left Column: Metadata, PDF, Tags */}
           <div className="flex-1 flex flex-col gap-6 min-w-[220px] max-w-md">
             {/* Project Title */}
-            <h1 className="text-xl font-bold text-black mb-1">
-              Audit: [Project Name]
-            </h1>
+            <h1 className="text-xl font-bold text-black mb-1">Audit</h1>
             {/* Project Metadata */}
             <div className="flex flex-wrap gap-3 text-xs text-black/60 mb-2">
-              <span>Date: [MM/DD/YYYY]</span>
-              <span>Tags: [tag1, tag2]</span>
+              <span>Date: [04/13/2025]</span>
+              <span>Tags: [audit, audit_report, audit_project]</span>
             </div>
             {/* PDF Report Link */}
             <section>
@@ -97,36 +94,20 @@ export default function AuditProjectDetail() {
                 Full Report (PDF)
               </h2>
               <a
-                href="#"
+                href="https://drive.google.com/file/d/1k49Qtl3O8pXP7eicWljQvAIPurRcV-56/view?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-4 py-2 bg-black text-white rounded-lg font-mono text-xs hover:bg-black/80 transition"
               >
                 View PDF Report
               </a>
-              {/* Replace '#' with the actual PDF link */}
             </section>
-            {/* Optional: Add more metadata sections here */}
-          </div>
-          {/* Right Column: Description & Images */}
-          <div className="flex-1 flex flex-col gap-6">
-            {/* Description Section */}
-            <section>
-              <h2 className="text-base font-semibold text-black mb-1">
-                Description
-              </h2>
-              <div className="bg-neutral-50 border border-black/10 rounded p-3 text-black/80 text-sm min-h-[60px]">
-                {/* Paste your Notion description here */}
-                [Project description goes here.]
-              </div>
-            </section>
-            {/* Images Section */}
+            {/* Images Section - moved here */}
             <section>
               <h2 className="text-base font-semibold text-black mb-1">
                 Images
               </h2>
               <div className="flex flex-wrap gap-4">
-                {/* Map over images array to display images */}
                 {images.length === 0 ? (
                   <span className="text-black/40 text-xs">
                     [Add image URLs to display images here]
@@ -137,10 +118,51 @@ export default function AuditProjectDetail() {
                       key={idx}
                       src={img}
                       alt={`Audit Project Image ${idx + 1}`}
-                      className="w-32 h-20 object-cover rounded border border-black/10"
+                      className="w-[500px] h-[320px] object-cover rounded border border-black/10"
                     />
                   ))
                 )}
+              </div>
+            </section>
+            {/* Optional: Add more metadata sections here */}
+          </div>
+          {/* Right Column: Description & More */}
+          <div className="flex-1 flex flex-col gap-6">
+            {/* Description Section */}
+            <section>
+              <h2 className="text-base font-semibold text-black mb-1">
+                Description
+              </h2>
+              <div className="bg-neutral-50 border border-black/10 rounded p-3 text-black/80 text-sm min-h-[60px]">
+                <p className="mb-5">
+                  Starting on this project in 2024 independently, I really
+                  didn't have any direction. It was one of those cases where I
+                  did the assignment instructions and just moved on without
+                  really grasping the content. I decided to enhance my studies
+                  and revisit the project to understand the standard auditing
+                  process better.
+                </p>
+                <p className="mb-5">
+                  I wanted to create an audit that reflected current
+                  cybersecurity standards and my professional brand as well.
+                  Using Affinity Designer, I created an audit template with a
+                  structured design in mind. Beginning by outlining the main
+                  focus on the audit for the fictional company, I reviewed each
+                  highlighted objective. A risk and compliance summary was
+                  provided in a more visual manner in order to communicate the
+                  severity of problems better for the client. Each framework
+                  listed contains a simple plan and summary in response to the
+                  feedback in order to return to a proper state.
+                </p>
+                <p className="mb-2">
+                  Improvements to how I represent other people through my words
+                  were made by completing this project! Throughout the entire
+                  assignment, I thought to myself, "How can I make this document
+                  easier to understand for someone who isn't knowledgeable on
+                  this topic?" I understood that multiple people would handle
+                  this type of document, and everyone would have to acknowledge
+                  the same exact problems and solutions.
+                </p>
               </div>
             </section>
             {/* Optional: Add more sections as needed */}
