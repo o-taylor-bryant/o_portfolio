@@ -120,10 +120,11 @@ export default function IncidentReportAccessError() {
               <div className="bg-neutral-50 border border-black/10 rounded p-3 text-black/80 text-sm min-h-[60px]">
                 {/* Paste your Notion description here */}
                 This incident report was created to document an access error
-                that occurred during a user's attempt to connect to the server.
-                The report details the incident, the affected system, and the
-                steps taken to resolve the issue. The report also includes
-                recommendations for preventing similar incidents in the future.
+                that occurred during a user&apos;s attempt to connect to the
+                server. The report details the incident, the affected system,
+                and the steps taken to resolve the issue. The report also
+                includes recommendations for preventing similar incidents in the
+                future.
               </div>
             </section>
             {/* Images Section */}
