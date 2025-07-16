@@ -12,6 +12,7 @@ import {
   faStickyNote,
   faBlog,
 } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 
 const sections = [
   { key: "tryhackme", label: "TryHackMe Progress", icon: faTerminal },
@@ -340,12 +341,14 @@ export default function LearningProgressTerminal() {
                             setLightboxImg(filename);
                         }}
                       >
-                        <img
+                        <Image
                           src={`/image/projects/Screenshots/${filename}`}
                           alt={filename
                             .replace(/_/g, " ")
                             .replace(/\.[^/.]+$/, "")}
                           className="object-cover w-full h-full grayscale"
+                          width={800}
+                          height={800}
                         />
                       </div>
                     ))}
@@ -358,12 +361,14 @@ export default function LearningProgressTerminal() {
                       aria-modal="true"
                       role="dialog"
                     >
-                      <img
+                      <Image
                         src={`/image/projects/Screenshots/${lightboxImg}`}
                         alt={lightboxImg
                           .replace(/_/g, " ")
                           .replace(/\.[^/.]+$/, "")}
                         className="max-w-[90vw] max-h-[80vh] rounded-lg border-2 border-white shadow-2xl grayscale"
+                        width={1200}
+                        height={1200}
                         onClick={(e) => e.stopPropagation()}
                         style={{
                           boxShadow: "0 0 0 4px #fff, 0 8px 32px #0008",
@@ -425,10 +430,10 @@ export default function LearningProgressTerminal() {
                         Cybersecurity fundamentals felt right for me to pursue
                         first because I like a challenge. It took me a while to
                         see that the tech field is very open about having many
-                        avenues you can venture down. I think after cyber, I'd
-                        like to get something more foundational in IT Support
-                        and IAM to become more well-rounded. *Sigh*...This is a
-                        lot in such a short amount of time.
+                        avenues you can venture down. I think after cyber,
+                        I&apos;d like to get something more foundational in IT
+                        Support and IAM to become more well-rounded.
+                        *Sigh*...This is a lot in such a short amount of time.
                       </p>
                     </div>
                     <div className="bg-neutral-50 rounded-xl p-6 border border-black/10">
