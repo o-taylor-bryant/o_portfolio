@@ -250,7 +250,7 @@ export default function LearningProgressTerminal() {
                     TryHackMe is great platform that provides me with hands-on
                     experience using simulated industry tools used in the tech
                     world! These modules contain official certification-aligned
-                    content. Come take a look at my progress - maybe I've
+                    content. Come take a look at my progress - maybe I&apos;ve
                     learned something you are searching for!
                   </p>
                   <div className="flex flex-col items-center">
@@ -418,7 +418,7 @@ export default function LearningProgressTerminal() {
                   className="space-y-6"
                 >
                   <h2 className="text-2xl font-bold text-black mb-2 flex items-center gap-2">
-                    <FontAwesomeIcon icon={faBlog} /> Lil' Blog
+                    <FontAwesomeIcon icon={faBlog} /> Lil&apos; Blog
                   </h2>
                   <div className="space-y-4">
                     <div className="bg-neutral-50 rounded-xl p-6 border border-black/10">
