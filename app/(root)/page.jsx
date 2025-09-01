@@ -33,11 +33,12 @@ const MyPage = () => {
 
   useEffect(() => {
     const loadingSequence = [
-      { text: "Initializing portfolio...", delay: 0 },
-      { text: "Loading assets...", delay: 300 },
-      { text: "Preparing animations...", delay: 600 },
-      { text: "Configuring interface...", delay: 900 },
-      { text: "Ready", delay: 1200 },
+      { text: "Loading portfolio...", delay: 0 },
+      { text: "Initializing portfolio...", delay: 300 },
+      { text: "Loading assets...", delay: 600 },
+      { text: "Preparing animations...", delay: 900 },
+      { text: "Configuring interface...", delay: 1200 },
+      { text: "Ready", delay: 1500 },
     ];
 
     loadingSequence.forEach(({ text, delay }, index) => {
@@ -47,7 +48,7 @@ const MyPage = () => {
       }, delay);
     });
 
-    const finalDelay = setTimeout(() => setReady(true), 1500);
+    const finalDelay = setTimeout(() => setReady(true), 1800);
     const blinkInterval = setInterval(() => setBlink((prev) => !prev), 500);
 
     return () => {
@@ -146,9 +147,12 @@ const MyPage = () => {
               <motion.div
                 className="h-full bg-black"
                 initial={{ width: "0%" }}
-                animate={{ width: `${(loadingStage / 5) * 100}%` }}
+                animate={{ width: `${(loadingStage / 6) * 100}%` }}
                 transition={{ duration: 0.5 }}
               />
+              <div className="text-xs text-black/60 mt-2 text-center font-mono">
+                {Math.round((loadingStage / 6) * 100)}%
+              </div>
             </div>
 
             {/* Loading Stats */}
@@ -201,7 +205,7 @@ const MyPage = () => {
                   transition={{ type: "spring" }}
                 >
                   {/* Mobile Photo */}
-                  <div className="block md:hidden relative w-72 h-72 mx-auto mb-10">
+                  <div className="block md:hidden relative w-72 h-72 mx-auto mb-16">
                     <motion.div
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
@@ -266,6 +270,7 @@ const MyPage = () => {
                     initial={{ x: -100, opacity: 0 }}
                     whileInView={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.2, type: "spring" }}
+                    aria-label="Introduction greeting"
                   >
                     Hi, I&apos;m Taylor Bryant
                   </motion.h3>
@@ -274,16 +279,18 @@ const MyPage = () => {
                     initial={{ x: -100, opacity: 0 }}
                     whileInView={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.3, type: "spring" }}
+                    aria-label="Professional title"
                   >
-                    Future IT & Cybersecurity Analyst
+                    Technology Professional
                   </motion.h1>
                   <motion.p
                     className="title text-md 2xl:text-xl mt-4 tracking-wider text-black leading-[1.7rem] max-w-2xl"
                     initial={{ x: -100, opacity: 0 }}
                     whileInView={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.4, type: "spring" }}
+                    aria-label="Professional tagline"
                   >
-                    Navigating technology - one cloud at a time!
+                    Navigating tech - one cloud at a time!
                   </motion.p>
 
                   {/* Buttons and QR */}
@@ -291,26 +298,38 @@ const MyPage = () => {
                     <div className="flex flex-row space-x-4">
                       <Button variation="primary">
                         <a
-                          href="https://tinyurl.com/nyp43xm5"
+                          href="https://tinyurl.com/otaylorbryantresume2025"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center"
+                          aria-label="View Taylor Bryant's resume"
                         >
-                          Resume
+                          📄 View Resume
                         </a>
                       </Button>
                       <Button variation="secondary">
-                        <a href="#contact">Ping Me</a>
+                        <a
+                          href="#contact"
+                          aria-label="Navigate to contact section"
+                        >
+                          Contact Me
+                        </a>
                       </Button>
                     </div>
-                    <Image
-                      src="/image/Taylor Bryant - Resume QR Code 2025.png"
-                      alt="Resume QR Code"
-                      width={112}
-                      height={112}
-                      className="w-24 h-24 md:w-28 md:h-28 border border-neutral-300 rounded bg-white"
-                      style={{ imageRendering: "crisp-edges" }}
-                    />
+                    <div className="flex flex-col items-center">
+                      <Image
+                        src="/image/otaylorbryantresume2025 QR.png"
+                        alt="Taylor Bryant Resume QR Code"
+                        width={112}
+                        height={112}
+                        className="w-24 h-24 md:w-28 md:h-28 border border-neutral-300 rounded bg-white"
+                        style={{ imageRendering: "crisp-edges" }}
+                        aria-label="Resume QR Code - Scan to view resume"
+                      />
+                      <p className="text-xs text-gray-500 mt-2 font-mono">
+                        Scan for resume
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
 
