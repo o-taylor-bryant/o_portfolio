@@ -15,7 +15,7 @@ import {
 import Image from "next/image";
 
 const sections = [
-  { key: "tryhackme", label: "TryHackMe Progress", icon: faTerminal },
+  { key: "tryhackme", label: "Learning Platforms", icon: faTerminal },
   { key: "certificates", label: "Certificates", icon: faCertificate },
   { key: "gallery", label: "Gallery", icon: faImages },
   { key: "notes", label: "Notes", icon: faStickyNote },
@@ -150,10 +150,10 @@ export default function LearningProgressTerminal() {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center"
+      className="min-h-screen flex flex-col items-center justify-center pt-16 pb-8"
       style={{ background: "rgb(230, 230, 230)" }}
     >
-      <div className="w-full max-w-4xl rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col justify-between items-stretch mx-auto relative">
+      <div className="w-full max-w-6xl rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col justify-between items-stretch mx-auto relative">
         {/* Back Button inside terminal */}
         <div className="flex items-center justify-start px-6 pt-4 pb-2">
           <button
@@ -221,7 +221,7 @@ export default function LearningProgressTerminal() {
             ))}
           </nav>
           {/* Section Content */}
-          <div className="flex-1 p-8 overflow-y-auto">
+          <div className="flex-1 p-8 pt-16 overflow-y-auto">
             <AnimatePresence mode="wait">
               {activeSection === "tryhackme" && (
                 <motion.div
@@ -232,29 +232,111 @@ export default function LearningProgressTerminal() {
                   className="space-y-6"
                 >
                   <h2 className="text-2xl font-bold text-black mb-2 flex items-center gap-2">
-                    <FontAwesomeIcon icon={faTerminal} /> TryHackMe Progress
+                    <FontAwesomeIcon icon={faTerminal} /> Learning Platforms
                   </h2>
-                  <p className="text-black/60 mb-4">
-                    TryHackMe is great platform that provides me with hands-on
-                    experience using simulated industry tools used in the tech
-                    world! These modules contain official certification-aligned
-                    content. Come take a look at my progress - maybe I&apos;ve
-                    learned something you are searching for!
+                  <p className="text-black/60 mb-6">
+                    Using multiple platforms, I&apos;m able to enhance my skills
+                    in multiple areas through hands-on practice and structured
+                    learning paths.
                   </p>
-                  <div className="flex flex-col items-center">
-                    <iframe
-                      src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=4886835"
-                      style={{
-                        border: "none",
-                        width: "340px",
-                        height: "200px",
-                      }}
-                      title="TryHackMe Badge"
-                      loading="lazy"
-                    ></iframe>
-                    <span className="mt-2 text-xs text-black/40">
-                      @taylor_tryhackme
-                    </span>
+
+                  {/* Learning Platforms Grid */}
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    {/* TryHackMe Card */}
+                    <div className="bg-neutral-50 rounded-xl border border-black/10 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-black rounded-lg flex items-center justify-center">
+                          <FontAwesomeIcon
+                            icon={faTerminal}
+                            className="text-white text-lg"
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-black">
+                            TryHackMe
+                          </h3>
+                          <p className="text-xs text-black/50">
+                            Hands-on Cybersecurity Labs
+                          </p>
+                        </div>
+                      </div>
+                      <p className="text-black/60 text-sm mb-4 leading-relaxed">
+                        TryHackMe provides hands-on experience using simulated
+                        industry tools used in the tech world! These modules
+                        contain official certification-aligned content. Come
+                        take a look at my progress - maybe I&apos;ve learned
+                        something you are searching for!
+                      </p>
+                      <div className="bg-white rounded-lg border border-black/10 p-4 mb-4">
+                        <iframe
+                          src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=4886835"
+                          style={{
+                            border: "none",
+                            width: "100%",
+                            height: "200px",
+                            minWidth: "400px",
+                          }}
+                          title="TryHackMe Badge"
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-black/40">
+                        <span>Active Learning Platform</span>
+                        <span>•</span>
+                        <span>Certification Prep</span>
+                      </div>
+                    </div>
+
+                    {/* Microsoft Learn Card */}
+                    <div className="bg-neutral-50 rounded-xl border border-black/10 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-black rounded-lg flex items-center justify-center">
+                          <FontAwesomeIcon
+                            icon={faCertificate}
+                            className="text-white text-lg"
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-black">
+                            Microsoft Learn
+                          </h3>
+                          <p className="text-xs text-black/50">
+                            Official Microsoft Training
+                          </p>
+                        </div>
+                      </div>
+                      <p className="text-black/60 text-sm mb-4 leading-relaxed">
+                        Microsoft Learn provides comprehensive training modules
+                        for various Microsoft tools and job-aligned
+                        certifications. Check out my learning transcript and
+                        progress!
+                      </p>
+                      <div className="bg-white rounded-lg border border-black/10 p-4 mb-4 flex items-center justify-center h-[180px]">
+                        <div className="text-center">
+                          <FontAwesomeIcon
+                            icon={faCertificate}
+                            className="text-4xl text-black/20 mb-3"
+                          />
+                          <p className="text-sm text-black/60 mb-3">
+                            Learning Transcript Available
+                          </p>
+                          <a
+                            href="https://learn.microsoft.com/en-us/users/o-taylor-bryant/transcript/dlrlxtezqe06ele?source=docs"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg text-xs font-mono hover:bg-black/80 transition-colors duration-200"
+                          >
+                            <FontAwesomeIcon icon={faCertificate} />
+                            View Profile
+                          </a>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-black/40">
+                        <span>Official Training</span>
+                        <span>•</span>
+                        <span>Certification Paths</span>
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               )}
