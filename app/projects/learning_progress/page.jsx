@@ -328,7 +328,7 @@ export default function LearningProgressTerminal() {
                           and risk management. It covers essential skills for
                           protecting organizations from cyber threats and
                           establishing robust security practices. Earned through
-                          Merit America's intensive program.
+                          Merit America&apos;s intensive program.
                         </p>
                       </div>
                       <div className="bg-white rounded-lg border border-black/10 overflow-hidden">
