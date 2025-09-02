@@ -194,7 +194,17 @@ export default function ProjectsTerminal() {
       className="min-h-screen flex flex-col items-center justify-center"
       style={{ background: "rgb(230, 230, 230)" }}
     >
-      <div className="w-full max-w-4xl h-[680px] md:h-[600px] rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col justify-between items-stretch mx-auto relative">
+      <motion.div
+        className="w-full max-w-4xl h-[680px] md:h-[600px] rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col justify-between items-stretch mx-auto relative"
+        animate={{
+          boxShadow: [
+            "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+            "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.1)",
+            "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+          ],
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      >
         {/* Back Button inside terminal */}
         <div className="flex items-center justify-start px-6 pt-4 pb-2">
           <button
@@ -223,21 +233,40 @@ export default function ProjectsTerminal() {
         {/* Terminal Header Bar (widgets/taskbar) */}
         <div className="flex items-center justify-center px-6 py-2 bg-neutral-200 border-b border-black/10 text-xs text-black/70 w-full">
           <div className="flex flex-wrap items-center gap-6 justify-center w-full">
-            <span>system: windows_11</span>
+            <motion.span
+              animate={{ opacity: [0.7, 1, 0.7] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              system: windows_11
+            </motion.span>
             <span>shell: powershell</span>
             <span>theme: modern_light</span>
-            <span className="font-bold text-black/80">
+            <motion.span
+              className="font-bold text-black/80"
+              animate={{ scale: [1, 1.02, 1] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
               taylor_projects v2.0
-            </span>
+            </motion.span>
             <span>user: guest</span>
-            <span>{clock}</span>
+            <motion.span
+              animate={{ opacity: [0.8, 1, 0.8] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              {clock}
+            </motion.span>
             <span>total_projects: 4</span>
           </div>
         </div>
         {/* Current Directory */}
         <div className="px-6 py-2 text-xs text-black/50 border-b border-black/10">
           <span className="text-black/40">current_directory: </span>
-          /projects/portfolio/
+          <motion.span
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2.5, repeat: Infinity }}
+          >
+            /projects/portfolio/
+          </motion.span>
         </div>
         {/* Categories Grid */}
         <div className="flex-1 flex flex-col justify-center items-center w-full">
@@ -247,10 +276,15 @@ export default function ProjectsTerminal() {
               return (
                 <motion.div
                   key={cat.key}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1, duration: 0.5 }}
                   whileHover={{
                     y: -2,
                     boxShadow: "0 4px 24px 0 rgba(0,0,0,0.08)",
+                    scale: 1.02,
                   }}
+                  whileTap={{ scale: 0.98 }}
                   className="bg-neutral-50 border border-black/10 rounded-xl p-5 flex flex-col items-center transition-all duration-200 group hover:border-black/20 cursor-pointer"
                   onMouseEnter={() => setHovered(idx)}
                   onMouseLeave={() => setHovered(-1)}
@@ -273,9 +307,12 @@ export default function ProjectsTerminal() {
         </div>
         {/* Footer */}
         <div className="px-6 py-2 bg-neutral-200 border-t border-black/10 text-center text-xs text-black/40 relative flex items-center justify-center">
-          <span>
+          <motion.span
+            animate={{ opacity: [0.4, 0.8, 0.4] }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
             © 2025 Taylor Terminal • Your interactive way to view my work.
-          </span>
+          </motion.span>
           <span
             className="ml-2 select-none pointer-events-none align-middle"
             style={{ position: "relative", top: "1px" }}
@@ -296,7 +333,7 @@ export default function ProjectsTerminal() {
             </motion.svg>
           </span>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
