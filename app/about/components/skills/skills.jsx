@@ -88,6 +88,13 @@ export default function Skills() {
         <Stack />
         <Tools />
       </div>
+      <div className="mx-auto container px-4 sm:px-6 md:px-10 mb-16 md:mb-24">
+        <p className="text-gray-400 text-center text-xs max-w-2xl mx-auto leading-relaxed">
+          * While not an expert in all areas, I have hands-on experience and
+          exposure to these tools and practices through coursework, projects,
+          and professional environments.
+        </p>
+      </div>
     </>
   );
 }

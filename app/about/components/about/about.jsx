@@ -130,14 +130,14 @@ export default function About() {
             Taylor Bryant
           </h2>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
-            Hi there, I&apos;m currently pursuing the{" "}
+            Hi there, I&apos;ve earned the{" "}
             <span className="font-bold">Google Cybersecurity Certificate</span>{" "}
             through <span className="font-bold">Merit America</span>, but my
             learning actually began earlier through self-guided study. Computers
             have always been a part of my life, through gaming and designing,
             and I heavily enjoy the thought process behind solving complex
             issues. I&apos;ve begun building skills through these experiences
-            and desire to put them to thoughtful use.
+            and desire to put them to thoughtful use in a like-minded role.
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
             Throughout my career, I&apos;ve consistently worked in roles that
@@ -147,33 +147,37 @@ export default function About() {
             environment. The work demands accuracy, adaptability, and
             self-direction. With minimal oversight, I&apos;ve learned how to
             manage shifting expectations, absorb new technical instruction, and
-            stay grounded in quality.
+            stay grounded in quality. I&apos;m passionate about improving AI and
+            what the future looks like, advancing our technology to utilize it!
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
             Leadership, for me, often shows up in subtle ways. At{" "}
             <span className="font-bold">Walgreens</span>, I led our Customer
             Experience metric discussions during team meetings. I wasn&apos;t
-            managing the team, but I helped guide the conversation—translating
+            managing the team, but I helped guide the conversation, translating
             feedback into actionable suggestions that improved how we served
             people. That experience helped me see the value in data-informed
-            communication, something I plan to carry into IT support when
+            communication, something I plan to carry into my workflow when
             working with users and systems alike.
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
             Earlier on, while supporting students at{" "}
             <span className="font-bold">UNC Greensboro</span>, I worked in an
-            academic lab environment—answering questions, organizing materials,
-            and quietly maintaining the space. That role taught me how much
-            impact steady, behind-the-scenes support can have. I&apos;ve carried
-            that mindset with me ever since.
+            academic lab environment - answering questions, organizing
+            materials, and quietly maintaining the space. That role taught me
+            how much impact steady, behind-the-scenes support can have.
+            I&apos;ve carried that mindset with me ever since. I&apos;d love to
+            bring this attitude to an organization!
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
-            I&apos;ve always gravitated towards roles that require a balance of
-            care, problem-solving, and overall team-based success. Being someone
-            others can rely on and addressing problems with hands-on care are
-            just some of the ways I would contribute to achieving company goals.
-            I&apos;d love to bring this mindset to every single opportunity that
-            comes my way along in this career field.
+            Across all of these experiences, I&apos;ve always gravitated towards
+            roles that require a balance of care, problem-solving, and overall
+            team-based success. Being someone others can rely on and addressing
+            problems with hands-on care are just some of the ways I would
+            contribute to achieving company goals. I&apos;m very early in my
+            career, but my love for computers has always been present. Becoming
+            well-rounded and growing with a team would give me the substance I
+            need to reach further for success.
           </p>
         </motion.div>
       </div>
