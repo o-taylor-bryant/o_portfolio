@@ -171,6 +171,7 @@ const categories = [
 export default function ProjectsTerminal() {
   const [clock, setClock] = useState("");
   const [hovered, setHovered] = useState(-1);
+  const [terminalGlow, setTerminalGlow] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -189,21 +190,63 @@ export default function ProjectsTerminal() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    // Random terminal glow effect - more frequent and visible
+    const glowInterval = setInterval(() => {
+      setTerminalGlow(true);
+      setTimeout(() => setTerminalGlow(false), 3000);
+    }, 8000); // Every 8 seconds
+
+    return () => clearInterval(glowInterval);
+  }, []);
+
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center"
+      className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
       style={{ background: "rgb(230, 230, 230)" }}
     >
+      {/* More visible floating particles */}
+      {[...Array(12)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 bg-black/20 rounded-full"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            y: [0, -30, 0],
+            opacity: [0.2, 0.6, 0.2],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{
+            duration: 6 + Math.random() * 3,
+            repeat: Infinity,
+            delay: Math.random() * 3,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
       <motion.div
         className="w-full max-w-4xl h-[680px] md:h-[600px] rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col justify-between items-stretch mx-auto relative"
         animate={{
-          boxShadow: [
-            "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-            "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.1)",
-            "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-          ],
+          boxShadow: terminalGlow
+            ? [
+                "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 50px rgba(0, 0, 0, 0.6)",
+                "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 80px rgba(0, 0, 0, 0.8)",
+                "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 50px rgba(0, 0, 0, 0.6)",
+              ]
+            : [
+                "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.1)",
+                "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              ],
         }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        whileHover={{
+          scale: 1.005,
+          transition: { duration: 0.3 },
+        }}
       >
         {/* Back Button inside terminal */}
         <div className="flex items-center justify-start px-6 pt-4 pb-2">
@@ -256,6 +299,13 @@ export default function ProjectsTerminal() {
               {clock}
             </motion.span>
             <span>total_projects: 4</span>
+            <motion.span
+              className="text-black font-bold"
+              animate={{ opacity: [0.7, 1, 0.7] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              status: online
+            </motion.span>
           </div>
         </div>
         {/* Current Directory */}
@@ -264,8 +314,16 @@ export default function ProjectsTerminal() {
           <motion.span
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2.5, repeat: Infinity }}
+            className="font-mono"
           >
             /projects/portfolio/
+          </motion.span>
+          <motion.span
+            className="ml-1 text-black/60"
+            animate={{ opacity: [1, 0, 1] }}
+            transition={{ duration: 1, repeat: Infinity }}
+          >
+            _
           </motion.span>
         </div>
         {/* Categories Grid */}
@@ -283,9 +341,10 @@ export default function ProjectsTerminal() {
                     y: -2,
                     boxShadow: "0 4px 24px 0 rgba(0,0,0,0.08)",
                     scale: 1.02,
+                    borderColor: "rgba(0, 0, 0, 0.3)",
                   }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-neutral-50 border border-black/10 rounded-xl p-5 flex flex-col items-center transition-all duration-200 group hover:border-black/20 cursor-pointer"
+                  className="bg-neutral-50 border border-black/10 rounded-xl p-5 flex flex-col items-center transition-all duration-200 group hover:border-black/20 cursor-pointer relative overflow-hidden"
                   onMouseEnter={() => setHovered(idx)}
                   onMouseLeave={() => setHovered(-1)}
                   onClick={() => router.push(cat.href)}
@@ -293,6 +352,12 @@ export default function ProjectsTerminal() {
                   role="button"
                   aria-label={cat.name}
                 >
+                  {/* Subtle hover effect overlay */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/5 opacity-0"
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
                   <Icon hovered={hovered === idx} />
                   <span className="mt-3 text-base text-black font-semibold mb-2 text-center w-full">
                     {cat.name}
@@ -310,28 +375,18 @@ export default function ProjectsTerminal() {
           <motion.span
             animate={{ opacity: [0.4, 0.8, 0.4] }}
             transition={{ duration: 3, repeat: Infinity }}
+            className="font-mono"
           >
             © 2025 Taylor Terminal • Your interactive way to view my work.
           </motion.span>
-          <span
-            className="ml-2 select-none pointer-events-none align-middle"
+          <motion.span
+            className="ml-2 select-none pointer-events-none align-middle text-black/60"
+            animate={{ opacity: [1, 0.2, 1] }}
+            transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
             style={{ position: "relative", top: "1px" }}
           >
-            <motion.svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              initial={{ opacity: 1 }}
-              animate={{ opacity: [1, 0.2, 1] }}
-              transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
-              style={{ display: "inline-block", verticalAlign: "middle" }}
-            >
-              {/* Blinking terminal cursor: underscore */}
-              <rect x="3" y="12" width="10" height="2" rx="1" fill="#222" />
-            </motion.svg>
-          </span>
+            |
+          </motion.span>
         </div>
       </motion.div>
     </div>

@@ -134,8 +134,6 @@ export default function LearningProgressTerminal() {
       second: "2-digit",
     })
   );
-  // Lightbox state for gallery
-  const [lightboxImg, setLightboxImg] = useState(null);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -149,16 +147,6 @@ export default function LearningProgressTerminal() {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-
-  // Close lightbox on ESC
-  React.useEffect(() => {
-    if (!lightboxImg) return;
-    function onKey(e) {
-      if (e.key === "Escape") setLightboxImg(null);
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [lightboxImg]);
 
   return (
     <div
@@ -286,8 +274,8 @@ export default function LearningProgressTerminal() {
                     {/* Google Cybersecurity Professional Certificate */}
                     <TerminalCertCard
                       name="Google Cybersecurity Professional Certificate"
-                      progress={70}
-                      status="In Progress"
+                      progress={100}
+                      status="Completed"
                       order={1}
                     />
                     {/* Microsoft SC-900 */}
@@ -316,74 +304,74 @@ export default function LearningProgressTerminal() {
                   className="space-y-6"
                 >
                   <h2 className="text-2xl font-bold text-black mb-2 flex items-center gap-2">
-                    <FontAwesomeIcon icon={faImages} /> Screenshots Gallery
+                    <FontAwesomeIcon icon={faCertificate} /> Certificate Gallery
                   </h2>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    {/* Screenshot images */}
-                    {[
-                      "Tools_of_the_Trade_ 4368MJEWG01V_Taylor Bryant-1.png",
-                      "Sound the Alarm_4368MJEWG01V_Taylor Bryant-1.png",
-                      "Play It Safe_Manage Security Risks_S5ZB1MXBZ4FP_Taylor Bryant-1.png",
-                      "Foundations_4VQNPA46W5ZX_Taylor Bryant-1.png",
-                      "Connect and Protect_8UC85P6INBYV_Taylor Bryant-1.png",
-                      "Assets, Threats, and Vulnerabilities_Taylor Bryant_JSG9R1TGMM8C-1.png",
-                    ].map((filename) => (
-                      <div
-                        key={filename}
-                        className="bg-neutral-50 rounded-lg aspect-square flex items-center justify-center border border-black/10 overflow-hidden transition-transform duration-200 hover:scale-105 hover:border-black/30 shadow-sm cursor-pointer"
-                        onClick={() => setLightboxImg(filename)}
-                        tabIndex={0}
-                        aria-label={`Enlarge screenshot: ${filename
-                          .replace(/_/g, " ")
-                          .replace(/\.[^/.]+$/, "")}`}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ")
-                            setLightboxImg(filename);
-                        }}
-                      >
+                  <p className="text-black/60 mb-6">
+                    View my Google Cybersecurity Professional Certificate and
+                    other achievements.
+                  </p>
+                  <div className="flex flex-col items-center space-y-6">
+                    {/* Certificate PDF Display */}
+                    <div className="w-full max-w-4xl bg-neutral-50 rounded-xl border border-black/10 p-6 shadow-sm">
+                      <div className="mb-4">
+                        <h3 className="text-lg font-semibold text-black flex items-center gap-2 mb-2">
+                          <FontAwesomeIcon
+                            icon={faCertificate}
+                            className="text-black/60"
+                          />
+                          Google Cybersecurity Professional Certificate
+                        </h3>
+                        <p className="text-sm text-black/70 leading-relaxed">
+                          This foundational certificate provides comprehensive
+                          training in cybersecurity fundamentals, including
+                          threat detection, network security, incident response,
+                          and risk management. It covers essential skills for
+                          protecting organizations from cyber threats and
+                          establishing robust security practices. Earned through
+                          Merit America's intensive program.
+                        </p>
+                      </div>
+                      <div className="bg-white rounded-lg border border-black/10 overflow-hidden">
                         <Image
-                          src={`/image/projects/Screenshots/${filename}`}
-                          alt={filename
-                            .replace(/_/g, " ")
-                            .replace(/\.[^/.]+$/, "")}
-                          className="object-cover w-full h-full grayscale"
+                          src="/image/projects/Screenshots/Google Cybersecurity Professional Certificate_LBDZEFRY5S88_Taylor Bryant-1.png"
+                          alt="Google Cybersecurity Professional Certificate"
+                          className="w-full h-auto object-contain"
                           width={800}
-                          height={800}
+                          height={600}
                         />
                       </div>
-                    ))}
-                  </div>
-                  {/* Lightbox Modal */}
-                  {lightboxImg && (
-                    <div
-                      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 bg-opacity-90 transition-all"
-                      onClick={() => setLightboxImg(null)}
-                      aria-modal="true"
-                      role="dialog"
-                    >
-                      <Image
-                        src={`/image/projects/Screenshots/${lightboxImg}`}
-                        alt={lightboxImg
-                          .replace(/_/g, " ")
-                          .replace(/\.[^/.]+$/, "")}
-                        className="max-w-[90vw] max-h-[80vh] rounded-lg border-2 border-white shadow-2xl grayscale"
-                        width={1200}
-                        height={1200}
-                        onClick={(e) => e.stopPropagation()}
-                        style={{
-                          boxShadow: "0 0 0 4px #fff, 0 8px 32px #0008",
-                        }}
-                      />
-                      <button
-                        className="absolute top-6 right-8 text-white text-3xl font-bold bg-black/60 rounded-full px-3 py-1 hover:bg-black/80 focus:outline-none"
-                        onClick={() => setLightboxImg(null)}
-                        aria-label="Close image preview"
-                        style={{ zIndex: 60 }}
-                      >
-                        ×
-                      </button>
+                      <div className="mt-4 text-center">
+                        <p className="text-sm text-black/60">
+                          Completed 2025 • Merit America Program
+                        </p>
+                      </div>
                     </div>
-                  )}
+
+                    {/* Additional Certificate Placeholder */}
+                    <div className="w-full max-w-4xl bg-neutral-50 rounded-xl border border-black/10 p-6 shadow-sm opacity-60">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-semibold text-black/60 flex items-center gap-2">
+                          <FontAwesomeIcon
+                            icon={faCertificate}
+                            className="text-black/40"
+                          />
+                          Microsoft SC-900 Certificate
+                        </h3>
+                        <span className="px-4 py-2 bg-gray-300 text-gray-600 rounded-lg text-sm font-mono">
+                          Coming Soon
+                        </span>
+                      </div>
+                      <div className="bg-gray-100 rounded-lg border border-gray-200 h-[600px] flex items-center justify-center">
+                        <div className="text-center text-gray-500">
+                          <FontAwesomeIcon
+                            icon={faCertificate}
+                            className="text-4xl mb-2"
+                          />
+                          <p className="text-sm">Certificate in progress...</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
               )}
               {activeSection === "notes" && (
