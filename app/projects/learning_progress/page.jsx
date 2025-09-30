@@ -433,8 +433,8 @@ export default function LearningProgressTerminal() {
                         <p className="text-sm text-black/70 leading-relaxed">
                           Tracking my progress through the CompTIA A+
                           certification objectives. Each checked item represents
-                          a concept I've mastered through hands-on practice and
-                          study.
+                          a concept I&apos;ve mastered through hands-on practice
+                          and study.
                         </p>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -582,11 +582,11 @@ export default function LearningProgressTerminal() {
                       <p className="text-black/70 text-sm">
                         After completing my Google Cybersecurity certificate, I
                         realized I needed a stronger foundation in IT
-                        fundamentals. That's why I'm now diving deep into
-                        CompTIA A+ - it's giving me the hands-on hardware and
-                        operating system knowledge that every IT professional
-                        needs. The practical labs are challenging but so
-                        rewarding when everything clicks!
+                        fundamentals. That&apos;s why I&apos;m now diving deep
+                        into CompTIA A+ - it&apos;s giving me the hands-on
+                        hardware and operating system knowledge that every IT
+                        professional needs. The practical labs are challenging
+                        but so rewarding when everything clicks!
                       </p>
                     </div>
                     <div className="bg-neutral-50 rounded-xl p-6 border border-black/10">
