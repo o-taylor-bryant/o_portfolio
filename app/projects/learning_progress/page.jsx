@@ -46,18 +46,10 @@ function TerminalCertCard({ name, progress, status, order }) {
   const statusStyle = statusMap[status] || statusMap["Planned"];
 
   return (
-    <div className="bg-white rounded-xl p-5 border border-black/10 flex flex-col gap-3 shadow-sm font-mono relative overflow-hidden min-h-[148px]">
-      {/* Scanline shimmer overlay for fun terminal effect */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        initial={{ opacity: 0.08 }}
-        animate={{ opacity: [0.08, 0.16, 0.08] }}
-        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-        style={{
-          background:
-            "repeating-linear-gradient(180deg, #0001 0 2px, transparent 2px 8px)",
-        }}
-      />
+    <div
+      className="bg-white rounded-xl p-5 border border-black/10 flex flex-col gap-3 shadow-sm relative overflow-hidden min-h-[148px]"
+      style={{ fontFamily: "Nunito, sans-serif" }}
+    >
       {/* Title Row: icon + name, with wrapping for long names */}
       <div className="flex items-center gap-2 text-lg font-semibold text-black z-10 min-h-[56px]">
         <FontAwesomeIcon
@@ -153,7 +145,10 @@ export default function LearningProgressTerminal() {
       className="min-h-screen flex flex-col items-center justify-center pt-16 pb-8"
       style={{ background: "rgb(230, 230, 230)" }}
     >
-      <div className="w-full max-w-6xl rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col justify-between items-stretch mx-auto relative">
+      <div
+        className="w-full max-w-6xl rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden flex flex-col justify-between items-stretch mx-auto relative"
+        style={{ fontFamily: "Nunito, sans-serif" }}
+      >
         {/* Back Button inside terminal */}
         <div className="flex items-center justify-start px-6 pt-4 pb-2">
           <button
@@ -205,7 +200,7 @@ export default function LearningProgressTerminal() {
             {sections.map((section) => (
               <button
                 key={section.key}
-                className={`flex items-center gap-3 px-4 py-2 rounded-lg text-sm transition-all font-mono
+                className={`flex items-center gap-3 px-4 py-2 rounded-lg text-sm transition-all
                   ${
                     activeSection === section.key
                       ? "bg-neutral-200 text-black font-bold shadow"
@@ -360,19 +355,12 @@ export default function LearningProgressTerminal() {
                       status="Completed"
                       order={1}
                     />
-                    {/* Microsoft SC-900 */}
-                    <TerminalCertCard
-                      name="Microsoft Certified: Security, Compliance, and Identity Fundamentals (SC-900)"
-                      progress={0}
-                      status="Up Next"
-                      order={2}
-                    />
                     {/* CompTIA A+ Certification Core 1 (220-1101) and Core 2 (220-1102) */}
                     <TerminalCertCard
                       name="CompTIA A+ Certification Core 1 (220-1101) and Core 2 (220-1102)"
-                      progress={0}
-                      status="Planned"
-                      order={3}
+                      progress={35}
+                      status="In Progress"
+                      order={2}
                     />
                   </div>
                 </motion.div>
@@ -429,28 +417,123 @@ export default function LearningProgressTerminal() {
                       </div>
                     </div>
 
-                    {/* Additional Certificate Placeholder */}
-                    <div className="w-full max-w-4xl bg-neutral-50 rounded-xl border border-black/10 p-6 shadow-sm opacity-60">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold text-black/60 flex items-center gap-2">
+                    {/* CompTIA A+ Objectives Checklist */}
+                    <div
+                      className="w-full max-w-4xl bg-neutral-50 rounded-xl border border-black/10 p-6 shadow-sm"
+                      style={{ fontFamily: "Nunito, sans-serif" }}
+                    >
+                      <div className="mb-4">
+                        <h3 className="text-lg font-semibold text-black flex items-center gap-2 mb-2">
                           <FontAwesomeIcon
                             icon={faCertificate}
-                            className="text-black/40"
+                            className="text-black/60"
                           />
-                          Microsoft SC-900 Certificate
+                          CompTIA A+ Objectives Mastery
                         </h3>
-                        <span className="px-4 py-2 bg-gray-300 text-gray-600 rounded-lg text-sm font-mono">
-                          Coming Soon
-                        </span>
+                        <p className="text-sm text-black/70 leading-relaxed">
+                          Tracking my progress through the CompTIA A+
+                          certification objectives. Each checked item represents
+                          a concept I've mastered through hands-on practice and
+                          study.
+                        </p>
                       </div>
-                      <div className="bg-gray-100 rounded-lg border border-gray-200 h-[600px] flex items-center justify-center">
-                        <div className="text-center text-gray-500">
-                          <FontAwesomeIcon
-                            icon={faCertificate}
-                            className="text-4xl mb-2"
-                          />
-                          <p className="text-sm">Certificate in progress...</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Core 1 Objectives */}
+                        <div className="bg-white rounded-lg border border-black/10 p-4">
+                          <h4 className="font-semibold text-black mb-3 flex items-center gap-2">
+                            <span className="w-2 h-2 bg-black rounded-full"></span>
+                            Core 1 (220-1101) - Hardware & Networking
+                          </h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex items-center gap-2">
+                              <span className="text-black font-bold">✓</span>
+                              <span className="text-black font-medium">
+                                Mobile device hardware
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-black/30">○</span>
+                              <span className="text-black/40">
+                                Laptop hardware components
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-black/60">◐</span>
+                              <span className="text-black/60">
+                                Networking fundamentals
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-black/30">○</span>
+                              <span className="text-black/40">
+                                Troubleshooting methodology
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-black/30">○</span>
+                              <span className="text-black/40">
+                                Printer configuration
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-black/30">○</span>
+                              <span className="text-black/40">
+                                Virtualization concepts
+                              </span>
+                            </div>
+                          </div>
                         </div>
+
+                        {/* Core 2 Objectives */}
+                        <div className="bg-white rounded-lg border border-black/10 p-4">
+                          <h4 className="font-semibold text-black mb-3 flex items-center gap-2">
+                            <span className="w-2 h-2 bg-black rounded-full"></span>
+                            Core 2 (220-1102) - Operating Systems & Security
+                          </h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex items-center gap-2">
+                              <span className="text-black/30">○</span>
+                              <span className="text-black/40">
+                                Windows installation & configuration
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-black/30">○</span>
+                              <span className="text-black/40">
+                                Linux command line basics
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-black/30">○</span>
+                              <span className="text-black/40">
+                                Security best practices
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-black/30">○</span>
+                              <span className="text-black/40">
+                                macOS troubleshooting
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-black/30">○</span>
+                              <span className="text-black/40">
+                                Scripting fundamentals
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-black/30">○</span>
+                              <span className="text-black/40">
+                                Change management
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-4 text-center">
+                        <p className="text-xs text-black/50">
+                          Legend: ✓ Mastered • ◐ In Progress • ○ Planned
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -497,13 +580,13 @@ export default function LearningProgressTerminal() {
                         Choosing a path...
                       </h3>
                       <p className="text-black/70 text-sm">
-                        Cybersecurity fundamentals felt right for me to pursue
-                        first because I like a challenge. It took me a while to
-                        see that the tech field is very open about having many
-                        avenues you can venture down. I think after cyber,
-                        I&apos;d like to get something more foundational in IT
-                        Support and IAM to become more well-rounded.
-                        *Sigh*...This is a lot in such a short amount of time.
+                        After completing my Google Cybersecurity certificate, I
+                        realized I needed a stronger foundation in IT
+                        fundamentals. That's why I'm now diving deep into
+                        CompTIA A+ - it's giving me the hands-on hardware and
+                        operating system knowledge that every IT professional
+                        needs. The practical labs are challenging but so
+                        rewarding when everything clicks!
                       </p>
                     </div>
                     <div className="bg-neutral-50 rounded-xl p-6 border border-black/10">

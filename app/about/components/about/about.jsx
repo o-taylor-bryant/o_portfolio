@@ -153,12 +153,11 @@ export default function About() {
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
             Leadership, for me, often shows up in subtle ways. At{" "}
             <span className="font-bold">Walgreens</span>, I led our Customer
-            Experience metric discussions during team meetings. I wasn&apos;t
-            managing the team, but I helped guide the conversation, translating
-            feedback into actionable suggestions that improved how we served
-            people. That experience helped me see the value in data-informed
-            communication, something I plan to carry into my workflow when
-            working with users and systems alike.
+            Experience metric discussions during team meetings.I helped guide
+            the conversation, translating feedback into actionable suggestions
+            that improved how we served people. That experience helped me see
+            the value in data-informed communication, something I plan to carry
+            into my workflow when working with users and systems alike.
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
             Earlier on, while supporting students at{" "}
@@ -174,10 +173,9 @@ export default function About() {
             roles that require a balance of care, problem-solving, and overall
             team-based success. Being someone others can rely on and addressing
             problems with hands-on care are just some of the ways I would
-            contribute to achieving company goals. I&apos;m very early in my
-            career, but my love for computers has always been present. Becoming
-            well-rounded and growing with a team would give me the substance I
-            need to reach further for success.
+            contribute to achieving company goals. My love for computers has
+            always been present. Becoming well-rounded and growing with a team
+            would give me the substance I need to reach further for success.
           </p>
         </motion.div>
       </div>

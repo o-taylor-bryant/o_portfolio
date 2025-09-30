@@ -44,7 +44,7 @@ export default function Stack() {
         <span className="text-black font-bold">GitHub</span>,{" "}
         <span className="text-black font-bold">Node.js</span>,{" "}
         <span className="text-black font-bold">Visual Studio Code</span>,{" "}
-        foundational <span className="text-black font-bold">HTML/CSS</span>,{" "}
+        <span className="text-black font-bold">HTML/CSS</span>,{" "}
         <span className="text-black font-bold">Python</span>
       </p>
     </motion.div>

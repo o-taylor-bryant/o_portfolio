@@ -171,7 +171,6 @@ const categories = [
 export default function ProjectsTerminal() {
   const [clock, setClock] = useState("");
   const [hovered, setHovered] = useState(-1);
-  const [terminalGlow, setTerminalGlow] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -190,70 +189,36 @@ export default function ProjectsTerminal() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    // Random terminal glow effect - more frequent and visible
-    const glowInterval = setInterval(() => {
-      setTerminalGlow(true);
-      setTimeout(() => setTerminalGlow(false), 3000);
-    }, 8000); // Every 8 seconds
-
-    return () => clearInterval(glowInterval);
-  }, []);
-
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
       style={{ background: "rgb(230, 230, 230)" }}
     >
-      {/* More visible floating particles */}
-      {[...Array(12)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 bg-black/20 rounded-full"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.2, 0.6, 0.2],
-            scale: [1, 1.5, 1],
-          }}
-          transition={{
-            duration: 6 + Math.random() * 3,
-            repeat: Infinity,
-            delay: Math.random() * 3,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
       <motion.div
         className="w-full max-w-4xl h-[680px] md:h-[600px] rounded-2xl border-2 border-black bg-white shadow-2xl overflow-hidden font-mono flex flex-col justify-between items-stretch mx-auto relative"
-        animate={{
-          boxShadow: terminalGlow
-            ? [
-                "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 50px rgba(0, 0, 0, 0.6)",
-                "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 80px rgba(0, 0, 0, 0.8)",
-                "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 50px rgba(0, 0, 0, 0.6)",
-              ]
-            : [
-                "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-                "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.1)",
-                "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-              ],
-        }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        initial={{ opacity: 0, y: 50, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         whileHover={{
-          scale: 1.005,
+          scale: 1.01,
+          boxShadow:
+            "0 30px 60px -12px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.1)",
           transition: { duration: 0.3 },
         }}
       >
         {/* Back Button inside terminal */}
-        <div className="flex items-center justify-start px-6 pt-4 pb-2">
-          <button
+        <motion.div
+          className="flex items-center justify-start px-6 pt-4 pb-2"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
+          <motion.button
             onClick={() => router.push("/")}
             aria-label="Back to Home"
             className="flex items-center gap-2 px-3 py-1 rounded-lg bg-black/5 border border-black/10 text-black/60 hover:bg-black/10 transition text-xs font-mono"
+            whileHover={{ scale: 1.05, backgroundColor: "rgba(0,0,0,0.1)" }}
+            whileTap={{ scale: 0.95 }}
           >
             <svg
               width="18"
@@ -271,8 +236,8 @@ export default function ProjectsTerminal() {
               />
             </svg>
             Back
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
         {/* Terminal Header Bar (widgets/taskbar) */}
         <div className="flex items-center justify-center px-6 py-2 bg-neutral-200 border-b border-black/10 text-xs text-black/70 w-full">
           <div className="flex flex-wrap items-center gap-6 justify-center w-full">
@@ -334,17 +299,23 @@ export default function ProjectsTerminal() {
               return (
                 <motion.div
                   key={cat.key}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1, duration: 0.5 }}
-                  whileHover={{
-                    y: -2,
-                    boxShadow: "0 4px 24px 0 rgba(0,0,0,0.08)",
-                    scale: 1.02,
-                    borderColor: "rgba(0, 0, 0, 0.3)",
+                  initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    delay: 0.7 + idx * 0.15,
+                    duration: 0.6,
+                    ease: "easeOut",
                   }}
-                  whileTap={{ scale: 0.98 }}
-                  className="bg-neutral-50 border border-black/10 rounded-xl p-5 flex flex-col items-center transition-all duration-200 group hover:border-black/20 cursor-pointer relative overflow-hidden"
+                  whileHover={{
+                    y: -8,
+                    boxShadow:
+                      "0 8px 32px 0 rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.1)",
+                    scale: 1.05,
+                    borderColor: "rgba(0, 0, 0, 0.3)",
+                    transition: { duration: 0.2 },
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-neutral-50 border border-black/10 rounded-xl p-5 flex flex-col items-center transition-all duration-300 group hover:border-black/20 cursor-pointer relative overflow-hidden"
                   onMouseEnter={() => setHovered(idx)}
                   onMouseLeave={() => setHovered(-1)}
                   onClick={() => router.push(cat.href)}
@@ -352,19 +323,49 @@ export default function ProjectsTerminal() {
                   role="button"
                   aria-label={cat.name}
                 >
-                  {/* Subtle hover effect overlay */}
+                  {/* Creative hover effect overlay */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/5 opacity-0"
+                    className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-500/5 to-purple-500/5 opacity-0 rounded-xl"
                     whileHover={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
                   />
-                  <Icon hovered={hovered === idx} />
-                  <span className="mt-3 text-base text-black font-semibold mb-2 text-center w-full">
+                  {/* Animated border effect */}
+                  <motion.div
+                    className="absolute inset-0 rounded-xl border-2 border-transparent"
+                    whileHover={{
+                      borderColor: "rgba(59, 130, 246, 0.3)",
+                      boxShadow: "inset 0 0 20px rgba(59, 130, 246, 0.1)",
+                    }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  <motion.div
+                    animate={
+                      hovered === idx
+                        ? { rotate: [0, -5, 5, 0] }
+                        : { rotate: 0 }
+                    }
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Icon hovered={hovered === idx} />
+                  </motion.div>
+                  <motion.span
+                    className="mt-3 text-base text-black font-semibold mb-2 text-center w-full"
+                    animate={
+                      hovered === idx
+                        ? { color: ["#000", "#3b82f6", "#000"] }
+                        : { color: "#000" }
+                    }
+                    transition={{ duration: 0.3 }}
+                  >
                     {cat.name}
-                  </span>
-                  <span className="text-xs text-black/60 text-center w-full">
+                  </motion.span>
+                  <motion.span
+                    className="text-xs text-black/60 text-center w-full"
+                    animate={hovered === idx ? { y: [0, -2, 0] } : { y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     {cat.description}
-                  </span>
+                  </motion.span>
                 </motion.div>
               );
             })}
