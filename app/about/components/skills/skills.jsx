@@ -40,44 +40,94 @@ export default function Skills() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             <div className="flex flex-col items-center gap-2">
               <motion.div
-                className="w-8 h-8 border-2 border-black rounded-md bg-transparent"
+                className="w-8 h-8 flex items-center justify-center"
                 animate={{
                   y: [0, -8, 0],
-                  boxShadow: [
-                    "0 2px 8px rgba(0,0,0,0.10)",
-                    "0 8px 24px rgba(0,0,0,0.15)",
-                    "0 2px 8px rgba(0,0,0,0.10)",
-                  ],
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
-              />
-              <div className="font-medium text-sm sm:text-base">Leadership</div>
+              >
+                <svg
+                  className="w-8 h-8"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 17L4 22H20L19 17" />
+                  <path d="M12 2L7 12L12 16L17 12L12 2Z" />
+                  <path d="M9 12H15" />
+                </svg>
+              </motion.div>
+              <div className="font-bold text-sm sm:text-base">Leadership</div>
             </div>
             <div className="flex flex-col items-center gap-2">
               <motion.div
-                className="w-8 h-8 border-2 border-black rounded-md bg-transparent"
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-              <div className="font-medium text-sm sm:text-base">
+                className="w-8 h-8 flex items-center justify-center"
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              >
+                <svg
+                  className="w-8 h-8"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+              </motion.div>
+              <div className="font-bold text-sm sm:text-base">
                 Independence
               </div>
             </div>
             <div className="flex flex-col items-center gap-2">
               <motion.div
-                className="w-8 h-8 border-2 border-black rounded-md bg-transparent"
+                className="w-8 h-8 flex items-center justify-center"
                 animate={{ scale: [1, 1.15, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
-              />
-              <div className="font-medium text-sm sm:text-base">Support</div>
+              >
+                <svg
+                  className="w-8 h-8"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" />
+                  <path d="M2 17L12 22L22 17" />
+                  <path d="M2 12L12 17L22 12" />
+                </svg>
+              </motion.div>
+              <div className="font-bold text-sm sm:text-base">Support</div>
             </div>
             <div className="flex flex-col items-center gap-2">
               <motion.div
-                className="w-8 h-8 border-2 border-black rounded-md bg-transparent"
+                className="w-8 h-8 flex items-center justify-center"
                 animate={{ x: [0, 8, -8, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
-              />
-              <div className="font-medium text-sm sm:text-base">
+              >
+                <svg
+                  className="w-8 h-8"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  <path d="M8 10h.01" />
+                  <path d="M12 10h.01" />
+                  <path d="M16 10h.01" />
+                </svg>
+              </motion.div>
+              <div className="font-bold text-sm sm:text-base">
                 Communication
               </div>
             </div>

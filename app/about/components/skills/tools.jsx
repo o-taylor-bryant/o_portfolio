@@ -17,33 +17,33 @@ export default function Tools() {
         type: "spring",
       }}
     >
-      <h2 className="text-xl sm:text-2xl md:text-xl font-normal mb-3 md:tracking-[.3rem] lg:tracking-[.5rem] uppercase text-center w-full">
+      <h2 className="text-xl sm:text-2xl md:text-xl font-bold mb-3 md:tracking-[.3rem] lg:tracking-[.5rem] uppercase text-center w-full">
         Security Knowledge & Practices
       </h2>
       <p className="text-gray-500 text-center tracking-wider px-2 sm:px-5 mb-4 text-sm sm:text-base max-w-xl">
-        <span className="text-black font-bold">System Troubleshooting</span>,{" "}
-        <span className="text-black font-bold">Incident Response</span>,{" "}
-        <span className="text-black font-bold">SIEM tools</span>,{" "}
-        <span className="text-black font-bold">Log Analysis</span>,{" "}
-        <span className="text-black font-bold">Network Defense & Security</span>
-        ,{" "}
-        <span className="text-black font-bold">
-          Basic System Administration
-        </span>
-        , <span className="text-black font-bold">Threat Detection</span>,{" "}
-        <span className="text-black font-bold">Vulnerability Assessment</span>
+        <span className="text-black">System configuration and troubleshooting</span>,{" "}
+        <span className="text-black">incident response fundamentals</span>,{" "}
+        <span className="text-black">SIEM tools</span>,{" "}
+        <span className="text-black">log and network analysis</span>,{" "}
+        <span className="text-black">system administration concepts</span>,{" "}
+        <span className="text-black">threat detection</span>,{" "}
+        <span className="text-black">vulnerability assessment</span>,{" "}
+        <span className="text-black">TCP/IP</span>
       </p>
-      <h2 className="text-xl sm:text-2xl md:text-xl font-normal mb-3 md:tracking-[.3rem] lg:tracking-[.5rem] uppercase text-center w-full">
+      <h2 className="text-xl sm:text-2xl md:text-xl font-bold mb-3 md:tracking-[.3rem] lg:tracking-[.5rem] uppercase text-center w-full">
         Professional & Soft Skills
       </h2>
       <p className="text-gray-500 text-center tracking-wider px-2 sm:px-5 text-sm sm:text-base max-w-xl">
-        <span className="text-black font-medium">Attention to Detail</span>,{" "}
-        <span className="text-black font-medium">Collaboration</span>,{" "}
-        <span className="text-black font-medium">Creativity</span>,{" "}
-        <span className="text-black font-bold">Problem-Solving</span>,{" "}
-        <span className="text-black font-medium">Self-Motivation</span>,{" "}
-        <span className="text-black font-medium">Technical Curiosity</span>,{" "}
-        <span className="text-black font-bold">Troubleshooting</span>
+        <span className="text-black">Attention to detail</span>,{" "}
+        <span className="text-black">collaboration</span>,{" "}
+        <span className="text-black">clear communication</span>,{" "}
+        <span className="text-black">creativity</span>,{" "}
+        <span className="text-black">problem-solving</span>,{" "}
+        <span className="text-black">self-motivation</span>,{" "}
+        <span className="text-black">adaptability</span>,{" "}
+        <span className="text-black">documentation</span>,{" "}
+        <span className="text-black">time management</span>,{" "}
+        <span className="text-black">continuous learning mindset</span>
       </p>
     </motion.div>
   );

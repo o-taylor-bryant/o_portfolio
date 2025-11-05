@@ -298,7 +298,7 @@ const MyPage = () => {
                     <div className="flex flex-row space-x-4">
                       <Button variation="primary">
                         <a
-                          href="https://tinyurl.com/otrbresume"
+                          href="https://tinyurl.com/otaylorbryantcv"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center"
@@ -318,7 +318,7 @@ const MyPage = () => {
                     </div>
                     <div className="flex flex-col items-center">
                       <Image
-                        src="/image/otrbresume-400.png"
+                        src="/image/otaylorbryantcv.png"
                         alt="Taylor Bryant Resume QR Code"
                         width={112}
                         height={112}

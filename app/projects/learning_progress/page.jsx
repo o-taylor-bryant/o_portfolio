@@ -10,7 +10,7 @@ import {
   faCertificate,
   faImages,
   faStickyNote,
-  faBlog,
+  faRoute,
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
@@ -18,8 +18,8 @@ const sections = [
   { key: "tryhackme", label: "Learning Platforms", icon: faTerminal },
   { key: "certificates", label: "Certificates", icon: faCertificate },
   { key: "gallery", label: "Gallery", icon: faImages },
-  { key: "notes", label: "Notes", icon: faStickyNote },
-  { key: "blog", label: "Blog", icon: faBlog },
+  { key: "write-ups", label: "Write-Ups", icon: faStickyNote },
+  { key: "roadmap", label: "Career Roadmap", icon: faRoute },
 ];
 
 // TerminalCertCard component for certificate progress display
@@ -442,43 +442,37 @@ export default function LearningProgressTerminal() {
                         <div className="bg-white rounded-lg border border-black/10 p-4">
                           <h4 className="font-semibold text-black mb-3 flex items-center gap-2">
                             <span className="w-2 h-2 bg-black rounded-full"></span>
-                            Core 1 (220-1101) - Hardware & Networking
+                            Core 1 (220-1101) - A+ Core 1 (V15)
                           </h4>
                           <div className="space-y-2 text-sm">
                             <div className="flex items-center gap-2">
                               <span className="text-black font-bold">✓</span>
                               <span className="text-black font-medium">
-                                Mobile device hardware
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-black/30">○</span>
-                              <span className="text-black/40">
-                                Laptop hardware components
+                                Mobile devices (13%)
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <span className="text-black/60">◐</span>
                               <span className="text-black/60">
-                                Networking fundamentals
+                                Networking (23%)
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <span className="text-black/30">○</span>
                               <span className="text-black/40">
-                                Troubleshooting methodology
+                                Hardware (25%)
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <span className="text-black/30">○</span>
                               <span className="text-black/40">
-                                Printer configuration
+                                Virtualization and cloud computing (11%)
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <span className="text-black/30">○</span>
                               <span className="text-black/40">
-                                Virtualization concepts
+                                Hardware and network troubleshooting (28%)
                               </span>
                             </div>
                           </div>
@@ -488,43 +482,31 @@ export default function LearningProgressTerminal() {
                         <div className="bg-white rounded-lg border border-black/10 p-4">
                           <h4 className="font-semibold text-black mb-3 flex items-center gap-2">
                             <span className="w-2 h-2 bg-black rounded-full"></span>
-                            Core 2 (220-1102) - Operating Systems & Security
+                            Core 2 (220-1102) - A+ Core 2 (V15)
                           </h4>
                           <div className="space-y-2 text-sm">
                             <div className="flex items-center gap-2">
                               <span className="text-black/30">○</span>
                               <span className="text-black/40">
-                                Windows installation & configuration
+                                Operating systems (28%)
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <span className="text-black/30">○</span>
                               <span className="text-black/40">
-                                Linux command line basics
+                                Security (28%)
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <span className="text-black/30">○</span>
                               <span className="text-black/40">
-                                Security best practices
+                                Software troubleshooting (23%)
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <span className="text-black/30">○</span>
                               <span className="text-black/40">
-                                macOS troubleshooting
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-black/30">○</span>
-                              <span className="text-black/40">
-                                Scripting fundamentals
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-black/30">○</span>
-                              <span className="text-black/40">
-                                Change management
+                                Operational procedures (21%)
                               </span>
                             </div>
                           </div>
@@ -539,60 +521,295 @@ export default function LearningProgressTerminal() {
                   </div>
                 </motion.div>
               )}
-              {activeSection === "notes" && (
+              {activeSection === "write-ups" && (
                 <motion.div
-                  key="notes"
+                  key="write-ups"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   className="space-y-6"
                 >
                   <h2 className="text-2xl font-bold text-black mb-2 flex items-center gap-2">
-                    <FontAwesomeIcon icon={faStickyNote} /> Learning Notes
+                    <FontAwesomeIcon icon={faStickyNote} /> Objective Write-Ups
                   </h2>
+                  <p className="text-black/70 text-sm mb-4">
+                    Basic understanding write-ups for CompTIA A+ objectives that
+                    don&apos;t have practical projects. These write-ups cover
+                    fundamental concepts and knowledge areas.
+                  </p>
                   <div className="space-y-3">
                     <div className="bg-neutral-50 rounded-lg p-4 border border-black/10">
-                      <span className="text-black font-semibold"></span>
-                      <p className="text-black/70 text-sm mt-1"></p>
-                    </div>
-                    <div className="bg-neutral-50 rounded-lg p-4 border border-black/10">
-                      <span className="text-black font-semibold"></span>
-                      <p className="text-black/70 text-sm mt-1"></p>
+                      <span className="text-black font-semibold">
+                        Mobile Devices (13%) - Coming Soon
+                      </span>
+                      <p className="text-black/70 text-sm mt-1">
+                        Write-up covering mobile device hardware setup,
+                        accessory options, network setup, and troubleshooting
+                        concepts.
+                      </p>
                     </div>
                   </div>
                 </motion.div>
               )}
-              {activeSection === "blog" && (
+              {activeSection === "roadmap" && (
                 <motion.div
-                  key="blog"
+                  key="roadmap"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   className="space-y-6"
                 >
                   <h2 className="text-2xl font-bold text-black mb-2 flex items-center gap-2">
-                    <FontAwesomeIcon icon={faBlog} /> Lil&apos; Blog
+                    <FontAwesomeIcon icon={faRoute} /> Career Roadmap
                   </h2>
-                  <div className="space-y-4">
-                    <div className="bg-neutral-50 rounded-xl p-6 border border-black/10">
-                      <span className="text-black/40 text-xs">07-16-2025</span>
-                      <h3 className="text-lg text-black font-semibold mt-1 mb-2">
-                        Choosing a path...
-                      </h3>
-                      <p className="text-black/70 text-sm">
-                        After completing my Google Cybersecurity certificate, I
-                        realized I needed a stronger foundation in IT
-                        fundamentals. That&apos;s why I&apos;m now diving deep
-                        into CompTIA A+ - it&apos;s giving me the hands-on
-                        hardware and operating system knowledge that every IT
-                        professional needs. The practical labs are challenging
-                        but so rewarding when everything clicks!
-                      </p>
-                    </div>
-                    <div className="bg-neutral-50 rounded-xl p-6 border border-black/10">
-                      <span className="text-black/40 text-xs"></span>
-                      <h3 className="text-lg text-black font-semibold mt-1 mb-2"></h3>
-                      <p className="text-black/70 text-sm"></p>
+                  <p className="text-black/70 text-sm mb-6">
+                    My career journey and goals. Where I&apos;ve been, where
+                    I&apos;m going, and what I&apos;m working towards.
+                  </p>
+
+                  {/* Visual Roadmap Timeline */}
+                  <div className="relative bg-white rounded-xl border-2 border-black/20 p-6 overflow-hidden">
+                    {/* Progress Line Background */}
+                    <div
+                      className="absolute left-8 top-0 bottom-0 w-0.5 bg-black/20"
+                      style={{ height: "100%" }}
+                    />
+                    {/* Animated Progress Line */}
+                    <motion.div
+                      className="absolute left-8 top-0 w-0.5 bg-black"
+                      initial={{ height: 0 }}
+                      animate={{ height: "33%" }}
+                      transition={{
+                        duration: 1.5,
+                        delay: 0.3,
+                        ease: "easeOut",
+                      }}
+                      style={{ transformOrigin: "top" }}
+                    />
+
+                    <div className="relative space-y-8">
+                      {/* Current Position Node */}
+                      <motion.div
+                        className="relative flex items-start gap-6"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                      >
+                        <div className="relative z-10 flex-shrink-0">
+                          <motion.div
+                            className="w-6 h-6 bg-black rounded-full border-4 border-white shadow-lg"
+                            animate={{
+                              scale: [1, 1.15, 1],
+                              boxShadow: [
+                                "0 0 0 0 rgba(0,0,0,0.4)",
+                                "0 0 0 8px rgba(0,0,0,0)",
+                                "0 0 0 0 rgba(0,0,0,0)",
+                              ],
+                            }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
+                          <motion.div
+                            className="absolute left-1/2 top-6 w-0.5 h-8 bg-black/20 transform -translate-x-1/2"
+                            initial={{ height: 0 }}
+                            animate={{ height: 32 }}
+                            transition={{ duration: 0.5, delay: 0.8 }}
+                          />
+                        </div>
+                        <motion.div
+                          className="flex-1 bg-neutral-50 rounded-lg border-2 border-black p-5 shadow-sm hover:shadow-md transition-shadow"
+                          whileHover={{ scale: 1.02 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <div className="flex items-center gap-2 mb-2">
+                            <motion.span
+                              className="text-xs font-bold text-black bg-black/10 px-2 py-1 rounded"
+                              animate={{ opacity: [1, 0.7, 1] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            >
+                              NOW
+                            </motion.span>
+                            <span className="text-sm font-semibold text-black">
+                              WHERE I AM NOW
+                            </span>
+                          </div>
+                          <div className="space-y-3 mt-3">
+                            <div>
+                              <p className="text-xs text-black/50 font-medium mb-1">
+                                Current Role / Position:
+                              </p>
+                              <p className="text-sm text-black/70 min-h-[20px]">
+                                Web Search Evaluator for TELUS Digital
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-black/50 font-medium mb-1">
+                                Key Skills I&apos;m Building:
+                              </p>
+                              <p className="text-sm text-black/70 min-h-[20px]">
+                                Computer Hardware, Software, Security, and
+                                Networking
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-black/50 font-medium mb-1">
+                                Current Focus:
+                              </p>
+                              <p className="text-sm text-black/70 min-h-[20px]">
+                                Studying for the CompTIA A+ certification and
+                                filling my portfolio with projects!
+                              </p>
+                            </div>
+                          </div>
+                        </motion.div>
+                      </motion.div>
+
+                      {/* Short-term Goals Node */}
+                      <motion.div
+                        className="relative flex items-start gap-6"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                      >
+                        <div className="relative z-10 flex-shrink-0">
+                          <motion.div
+                            className="w-6 h-6 bg-black/30 rounded-full border-4 border-white shadow-lg"
+                            animate={{
+                              opacity: [0.3, 0.5, 0.3],
+                              scale: [1, 1.05, 1],
+                            }}
+                            transition={{ duration: 3, repeat: Infinity }}
+                          />
+                          <motion.div
+                            className="absolute left-1/2 top-6 w-0.5 h-8 bg-black/20 transform -translate-x-1/2"
+                            initial={{ height: 0 }}
+                            animate={{ height: 32 }}
+                            transition={{ duration: 0.5, delay: 1 }}
+                          />
+                        </div>
+                        <motion.div
+                          className="flex-1 bg-neutral-50 rounded-lg border-2 border-black/30 p-5 shadow-sm"
+                          whileHover={{
+                            scale: 1.02,
+                            borderColor: "rgba(0,0,0,0.4)",
+                          }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-xs font-bold text-black/60 bg-black/10 px-2 py-1 rounded">
+                              6-12M
+                            </span>
+                            <span className="text-sm font-semibold text-black">
+                              SHORT-TERM GOALS
+                            </span>
+                          </div>
+                          <div className="space-y-3 mt-3">
+                            <div>
+                              <p className="text-xs text-black/50 font-medium mb-1">
+                                Certifications to Complete:
+                              </p>
+                              <p className="text-sm text-black/70 min-h-[20px]">
+                                CompTIA A+ and smaller certifications that focus
+                                on specific areas of technology.
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-black/50 font-medium mb-1">
+                                Skills to Master:
+                              </p>
+                              <p className="text-sm text-black/70 min-h-[20px]">
+                                I want to be well-rounded about computers and
+                                network structures. This is my first step in
+                                order to build a good foundation to advance on
+                                career-wise.{" "}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-black/50 font-medium mb-1">
+                                Target Roles / Positions:
+                              </p>
+                              <p className="text-sm text-black/70 min-h-[20px]">
+                                I&apos;m targeting roles that require a good
+                                understanding of computers and networks, with a
+                                focus on continuous learning and improvement
+                                within the same company!
+                              </p>
+                            </div>
+                          </div>
+                        </motion.div>
+                      </motion.div>
+
+                      {/* Long-term Vision Node */}
+                      <motion.div
+                        className="relative flex items-start gap-6"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.6 }}
+                      >
+                        <div className="relative z-10 flex-shrink-0">
+                          <motion.div
+                            className="w-6 h-6 bg-black/20 rounded-full border-4 border-white shadow-lg"
+                            animate={{
+                              opacity: [0.2, 0.35, 0.2],
+                              scale: [1, 1.03, 1],
+                            }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                          />
+                          <motion.div
+                            className="absolute left-1/2 top-6 w-0.5 h-8 bg-black/20 transform -translate-x-1/2"
+                            initial={{ height: 0 }}
+                            animate={{ height: 32 }}
+                            transition={{ duration: 0.5, delay: 1.2 }}
+                          />
+                        </div>
+                        <motion.div
+                          className="flex-1 bg-neutral-50 rounded-lg border-2 border-black/30 p-5 shadow-sm"
+                          whileHover={{
+                            scale: 1.02,
+                            borderColor: "rgba(0,0,0,0.4)",
+                          }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-xs font-bold text-black/60 bg-black/10 px-2 py-1 rounded">
+                              2-5Y
+                            </span>
+                            <span className="text-sm font-semibold text-black">
+                              LONG-TERM VISION
+                            </span>
+                          </div>
+                          <div className="space-y-3 mt-3">
+                            <div>
+                              <p className="text-xs text-black/50 font-medium mb-1">
+                                Dream Role / Position:
+                              </p>
+                              <p className="text-sm text-black/70 min-h-[20px]">
+                                I want to be more advanced in my role and
+                                provide more value to whatever company I call
+                                home! This is a long-term journey!
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-black/50 font-medium mb-1">
+                                Specialization Areas:
+                              </p>
+                              <p className="text-sm text-black/70 min-h-[20px]">
+                                I&apos;d love to explore more administration
+                                tasks as well as more advanced troubleshooting
+                                tasks.
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-black/50 font-medium mb-1">
+                                Career Milestones:
+                              </p>
+                              <p className="text-sm text-black/70 min-h-[20px]">
+                                I want to earn my CompTIA A+ certification and
+                                start strong at a new company.
+                              </p>
+                            </div>
+                          </div>
+                        </motion.div>
+                      </motion.div>
                     </div>
                   </div>
                 </motion.div>
