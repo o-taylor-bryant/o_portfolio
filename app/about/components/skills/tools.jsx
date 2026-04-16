@@ -1,6 +1,49 @@
 import { motion } from "framer-motion";
 
+function SkillGroup({ title, items }) {
+  return (
+    <div className="w-full rounded-2xl border border-black/20 bg-[#f9f9f9] p-4 sm:p-5">
+      <h2 className="text-base sm:text-lg font-bold mb-3 text-center tracking-wide uppercase">
+        {title}
+      </h2>
+      <div className="flex flex-wrap justify-center gap-2">
+        {items.map((item) => (
+          <span
+            key={item}
+            className="px-3 py-1.5 rounded-full border border-black/25 bg-white text-xs sm:text-sm text-black/85"
+          >
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Tools() {
+  const securityItems = [
+    "System configuration and troubleshooting",
+    "Incident response fundamentals",
+    "SIEM tools",
+    "Log and network analysis",
+    "Threat detection fundamentals",
+    "Vulnerability assessment basics",
+    "TCP/IP fundamentals",
+  ];
+
+  const professionalItems = [
+    "Attention to detail",
+    "Collaboration",
+    "Clear communication",
+    "Problem-solving",
+    "Self-motivation",
+    "Adaptability",
+    "Documentation",
+    "Time management",
+    "Continuous learning mindset",
+    "Customer-facing technical support experience",
+  ];
+
   return (
     <motion.div
       className="flex justify-start items-center flex-col mb-5 p-4 sm:p-6 md:p-10 w-full"
@@ -17,34 +60,10 @@ export default function Tools() {
         type: "spring",
       }}
     >
-      <h2 className="text-xl sm:text-2xl md:text-xl font-bold mb-3 md:tracking-[.3rem] lg:tracking-[.5rem] uppercase text-center w-full">
-        Security Knowledge & Practices
-      </h2>
-      <p className="text-gray-500 text-center tracking-wider px-2 sm:px-5 mb-4 text-sm sm:text-base max-w-xl">
-        <span className="text-black">System configuration and troubleshooting</span>,{" "}
-        <span className="text-black">incident response fundamentals</span>,{" "}
-        <span className="text-black">SIEM tools</span>,{" "}
-        <span className="text-black">log and network analysis</span>,{" "}
-        <span className="text-black">system administration concepts</span>,{" "}
-        <span className="text-black">threat detection</span>,{" "}
-        <span className="text-black">vulnerability assessment</span>,{" "}
-        <span className="text-black">TCP/IP</span>
-      </p>
-      <h2 className="text-xl sm:text-2xl md:text-xl font-bold mb-3 md:tracking-[.3rem] lg:tracking-[.5rem] uppercase text-center w-full">
-        Professional & Soft Skills
-      </h2>
-      <p className="text-gray-500 text-center tracking-wider px-2 sm:px-5 text-sm sm:text-base max-w-xl">
-        <span className="text-black">Attention to detail</span>,{" "}
-        <span className="text-black">collaboration</span>,{" "}
-        <span className="text-black">clear communication</span>,{" "}
-        <span className="text-black">creativity</span>,{" "}
-        <span className="text-black">problem-solving</span>,{" "}
-        <span className="text-black">self-motivation</span>,{" "}
-        <span className="text-black">adaptability</span>,{" "}
-        <span className="text-black">documentation</span>,{" "}
-        <span className="text-black">time management</span>,{" "}
-        <span className="text-black">continuous learning mindset</span>
-      </p>
+      <div className="w-full max-w-3xl space-y-4">
+        <SkillGroup title="Security Knowledge & Practices" items={securityItems} />
+        <SkillGroup title="Professional & Soft Skills" items={professionalItems} />
+      </div>
     </motion.div>
   );
 }

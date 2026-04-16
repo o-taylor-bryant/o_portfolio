@@ -130,52 +130,66 @@ export default function About() {
             Taylor Bryant
           </h2>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
-            Hi there, I&apos;ve earned the{" "}
-            <span className="font-bold">Google Cybersecurity Certificate</span>{" "}
-            through <span className="font-bold">Merit America</span>, but my
-            learning actually began earlier through self-guided study. Computers
-            have always been a part of my life, through gaming and designing,
-            and I heavily enjoy the thought process behind solving complex
-            issues. I&apos;ve begun building skills through these experiences
-            and desire to put them to thoughtful use in a like-minded role.
+            Hi there - I&apos;m currently building a career in{" "}
+            <span className="font-bold">IT support</span>, with a focus on{" "}
+            <span className="font-bold">troubleshooting</span>,{" "}
+            <span className="font-bold">system reliability</span>, and{" "}
+            <span className="font-bold">user-focused problem solving</span>.
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
-            Throughout my career, I&apos;ve consistently worked in roles that
-            required independence. At{" "}
-            <span className="font-bold">TELUS Digital</span>, I evaluate
-            AI-generated responses and search results in a fully remote
-            environment. The work demands accuracy, adaptability, and
-            self-direction. With minimal oversight, I&apos;ve learned how to
-            manage shifting expectations, absorb new technical instruction, and
-            stay grounded in quality. I&apos;m passionate about improving AI and
-            what the future looks like, advancing our technology to utilize it!
+            I&apos;ve completed the{" "}
+            <span className="font-bold">
+              Google Cybersecurity Professional Certificate
+            </span>{" "}
+            through <span className="font-bold">Merit America</span> and
+            recently finished hands-on{" "}
+            <span className="font-bold">IT Support training</span> with{" "}
+            <span className="font-bold">Miles IT</span>. Through this training,
+            I worked through real-world scenarios involving{" "}
+            <span className="font-bold">DNS</span> and{" "}
+            <span className="font-bold">DHCP</span> issues, remote system access
+            using <span className="font-bold">Remote Desktop (RDP)</span>, and
+            troubleshooting connectivity and user access problems within{" "}
+            <span className="font-bold">domain-based environments</span>.
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
-            Leadership, for me, often shows up in subtle ways. At{" "}
-            <span className="font-bold">Walgreens</span>, I led our Customer
-            Experience metric discussions during team meetings.I helped guide
-            the conversation, translating feedback into actionable suggestions
-            that improved how we served people. That experience helped me see
-            the value in data-informed communication, something I plan to carry
-            into my workflow when working with users and systems alike.
+            I&apos;ve developed a structured approach to solving technical
+            issues: <span className="font-bold">identifying scope</span>,{" "}
+            <span className="font-bold">isolating root cause</span>, and{" "}
+            <span className="font-bold">resolving problems</span> using tools
+            like <span className="font-bold">ipconfig</span>,{" "}
+            <span className="font-bold">ping</span>, and{" "}
+            <span className="font-bold">nslookup</span>. I&apos;m especially
+            drawn to the process of breaking down problems and restoring
+            functionality in a clear, methodical way.
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
-            Earlier on, while supporting students at{" "}
-            <span className="font-bold">UNC Greensboro</span>, I worked in an
-            academic lab environment - answering questions, organizing
-            materials, and quietly maintaining the space. That role taught me
-            how much impact steady, behind-the-scenes support can have.
-            I&apos;ve carried that mindset with me ever since. I&apos;d love to
-            bring this attitude to an organization!
+            Professionally, I bring experience from remote, independent work at{" "}
+            <span className="font-bold">TELUS Digital</span>, where I evaluate{" "}
+            <span className="font-bold">AI-generated responses</span> with a
+            strong focus on <span className="font-bold">accuracy</span>,{" "}
+            <span className="font-bold">adaptability</span>, and{" "}
+            <span className="font-bold">consistency</span>. I&apos;m comfortable
+            working in <span className="font-bold">self-directed environments</span>{" "}
+            while maintaining <span className="font-bold">high standards</span>.
           </p>
           <p className="text-black text-justify title text-base sm:text-lg mb-4">
-            Across all of these experiences, I&apos;ve always gravitated towards
-            roles that require a balance of care, problem-solving, and overall
-            team-based success. Being someone others can rely on and addressing
-            problems with hands-on care are just some of the ways I would
-            contribute to achieving company goals. My love for computers has
-            always been present. Becoming well-rounded and growing with a team
-            would give me the substance I need to reach further for success.
+            Earlier roles in <span className="font-bold">customer service</span>{" "}
+            and <span className="font-bold">academic support</span> helped shape
+            my communication style and reinforced the value of steady, reliable
+            support. I approach technical work the same way - with{" "}
+            <span className="font-bold">clarity</span>,{" "}
+            <span className="font-bold">patience</span>, and{" "}
+            <span className="font-bold">attention to detail</span>.
+          </p>
+          <p className="text-black text-justify title text-base sm:text-lg mb-4">
+            Right now, I&apos;m continuing to strengthen my skills through
+            practical, <span className="font-bold">ticket-based case studies</span>{" "}
+            that reflect real <span className="font-bold">Tier 1 support</span>{" "}
+            scenarios. I&apos;m seeking an{" "}
+            <span className="font-bold">entry-level IT</span> or{" "}
+            <span className="font-bold">Help Desk role</span> where I can
+            contribute, continue learning, and grow within a technical team.
           </p>
         </motion.div>
       </div>

@@ -27,6 +27,139 @@ function Wrapper({ children }) {
 }
 
 export default function Skills() {
+  const toolkitSkills = [
+    {
+      label: "Leadership",
+      descriptor: "Guides the team",
+      visual: (
+        <div className="relative w-full h-full rounded-xl border border-black/25 bg-white overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative w-11 h-11">
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={`line-${i}`}
+                  className="absolute left-1/2 top-1/2 h-[1px] origin-left bg-black/50"
+                  style={{ width: "16px", rotate: `${i * 120}deg` }}
+                  animate={{ opacity: [0.2, 0.8, 0.2] }}
+                  transition={{ duration: 2.1, repeat: Infinity, delay: i * 0.2 }}
+                />
+              ))}
+              <motion.div
+                className="absolute left-1/2 top-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black"
+                animate={{ scale: [1, 1.35, 1] }}
+                transition={{ duration: 1.6, repeat: Infinity }}
+              />
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 rounded-full bg-black/70"
+                  animate={{
+                    x: [
+                      0,
+                      i === 0 ? 15 : i === 1 ? -10 : -10,
+                      0,
+                    ],
+                    y: [
+                      0,
+                      i === 0 ? 0 : i === 1 ? -12 : 12,
+                      0,
+                    ],
+                    opacity: [0.45, 1, 0.45],
+                  }}
+                  transition={{ duration: 2.6, repeat: Infinity, delay: i * 0.24 }}
+                  style={{ left: "50%", top: "50%", marginLeft: "-4px", marginTop: "-4px" }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      label: "Independence",
+      descriptor: "Owns tasks solo",
+      visual: (
+        <div className="relative w-full h-full rounded-xl border border-black/25 bg-white overflow-hidden">
+          <div className="absolute inset-2 border border-dashed border-black/55 rounded-lg" />
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="absolute w-1.5 h-1.5 rounded-full bg-black/35"
+              style={{
+                left: i === 0 ? "18%" : i === 1 ? "78%" : "56%",
+                top: i === 0 ? "24%" : i === 1 ? "42%" : "78%",
+              }}
+            />
+          ))}
+          <motion.div
+            className="absolute w-2.5 h-2.5 rounded-full bg-black"
+            animate={{ x: [8, 36, 24, 48, 8], y: [10, 18, 38, 50, 10] }}
+            transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+      ),
+    },
+    {
+      label: "Support",
+      descriptor: "Clears the queue",
+      visual: (
+        <div className="relative w-full h-full rounded-xl border border-black/25 bg-white overflow-hidden px-3 py-2.5">
+          {[0, 1, 2, 3].map((i) => (
+            <motion.div
+              key={i}
+              className="h-1.5 rounded-full bg-black mb-1.5 last:mb-0"
+              animate={{
+                width: i === 0 ? ["40%", "88%", "40%"] : ["88%", "88%", "88%"],
+                opacity: i === 0 ? [0.5, 1, 0.5] : [0.2, 0.8, 0.2],
+              }}
+              transition={{
+                duration: 2.3,
+                repeat: Infinity,
+                delay: i * 0.24,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+          <motion.div
+            className="absolute right-2 top-2 w-2 h-2 rounded-full bg-black"
+            animate={{ y: [0, 18, 0] }}
+            transition={{ duration: 2.3, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+      ),
+    },
+    {
+      label: "Communication",
+      descriptor: "Two-way updates",
+      visual: (
+        <div className="relative w-full h-full rounded-xl border border-black/25 bg-white overflow-hidden">
+          <div className="absolute inset-2 border border-black/30 rounded-lg bg-white">
+            <motion.div
+              className="absolute left-2 top-2 h-2 rounded-full bg-black"
+              animate={{ width: ["22%", "62%", "22%"], opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2.1, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="absolute right-2 bottom-2 h-2 rounded-full bg-black/80"
+              animate={{ width: ["22%", "62%", "22%"], opacity: [0.5, 1, 0.5] }}
+              transition={{
+                duration: 2.1,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1,
+              }}
+            />
+            <motion.div
+              className="absolute left-1/2 top-1/2 w-1.5 h-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black"
+              animate={{ scale: [1, 1.6, 1], opacity: [0.35, 1, 0.35] }}
+              transition={{ duration: 1.6, repeat: Infinity }}
+            />
+          </div>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <>
       <Wrapper>
@@ -37,100 +170,51 @@ export default function Skills() {
               My developing toolkit.
             </p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
-            <div className="flex flex-col items-center gap-2">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+            {toolkitSkills.map((skill, index) => (
               <motion.div
-                className="w-8 h-8 flex items-center justify-center"
-                animate={{
-                  y: [0, -8, 0],
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
+                key={skill.label}
+                className="group relative rounded-2xl border border-black/35 bg-[#fcfcfc] p-4 sm:p-5 flex flex-col items-center gap-3.5 shadow-[6px_6px_0_0_rgba(0,0,0,0.18)] overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 * index, duration: 0.45 }}
+                whileHover={{ y: -4, boxShadow: "8px 10px 0 rgba(0,0,0,0.2)" }}
               >
-                <svg
-                  className="w-8 h-8"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 17L4 22H20L19 17" />
-                  <path d="M12 2L7 12L12 16L17 12L12 2Z" />
-                  <path d="M9 12H15" />
-                </svg>
+                <div className="absolute top-0 left-0 right-0 h-8 border-b border-black/25 bg-[#ededed] flex items-center justify-between px-3">
+                  <span className="font-mono text-[10px] tracking-widest text-black/80">
+                    BADGE
+                  </span>
+                  <motion.span
+                    className="font-mono text-[10px] text-black/70"
+                    animate={{ opacity: [0.35, 1, 0.35] }}
+                    transition={{ duration: 1.4, repeat: Infinity, delay: index * 0.2 }}
+                  >
+                    OK
+                  </motion.span>
+                </div>
+
+                <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <motion.div
+                    className="absolute left-0 right-0 h-5 bg-gradient-to-b from-black/10 via-black/[0.03] to-transparent"
+                    animate={{ top: ["15%", "95%"] }}
+                    transition={{
+                      duration: 2.8,
+                      repeat: Infinity,
+                      ease: "linear",
+                      delay: index * 0.15,
+                    }}
+                  />
+                </div>
+
+                <div className="w-14 h-14 sm:w-16 sm:h-16 mt-7">{skill.visual}</div>
+                <div className="font-bold text-sm sm:text-base text-center">
+                  {skill.label}
+                </div>
+                <div className="text-[11px] sm:text-xs text-black/55 text-center tracking-wide">
+                  {skill.descriptor}
+                </div>
               </motion.div>
-              <div className="font-bold text-sm sm:text-base">Leadership</div>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <motion.div
-                className="w-8 h-8 flex items-center justify-center"
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-              >
-                <svg
-                  className="w-8 h-8"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                </svg>
-              </motion.div>
-              <div className="font-bold text-sm sm:text-base">
-                Independence
-              </div>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <motion.div
-                className="w-8 h-8 flex items-center justify-center"
-                animate={{ scale: [1, 1.15, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                <svg
-                  className="w-8 h-8"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 2L2 7L12 12L22 7L12 2Z" />
-                  <path d="M2 17L12 22L22 17" />
-                  <path d="M2 12L12 17L22 12" />
-                </svg>
-              </motion.div>
-              <div className="font-bold text-sm sm:text-base">Support</div>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <motion.div
-                className="w-8 h-8 flex items-center justify-center"
-                animate={{ x: [0, 8, -8, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <svg
-                  className="w-8 h-8"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                  <path d="M8 10h.01" />
-                  <path d="M12 10h.01" />
-                  <path d="M16 10h.01" />
-                </svg>
-              </motion.div>
-              <div className="font-bold text-sm sm:text-base">
-                Communication
-              </div>
-            </div>
+            ))}
           </div>
         </section>
       </Wrapper>

@@ -173,198 +173,82 @@ export default function Page() {
         </FixedButton>
 
         <div className="relative min-h-[480px] h-auto md:h-screen gap-4 p-2 sm:p-4 md:p-10 flex flex-col md:flex-row justify-center items-center mb-10 overflow-hidden">
-          {/* Tech-style block animation, replaces image and dots */}
+          {/* Monochrome tech ID badge animation */}
           <div className="z-0 mb-8 sm:mb-16 md:mb-0 md:absolute top-1/4 md:right-[18%] md:-translate-y-1 flex items-center justify-center w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] md:w-[440px] md:h-[440px] mx-auto md:mx-0">
-            <div className="relative w-full h-full flex items-center justify-center">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="grid grid-cols-5 grid-rows-5 gap-1 sm:gap-2 w-full h-full">
-                  {Array.from({ length: 25 }).map((_, i) => {
-                    // Indices for techy white designs
-                    const techyIndices = [3, 7, 12, 18, 21];
-                    // Indices for solid white squares
-                    const whiteIndices = [2, 8, 14, 19, 23]; // 17 removed to ensure smiley is on black
-                    // Index for smiley face
-                    const smileyIndex = 17;
-                    return (
-                      <motion.div
-                        key={i}
-                        initial={{
-                          opacity: 0.4,
-                          scale: 1,
-                          borderRadius: "0.375rem",
-                        }}
-                        animate={{
-                          opacity: [0.4, 1, 0.4],
-                          scale: [1, 1.12, 1],
-                          borderRadius: ["0.375rem", "50%", "0.375rem"],
-                        }}
-                        transition={{
-                          delay: (i % 5) * 0.25 + Math.floor(i / 5) * 0.35,
-                          duration: 2.5,
-                          repeat: Infinity,
-                          repeatType: "loop",
-                          ease: "easeInOut",
-                        }}
-                        className={`${
-                          whiteIndices.includes(i) ? "bg-white" : "bg-black"
-                        } w-full h-full shadow-md flex items-center justify-center relative`}
-                        style={{ aspectRatio: "1 / 1" }}
-                      >
-                        {i === smileyIndex && (
-                          <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <svg
-                              width="40%"
-                              height="40%"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                            >
-                              {/* Poof balls/buns with black stroke */}
-                              <circle cx="8.2" cy="6.5" r="2" fill="#111" />
-                              <circle cx="15.8" cy="6.5" r="2" fill="#111" />
-                              {/* Smiley face */}
-                              <circle cx="12" cy="12" r="10" fill="white" />
-                              <circle cx="9" cy="10" r="1.2" fill="#111" />
-                              <circle cx="15" cy="10" r="1.2" fill="#111" />
-                              <path
-                                d="M9 15c1.333 1 3.667 1 5 0"
-                                stroke="#111"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                              />
-                            </svg>
-                          </span>
-                        )}
-                        {techyIndices.includes(i) &&
-                          !whiteIndices.includes(i) &&
-                          i !== smileyIndex && (
-                            <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                              {/* Example techy SVGs, can be customized per index */}
-                              {i === 3 && (
-                                <svg
-                                  width="40%"
-                                  height="40%"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                >
-                                  <rect
-                                    x="4"
-                                    y="11"
-                                    width="16"
-                                    height="2"
-                                    rx="1"
-                                    fill="white"
-                                  />
-                                  <circle cx="12" cy="12" r="2" fill="white" />
-                                </svg>
-                              )}
-                              {i === 7 && (
-                                <svg
-                                  width="40%"
-                                  height="40%"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                >
-                                  <rect
-                                    x="11"
-                                    y="4"
-                                    width="2"
-                                    height="16"
-                                    rx="1"
-                                    fill="white"
-                                  />
-                                  <circle
-                                    cx="12"
-                                    cy="18"
-                                    r="1.2"
-                                    fill="white"
-                                  />
-                                </svg>
-                              )}
-                              {i === 12 && (
-                                <svg
-                                  width="40%"
-                                  height="40%"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                >
-                                  <rect
-                                    x="6"
-                                    y="6"
-                                    width="12"
-                                    height="12"
-                                    rx="2"
-                                    stroke="white"
-                                    strokeWidth="2"
-                                  />
-                                  <circle
-                                    cx="12"
-                                    cy="12"
-                                    r="1.5"
-                                    fill="white"
-                                  />
-                                </svg>
-                              )}
-                              {i === 18 && (
-                                <svg
-                                  width="40%"
-                                  height="40%"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                >
-                                  <rect
-                                    x="8"
-                                    y="8"
-                                    width="8"
-                                    height="8"
-                                    rx="1"
-                                    fill="white"
-                                  />
-                                  <rect
-                                    x="11"
-                                    y="4"
-                                    width="2"
-                                    height="4"
-                                    rx="1"
-                                    fill="white"
-                                  />
-                                </svg>
-                              )}
-                              {i === 21 && (
-                                <svg
-                                  width="40%"
-                                  height="40%"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                >
-                                  <circle
-                                    cx="12"
-                                    cy="12"
-                                    r="6"
-                                    stroke="white"
-                                    strokeWidth="2"
-                                  />
-                                  <rect
-                                    x="11"
-                                    y="6"
-                                    width="2"
-                                    height="6"
-                                    rx="1"
-                                    fill="white"
-                                  />
-                                </svg>
-                              )}
-                            </span>
-                          )}
-                      </motion.div>
-                    );
-                  })}
+            <motion.div
+              initial={{ opacity: 0, y: 24, rotate: -3 }}
+              animate={{ opacity: 1, y: 0, rotate: [0, -2, 2, 0] }}
+              transition={{
+                opacity: { duration: 0.7 },
+                y: { duration: 0.7 },
+                rotate: { duration: 7, repeat: Infinity, ease: "easeInOut" },
+              }}
+              className="relative w-[65%] h-[82%] sm:w-[62%] sm:h-[80%]"
+            >
+              <motion.div
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-14 left-1/2 -translate-x-1/2 w-2 h-16 rounded-full bg-black/35"
+              />
+
+              <div className="absolute inset-0 rounded-3xl border-2 border-black/45 bg-[#fcfcfc] shadow-[8px_8px_0_0_rgba(0,0,0,0.28)] overflow-hidden">
+                <div className="h-12 border-b border-black/30 bg-[#ededed] text-black/90 flex items-center justify-between px-4 font-mono text-[10px] sm:text-xs tracking-widest">
+                  <span>ID // PROFILE</span>
+                  <motion.span
+                    animate={{ opacity: [0.35, 1, 0.35] }}
+                    transition={{ duration: 1.4, repeat: Infinity }}
+                  >
+                    AUTH
+                  </motion.span>
+                </div>
+
+                <div className="p-3 sm:p-4 h-[calc(100%-3rem)] flex flex-col gap-3">
+                  <div className="grid grid-cols-[auto,1fr] gap-3 items-center">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-[#efefef] border border-black/30 relative overflow-hidden">
+                      <div className="absolute inset-[10%] rounded-lg border border-black/25" />
+                      <div className="absolute left-1/2 top-2 -translate-x-1/2 w-5 h-5 rounded-full bg-black/75" />
+                      <div className="absolute left-1/2 bottom-2 -translate-x-1/2 w-8 h-4 rounded-t-full bg-black/60" />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-2 w-[90%] bg-black/75 rounded-full" />
+                      <div className="h-2 w-[70%] bg-black/55 rounded-full" />
+                      <div className="h-2 w-[55%] bg-black/40 rounded-full" />
+                    </div>
+                  </div>
+
+                  <div className="flex-1 rounded-xl border border-black/25 bg-white p-2 sm:p-3 relative overflow-hidden">
+                    <div className="grid grid-cols-6 gap-1.5 mb-3">
+                      {Array.from({ length: 18 }).map((_, i) => (
+                        <motion.div
+                          key={i}
+                          className="h-2 rounded-full bg-black/70"
+                          animate={{ opacity: [0.18, 0.85, 0.18] }}
+                          transition={{
+                            duration: 1.8,
+                            repeat: Infinity,
+                            delay: i * 0.05,
+                          }}
+                        />
+                      ))}
+                    </div>
+
+                    <motion.div
+                      className="absolute left-0 right-0 h-6 bg-gradient-to-b from-black/15 via-black/[0.05] to-transparent"
+                      animate={{ top: ["-20%", "115%"] }}
+                      transition={{
+                        duration: 2.4,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Overlayed text block */}
-          <div className="z-10 w-full md:w-auto md:left-[10%] top-auto md:top-1/3 static md:absolute col-span-2 flex flex-col justify-center items-center md:items-start text-center md:text-start px-2 sm:px-4 md:px-10 pt-2 sm:pt-4 md:pt-0 backdrop-filter backdrop-blur-sm md:backdrop-blur-none bg-gray-100 bg-opacity-70 md:bg-transparent md:pt-0">
+          <div className="z-10 w-full md:w-auto md:left-[10%] top-auto md:top-1/3 static md:absolute col-span-2 flex flex-col justify-center items-center md:items-start text-center md:text-start px-2 sm:px-4 md:px-10 pt-2 sm:pt-4 md:pt-0 backdrop-filter backdrop-blur-sm md:backdrop-blur-none bg-gray-100 bg-opacity-70 md:bg-transparent">
             <h1 className="md:bg-white bg-transparent lg:bg-transparent bg-opacity-50 md:px-0 text-black text-3xl sm:text-4xl md:text-8xl font-bold">
               About Me
             </h1>
