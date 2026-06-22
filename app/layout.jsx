@@ -8,32 +8,35 @@ import { Analytics } from "@vercel/analytics/react";
 import ClientTopProgressBar from "@/components/ClientTopProgressBar";
 
 export const metadata = {
-  title: "Taylor Bryant | Portfolio",
-  description: "Portfolio of Taylor Bryant, a junior tech professional.",
+  title: "Taylor Bryant | Customer Support & Technology Professional",
+  description:
+    "Profile of Taylor Bryant — a customer support and technology professional with six years of customer-facing experience. Seeking customer support, SaaS support, onboarding, and operations roles.",
   metadataBase: new URL("https://otaylorbryant.vercel.app/"),
   keywords:
-    "junior tech professional, cybersecurity, incident response, network security, system hardening, Taylor Bryant, portfolio",
+    "customer support, SaaS support, product support, onboarding specialist, operations support, technical support, Taylor Bryant, Chattanooga",
   openGraph: {
-    title: "Taylor Bryant | Portfolio",
-    description: "Portfolio of Taylor Bryant, a junior tech professional.",
+    title: "Taylor Bryant | Customer Support & Technology Professional",
+    description:
+      "Profile of Taylor Bryant — customer support and technology professional with six years of customer-facing experience.",
     url: "https://otaylorbryant.vercel.app/",
-    siteName: "Taylor Bryant Portfolio",
+    siteName: "Taylor Bryant",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "/Portfolio Image.png",
+        url: "/image/me.jpg",
         width: 1200,
         height: 1200,
-        alt: "Welcome to Taylor Bryant's Portfolio!",
+        alt: "Taylor Bryant — Customer Support & Technology Professional",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Taylor Bryant | Portfolio",
-    description: "Portfolio of Taylor Bryant, a junior tech professional.",
-    images: ["/me2.png"],
+    title: "Taylor Bryant | Customer Support & Technology Professional",
+    description:
+      "Customer support and technology professional with six years of customer-facing experience.",
+    images: ["/image/me2.png"],
   },
   robots: {
     index: true,
@@ -55,22 +58,33 @@ export const viewport = {
   viewportFit: "cover",
 };
 
-// Add structured data for better SEO
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Taylor Bryant",
   url: "https://otaylorbryant.vercel.app/",
-  jobTitle: "Junior Tech Professional",
+  jobTitle: "Customer Support and Technology Professional",
   description:
-    "Junior tech professional with experience in cybersecurity, incident response, and network security.",
-  skills: [
-    "Cybersecurity",
-    "Incident Response",
-    "Network Security",
-    "System Hardening",
+    "Customer support and technology professional with six years of customer-facing, analytical, and detail-driven experience. Skilled in issue resolution, documentation, onboarding support, and technical troubleshooting.",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Chattanooga",
+    addressRegion: "TN",
+    addressCountry: "US",
+  },
+  email: "o.taylor.bryant@gmail.com",
+  sameAs: [
+    "https://www.linkedin.com/in/o-taylor-bryant/",
+    "https://github.com/o-taylor-bryant",
   ],
-  image: "/profile-image.jpg", // Add your profile image
+  knowsAbout: [
+    "Customer Support",
+    "SaaS Support",
+    "Onboarding",
+    "Technical Support",
+    "Documentation",
+    "Issue Resolution",
+  ],
 };
 
 export default function RootLayout({ children }) {
@@ -84,23 +98,9 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
         <meta name="theme-color" content="#000000" />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <script
           type="application/ld+json"

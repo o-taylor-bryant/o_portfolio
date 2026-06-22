@@ -1,1067 +1,973 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import ReactFullpage from "@fullpage/react-fullpage";
+import React, { useEffect, useState } from "react";
 import Image from "next/legacy/image";
-import { motion } from "framer-motion";
-import Link from "next/link";
-
-// components
-import Button from "@/components/Button";
-import Me from "@/public/image/me.jpg";
-import MeAbout from "@/public/image/me2.png";
-import Workspace1 from "@/public/image/Workspace1.jpg";
-import Workspace2 from "@/public/image/Workspace2.jpg";
-import Hr from "@/components/Hr";
-// icons
+import { motion, useScroll, useSpring } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import {
+  faArrowDown,
+  faArrowUp,
   faEnvelope,
-  faCode,
-  faRocket,
+  faFileArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
-import CloudIcon from "@/public/image/Cloud Icon with BG.png";
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import Me from "@/public/image/me.jpg";
+import Me2 from "@/public/image/me2.png";
+import Me3 from "@/public/image/me3.png";
+import Workspace from "@/public/image/Wade.jpg";
+import Workspace1 from "@/public/image/Workspace1.jpg";
 
-const MyPage = () => {
-  // --- Loading Screen ---
+const reveal = (delay = 0) => ({
+  initial: { opacity: 0, y: 22 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.62, delay, ease: [0.22, 1, 0.36, 1] },
+});
+
+const enter = (delay = 0) => ({
+  initial: { opacity: 0, y: 22 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] },
+});
+
+function DotGrid({ className = "", light = false }) {
+  const color = light ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.08)";
+  return (
+    <div
+      className={`pointer-events-none absolute inset-0 ${className}`}
+      style={{
+        backgroundImage: `radial-gradient(circle, ${color} 1px, transparent 1px)`,
+        backgroundSize: "28px 28px",
+        maskImage:
+          "radial-gradient(ellipse 85% 75% at 50% 50%, black 20%, transparent 100%)",
+        WebkitMaskImage:
+          "radial-gradient(ellipse 85% 75% at 50% 50%, black 20%, transparent 100%)",
+      }}
+    />
+  );
+}
+
+function Marquee() {
+  const items = [
+    "Customer Support",
+    "SaaS Support",
+    "Onboarding",
+    "Operations",
+    "Product Support",
+    "Remote Work",
+    "Issue Resolution",
+    "Case Ownership",
+    "Technical Support",
+    "Client Follow-Up",
+  ];
+  return (
+    <div
+      className="overflow-hidden border-y border-black/8 bg-white py-3.5 select-none"
+      style={{
+        maskImage:
+          "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+      }}
+    >
+      <motion.div
+        className="flex gap-10 whitespace-nowrap"
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+      >
+        {[...items, ...items].map((item, i) => (
+          <span
+            key={i}
+            className="inline-flex items-center gap-6 text-[11px] text-black/40 font-medium tracking-[0.2em] uppercase"
+          >
+            {item}
+            <span className="text-black/18 text-[6px]">◆</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+const summaryCards = [
+  {
+    label: "Target roles",
+    value:
+      "Customer support, SaaS support, product support, onboarding, operations support",
+  },
+  {
+    label: "Work style",
+    value: "Calm communication, careful notes, steady follow through",
+  },
+  {
+    label: "Current growth",
+    value: "CompTIA A+ study with remote support training completed",
+  },
+];
+
+const strengths = [
+  {
+    title: "Customer Communication",
+    detail:
+      "Patient with frustrated users, clear with next steps, and comfortable keeping people informed.",
+  },
+  {
+    title: "Documentation",
+    detail:
+      "Able to turn messy details into notes, updates, and summaries that another teammate can use.",
+  },
+  {
+    title: "Product Learning",
+    detail:
+      "Quick to learn dashboards, internal standards, and support workflows.",
+  },
+  {
+    title: "Issue Ownership",
+    detail:
+      "Keeps track of what happened, what was tried, and what still needs attention.",
+  },
+];
+
+const skillGroups = [
+  {
+    label: "Customer & Support",
+    items: [
+      "Customer communication",
+      "Issue resolution",
+      "Client follow up",
+      "Case ownership",
+      "Onboarding support",
+      "Task tracking",
+      "Escalation awareness",
+      "Remote support",
+      "Product support",
+      "Platform navigation",
+      "CRM style notes",
+      "Knowledge base use",
+    ],
+  },
+  {
+    label: "Technical",
+    items: [
+      "Windows 10/11",
+      "Microsoft 365",
+      "DNS and DHCP",
+      "RDP",
+      "VPN basics",
+      "Excel",
+      "Linux CLI",
+      "Wireshark",
+      "Splunk",
+      "GitHub",
+    ],
+  },
+];
+
+const roles = [
+  {
+    company: "TELUS Digital",
+    title: "Web Search Evaluator",
+    period: "July 2022 – Present",
+    setting: "Remote",
+    summary:
+      "Evaluates AI generated responses and web search results for clarity, quality, and alignment with user intent.",
+    bullets: [
+      "Applies detailed quality standards through a proprietary evaluation dashboard.",
+      "Works independently in a high autonomy remote environment.",
+      "Maintains consistency during periodic accuracy reviews.",
+    ],
+  },
+  {
+    company: "Walgreens",
+    title: "Customer Service Associate",
+    period: "Sept 2017 – Aug 2020",
+    setting: "Beulaville, NC",
+    summary:
+      "Supported customers in a fast paced service environment while helping maintain smooth store operations.",
+    bullets: [
+      "Led weekly conversations around Customer Experience metrics.",
+      "Operated point of sale systems during high volume hours.",
+      "Used inventory tools to support stock accuracy and product availability.",
+    ],
+  },
+  {
+    company: "UNC Greensboro",
+    title: "Lab Monitor",
+    period: "Aug 2016 – Apr 2017",
+    setting: "Greensboro, NC",
+    summary:
+      "Provided front line support to students and staff in a shared academic space.",
+    bullets: [
+      "Created a steady and reliable learning environment.",
+      "Tracked lab attendance through Excel based systems.",
+      "Assisted academic staff with administrative tasks.",
+    ],
+  },
+];
+
+const training = [
+  {
+    name: "CompTIA A+",
+    status: "In Progress",
+    detail:
+      "Studying Windows support, Microsoft 365 basics, hardware, networking, troubleshooting, security basics, Active Directory concepts, and remote support workflows.",
+  },
+  {
+    name: "Miles IT Remote Support Training",
+    status: "Completed 2026",
+    detail:
+      "Completed 30 hours of hands on work with remote desktop support, domain joined systems, file shares, UNC paths, network printers, DNS, DHCP, and basic access issues.",
+  },
+  {
+    name: "Google Cybersecurity Certificate",
+    status: "Completed 2025",
+    detail:
+      "Completed training in security fundamentals, incident response, Linux, Python, SIEM tools, network protocol analysis, risk mitigation, and system hardening.",
+  },
+];
+
+const processSteps = [
+  {
+    step: "01",
+    title: "Listen first",
+    detail:
+      "I make sure I understand what the person is trying to do before jumping into a fix.",
+  },
+  {
+    step: "02",
+    title: "Track the details",
+    detail:
+      "I keep clear notes on what happened, what changed, and what still needs attention.",
+  },
+  {
+    step: "03",
+    title: "Follow through",
+    detail:
+      "I confirm the next step is clear, whether the issue is resolved or needs escalation.",
+  },
+];
+
+const pageStats = [
+  { number: "6", label: "Years with customers" },
+  { number: "3", label: "Certifications" },
+  { number: "30+", label: "Hours remote training" },
+  { number: "100%", label: "Remote ready" },
+];
+
+function SectionHeader({ eyebrow, title, children, center = false }) {
+  return (
+    <motion.div
+      {...reveal(0)}
+      className={`mb-10 ${center ? "text-center mx-auto" : ""}`}
+    >
+      <p className="text-[11px] uppercase tracking-[0.28rem] text-black/45 mb-3">
+        {eyebrow}
+      </p>
+      <h2 className="text-2xl md:text-[2.1rem] font-medium text-black leading-tight mb-3">
+        {title}
+      </h2>
+      {children && (
+        <p
+          className={`text-sm text-black/60 max-w-xl leading-relaxed ${
+            center ? "mx-auto" : ""
+          }`}
+        >
+          {children}
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
+export default function HomePage() {
   const [ready, setReady] = useState(false);
-  const [blink, setBlink] = useState(true);
-  const [loadingStage, setLoadingStage] = useState(0);
-  const [loadingText, setLoadingText] = useState("");
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
   useEffect(() => {
-    const loadingSequence = [
-      { text: "Loading portfolio...", delay: 0 },
-      { text: "Initializing portfolio...", delay: 300 },
-      { text: "Loading assets...", delay: 600 },
-      { text: "Preparing animations...", delay: 900 },
-      { text: "Configuring interface...", delay: 1200 },
-      { text: "Ready", delay: 1500 },
-    ];
-
-    loadingSequence.forEach(({ text, delay }, index) => {
-      setTimeout(() => {
-        setLoadingText(text);
-        setLoadingStage(index + 1);
-      }, delay);
-    });
-
-    const finalDelay = setTimeout(() => setReady(true), 1800);
-    const blinkInterval = setInterval(() => setBlink((prev) => !prev), 500);
-
-    return () => {
-      clearTimeout(finalDelay);
-      clearInterval(blinkInterval);
-    };
+    const timer = setTimeout(() => setReady(true), 500);
+    return () => clearTimeout(timer);
   }, []);
-
-  // Add mouse move handler for the about photo effect
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    setMousePosition({ x, y });
-  };
-
-  const [idHovered, setIdHovered] = useState(false);
 
   if (!ready) {
     return (
-      <div className="fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-[rgb(230,230,230)] z-[999] px-4">
+      <div className="fixed inset-0 flex items-center justify-center bg-[#0a0a0a] z-[999]">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-xl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          className="flex flex-col items-center gap-6"
         >
-          {/* Loading Logo */}
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
+          <motion.p
+            className="text-3xl font-light text-white tracking-[0.3em]"
+            animate={{ opacity: [0.35, 1, 0.35] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
           >
-            <motion.div
-              className="text-6xl md:text-7xl font-bold mb-2 bg-gradient-to-r from-black via-neutral-600 to-black bg-clip-text text-transparent"
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              style={{
-                backgroundSize: "200% 100%",
-              }}
-            >
-              _hi!
-            </motion.div>
-            <div className="text-sm text-black">_welcome to my portfolio!</div>
-          </motion.div>
-
-          {/* Loading Container */}
-          <div className="bg-white rounded-xl border border-black/20 p-6 shadow-xl">
-            {/* Loading Message */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-3">
-                <motion.div
-                  animate={{
-                    rotate: 360,
-                    scale: [1, 1.2, 1],
-                  }}
-                  transition={{
-                    rotate: { duration: 2, repeat: Infinity, ease: "linear" },
-                    scale: { duration: 1, repeat: Infinity },
-                  }}
-                  className="text-black"
-                >
-                  <FontAwesomeIcon icon={faRocket} />
-                </motion.div>
-                <span className="font-mono text-sm text-black/70">
-                  {loadingText}
-                </span>
-              </div>
-              <div className="flex space-x-2">
-                <motion.span
-                  animate={{ opacity: [0.4, 1, 0.4] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  className="w-2 h-2 bg-black/60 rounded-full"
-                />
-                <motion.span
-                  animate={{ opacity: [0.4, 1, 0.4] }}
-                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
-                  className="w-2 h-2 bg-black/60 rounded-full"
-                />
-                <motion.span
-                  animate={{ opacity: [0.4, 1, 0.4] }}
-                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.4 }}
-                  className="w-2 h-2 bg-black/60 rounded-full"
-                />
-              </div>
-            </div>
-
-            {/* Progress Bar */}
-            <div className="h-1 bg-neutral-100 rounded-full overflow-hidden">
+            TB
+          </motion.p>
+          <div className="flex gap-1.5">
+            {[0, 1, 2].map((d) => (
               <motion.div
-                className="h-full bg-black"
-                initial={{ width: "0%" }}
-                animate={{ width: `${(loadingStage / 6) * 100}%` }}
-                transition={{ duration: 0.5 }}
+                key={d}
+                className="w-1 h-1 rounded-full bg-white/45"
+                animate={{ opacity: [0.2, 1, 0.2] }}
+                transition={{ duration: 1, repeat: Infinity, delay: d * 0.2 }}
               />
-              <div className="text-xs text-black/60 mt-2 text-center font-mono">
-                {Math.round((loadingStage / 6) * 100)}%
-              </div>
-            </div>
-
-            {/* Loading Stats */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: loadingStage > 2 ? 1 : 0 }}
-              className="mt-4 pt-4 border-t border-neutral-100"
-            >
-              <div className="grid grid-cols-3 gap-4 text-center text-xs text-black/60">
-                <div>
-                  <div className="font-medium">Projects</div>
-                  <div className="font-mono">Loaded</div>
-                </div>
-                <div>
-                  <div className="font-medium">Animations</div>
-                  <div className="font-mono">Ready</div>
-                </div>
-                <div>
-                  <div className="font-medium">System</div>
-                  <div className="font-mono">Active</div>
-                </div>
-              </div>
-            </motion.div>
+            ))}
           </div>
         </motion.div>
       </div>
     );
   }
 
-  // --- Fullpage.js Options ---
-  const fullpageOptions = {
-    anchors: ["home", "about", "projects", "contact"],
-    scrollingSpeed: 1000,
-    licenseKey: "gplv3-license",
-    menu: "#sidebar",
-    lockAnchors: false,
-  };
-
   return (
-    <div>
-      <ReactFullpage
-        render={({ state, fullpageApi }) => (
-          <ReactFullpage.Wrapper>
-            <div className="section">
-              <div className="mx-auto container grid grid-cols-1 md:grid-cols-3 gap-4 p-10 overflow-hidden md:px-20">
-                <motion.div
-                  className="col-span-2 flex flex-col justify-center items-center md:items-start text-center md:text-start"
-                  initial={{ x: -100, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
-                  transition={{ type: "spring" }}
+    <main className="overflow-hidden bg-[#f5f4f0]">
+      {/* Scroll progress bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-[2px] bg-black z-[100] origin-left"
+        style={{ scaleX }}
+      />
+
+      {/* ── HERO ─────────────────────────────────────────────────── */}
+      <section
+        id="home"
+        className="relative bg-[#0a0a0a] px-6 sm:px-10 lg:px-16 pt-28 pb-16 lg:pt-36 lg:pb-20"
+        style={{ minHeight: "92vh" }}
+      >
+        <DotGrid light />
+        <motion.div
+          className="pointer-events-none absolute top-24 right-1/4 w-[500px] h-[500px] rounded-full bg-white/[0.022] blur-3xl"
+          animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.06, 1] }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        <div className="relative max-w-7xl mx-auto">
+          {/* Availability badge */}
+          <motion.div
+            {...enter(0.04)}
+            className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/8 border border-white/12 text-white text-[11px] font-medium tracking-[0.15em] uppercase mb-10"
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-55" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+            </span>
+            Available · Open to support roles
+          </motion.div>
+
+          {/* Name + photo row */}
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-12">
+            {/* Text */}
+            <div className="flex-1 min-w-0">
+              <motion.h1
+                {...enter(0.1)}
+                className="text-[3.2rem] sm:text-[4.5rem] xl:text-[6rem] font-light text-white leading-[0.95] tracking-tight mb-6"
+              >
+                Taylor
+                <br />
+                Bryant
+              </motion.h1>
+
+              <motion.p
+                {...enter(0.2)}
+                className="text-sm font-light text-white/65 leading-relaxed mb-10 max-w-[260px]"
+              >
+                Customer Support &amp; Technology Professional
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div {...enter(0.28)} className="flex flex-wrap gap-3 mb-6">
+                <motion.a
+                  href="/image/Taylor Bryant - Resume 2026.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black font-semibold text-sm"
+                  whileHover={{ scale: 1.04, backgroundColor: "#e8e8e8" }}
+                  whileTap={{ scale: 0.97 }}
                 >
-                  {/* Mobile Photo */}
-                  <div className="block md:hidden relative w-72 h-72 mx-auto mb-16">
+                  <FontAwesomeIcon icon={faFileArrowDown} />
+                  View Resume
+                </motion.a>
+                <motion.a
+                  href="#contact"
+                  className="inline-flex items-center px-5 py-2.5 rounded-full bg-white text-black font-medium text-sm"
+                  whileHover={{ scale: 1.04, backgroundColor: "#e8e8e8" }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  Contact Me
+                </motion.a>
+              </motion.div>
+
+              {/* Stat chips */}
+              <motion.div {...enter(0.38)}>
+                {/* Desktop: photo above "Support & SaaS focus", then full chip row */}
+                <div className="hidden lg:block">
+                  <div className="grid grid-cols-4 gap-2 mb-2">
+                    <div /><div /><div />
                     <motion.div
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.8, type: "spring" }}
-                      className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 min-h-[18rem] h-auto flex flex-col"
+                      initial={{ opacity: 0, scale: 0.93 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.75, delay: 0.3 }}
+                      className="relative rounded-2xl overflow-hidden border border-white/15 h-[340px]"
                     >
-                      {/* Terminal Header */}
-                      <div className="bg-gray-100 border-b border-black px-3 py-2 flex items-center justify-between">
-                        <div className="flex items-center space-x-1">
-                          <div className="w-2 h-2 rounded-full bg-black"></div>
-                          <div className="w-2 h-2 rounded-full bg-black"></div>
-                          <div className="w-2 h-2 rounded-full bg-black"></div>
-                        </div>
-                        <div className="text-xs font-mono text-gray-600">
-                          taylor@portfolio:~
-                        </div>
-                      </div>
-                      {/* Terminal Content Area */}
-                      <div className="bg-white text-gray-700 p-3 flex-1 flex flex-col justify-center">
-                        {/* Terminal Text - Simplified for mobile */}
-                        <div className="font-mono text-xs mb-2">
-                          <div className="mb-1 text-gray-500">
-                            $ ./load_profile
-                          </div>
-                          <div className="text-gray-600 flex items-center">
-                            Loading profile image...
-                            <motion.div
-                              className="w-1 h-3 bg-gray-400 ml-1"
-                              animate={{ opacity: [1, 0, 1] }}
-                              transition={{ duration: 1, repeat: Infinity }}
-                            />
-                          </div>
-                        </div>
-                        {/* Profile Image in Terminal - Mobile */}
-                        <div className="flex-1 flex items-center justify-center py-2">
-                          <motion.div
-                            className="relative w-24 h-24 rounded-lg overflow-hidden border border-black"
-                            whileHover={{ scale: 1.02 }}
-                            transition={{ type: "spring", stiffness: 300 }}
-                          >
-                            <Image
-                              src={Me}
-                              width={96}
-                              height={96}
-                              className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                              alt="Taylor Bryant"
-                              placeholder="blur"
-                            />
-                            {/* Subtle Scan Lines Effect */}
-                            <div className="absolute inset-0 opacity-5">
-                              <div className="h-full bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
-                            </div>
-                          </motion.div>
-                        </div>
-                      </div>
+                      <Image
+                        src={Me}
+                        alt="Taylor Bryant"
+                        layout="fill"
+                        objectFit="cover"
+                        objectPosition="center top"
+                        placeholder="blur"
+                        className="grayscale hover:grayscale-0 transition-all duration-700"
+                      />
                     </motion.div>
                   </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    {["6 years customer-facing", "CompTIA A+ studying", "Remote ready", "Support & SaaS focus"].map((chip, i) => (
+                      <motion.div
+                        key={chip}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.44 + i * 0.08, duration: 0.4 }}
+                        className="rounded-2xl bg-white/7 border border-white/12 px-3 py-3 text-[11px] font-medium text-white/72 flex items-center justify-center text-center min-h-[3.5rem]"
+                        whileHover={{ backgroundColor: "rgba(255,255,255,0.11)" }}
+                      >
+                        {chip}
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
 
-                  {/* Text Content */}
-                  <motion.h3
-                    className="uppercase text-xl mb-3 font-normal tracking-[.5rem] text-black"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, type: "spring" }}
-                    aria-label="Introduction greeting"
-                  >
-                    Hi, I&apos;m Taylor Bryant
-                  </motion.h3>
-                  <motion.h1
-                    className="text-black text-4xl md:text-6xl lg:text-7xl 2xl:text-8xl font-bold my-2 md:my-5"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.3, type: "spring" }}
-                    aria-label="Professional title"
-                  >
-                    Technology Professional
-                  </motion.h1>
-                  <motion.p
-                    className="title text-md 2xl:text-xl mt-4 tracking-wider text-black leading-[1.7rem] max-w-2xl"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.4, type: "spring" }}
-                    aria-label="Professional tagline"
-                  >
-                    Navigating tech - one cloud at a time!
-                  </motion.p>
+                {/* Mobile: 2-col text chips only */}
+                <div className="lg:hidden grid grid-cols-2 gap-2">
+                  {["6 years customer-facing", "CompTIA A+ studying", "Remote ready", "Support & SaaS focus"].map((chip, i) => (
+                    <motion.div
+                      key={chip}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.44 + i * 0.08, duration: 0.4 }}
+                      className="rounded-2xl bg-white/7 border border-white/12 px-3 py-3 text-[11px] font-medium text-white/72 flex items-center justify-center text-center min-h-[3.5rem]"
+                      whileHover={{ backgroundColor: "rgba(255,255,255,0.11)" }}
+                    >
+                      {chip}
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                  {/* Buttons and QR */}
-                  <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-6 mt-10 w-full">
-                    <div className="flex flex-row space-x-4">
-                      <Button variation="primary">
-                        <a
-                          href="https://drive.google.com/file/d/1AtYWNPuzJWc9VLkhJ2MYGyaDTQWD4XgH/view?usp=sharing"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center"
-                          aria-label="View Taylor Bryant's resume"
-                        >
-                          📄 View Resume
-                        </a>
-                      </Button>
-                      <Button variation="secondary">
-                        <a
-                          href="#contact"
-                          aria-label="Navigate to contact section"
-                        >
-                          Contact Me
-                        </a>
-                      </Button>
+      {/* Scroll bridge */}
+      <div className="bg-[#0a0a0a] flex justify-center py-5 border-t border-white/6">
+        <motion.a
+          href="#profile"
+          className="flex flex-col items-center gap-1.5 text-white/42 hover:text-white/70 transition-colors duration-200"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.1, duration: 0.5 }}
+        >
+          <span className="text-[9px] tracking-[0.25em] uppercase font-medium">
+            Scroll
+          </span>
+          <motion.div
+            animate={{ y: [0, 5, 0] }}
+            transition={{ duration: 1.7, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <FontAwesomeIcon icon={faArrowDown} className="text-xs" />
+          </motion.div>
+        </motion.a>
+      </div>
+
+      {/* ── MARQUEE ──────────────────────────────────────────────── */}
+      <Marquee />
+
+      {/* ── STATS ROW ────────────────────────────────────────────── */}
+      <section className="px-4 sm:px-6 lg:px-10 py-10 bg-white border-b border-black/6">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {pageStats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              {...reveal(i * 0.07)}
+              className="rounded-2xl bg-[#f8f8f6] border border-black/8 px-5 py-5"
+            >
+              <p className="text-4xl font-light text-black tracking-tight mb-1.5">
+                {stat.number}
+              </p>
+              <p className="text-[11px] text-black/52 uppercase tracking-[0.18em] leading-relaxed">
+                {stat.label}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PROFILE ──────────────────────────────────────────────── */}
+      <section
+        id="profile"
+        className="relative px-4 sm:px-6 lg:px-10 py-20 bg-white"
+      >
+        <div className="max-w-7xl mx-auto">
+          {/* Work profile + snapshot bento */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr,310px] gap-5 mb-16">
+            <motion.div
+              {...reveal(0)}
+              className="rounded-[2rem] bg-[#f8f8f6] border border-black/8 p-7 md:p-9"
+            >
+              <p className="text-[11px] uppercase tracking-[0.28rem] text-black/45 mb-5">
+                Work Profile
+              </p>
+              <h2 className="text-[1.9rem] md:text-[2.6rem] font-light leading-[1.22] text-black mb-6">
+                Calm support, clear notes,
+                <br className="hidden md:block" />
+                quick product learning.
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-black/65 leading-relaxed text-sm">
+                <p>
+                  A customer support and technology professional with six years
+                  of customer facing experience.
+                </p>
+                <p>
+                  Background connects retail service, academic support, AI
+                  quality evaluation, and hands on technical training.
+                </p>
+                <p>
+                  Focused on helping people feel heard, informed, and confident
+                  while a problem is being worked through.
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              {...reveal(0.09)}
+              className="rounded-[2rem] bg-[#0a0a0a] text-white p-7 flex flex-col justify-between min-h-[240px]"
+            >
+              <p className="text-[11px] uppercase tracking-[0.28rem] text-white/50">
+                Snapshot
+              </p>
+              <div className="space-y-4 mt-5">
+                {summaryCards.map((card) => (
+                  <div
+                    key={card.label}
+                    className="border-b border-white/10 pb-4 last:border-0 last:pb-0"
+                  >
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-white/48 mb-1.5">
+                      {card.label}
+                    </p>
+                    <p className="text-sm text-white/88 leading-relaxed">
+                      {card.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Strengths */}
+          <section id="strengths" className="mb-20">
+            <SectionHeader
+              eyebrow="Strengths"
+              title="How I show up at work"
+              center
+            >
+              Practical habits I would bring to a support team.
+            </SectionHeader>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+              {strengths.map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  {...reveal(index * 0.08)}
+                  className="rounded-3xl bg-[#f8f8f6] border border-black/8 p-6 hover:-translate-y-2 hover:shadow-lg hover:bg-white transition-all duration-200"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-black text-white flex items-center justify-center font-semibold text-xs mb-5">
+                    {index + 1}
+                  </div>
+                  <h3 className="font-semibold text-black text-sm mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-black/62 leading-relaxed">
+                    {item.detail}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
+          {/* Process */}
+          <section className="mb-20">
+            <SectionHeader
+              eyebrow="Process"
+              title="How I handle support work"
+              center
+            >
+              A simple workflow that keeps things clear for users and teammates.
+            </SectionHeader>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 relative">
+              <motion.div
+                className="hidden md:block absolute top-[1.25rem] left-[17%] right-[17%] h-px bg-gradient-to-r from-transparent via-black/20 to-transparent"
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.1, delay: 0.3 }}
+                style={{ transformOrigin: "left" }}
+              />
+              {processSteps.map((item, index) => (
+                <motion.div
+                  key={item.step}
+                  {...reveal(index * 0.12)}
+                  className="relative rounded-3xl bg-[#f7f7f5] border border-black/8 p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-200"
+                >
+                  <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-semibold text-xs mb-5 relative z-10">
+                    {item.step}
+                  </div>
+                  <h3 className="font-semibold text-black text-sm mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-black/62 leading-relaxed">
+                    {item.detail}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
+          {/* Skills */}
+          <section className="mb-20">
+            <SectionHeader
+              eyebrow="Skills"
+              title="Tools, habits, and workflows"
+              center
+            />
+            <motion.div
+              {...reveal(0.05)}
+              className="rounded-[2rem] bg-[#f8f8f6] border border-black/8 p-6 md:p-8 space-y-8"
+            >
+              {skillGroups.map((group) => (
+                <div key={group.label}>
+                  <p className="text-[11px] uppercase tracking-[0.28rem] text-black/45 mb-3">
+                    {group.label}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {group.items.map((skill, index) => (
+                      <motion.span
+                        key={skill}
+                        initial={{ opacity: 0, scale: 0.93 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.025, duration: 0.28 }}
+                        className="rounded-full border border-black/12 bg-white px-3.5 py-1.5 text-sm text-black/68 hover:border-black/28 hover:text-black transition-all duration-150 cursor-default"
+                      >
+                        {skill}
+                      </motion.span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </section>
+
+          {/* Photo mosaic */}
+          <section>
+            {/*
+              Desktop layout (3 cols):
+              [Me1 — tall, rows 1-2] [Me2 — wide, cols 2-3, row 1]
+              [Me1 continues       ] [Me3 — col 2, row 2] [Workspace — col 3, row 2]
+              Me2 spans two columns so portrait/illustrated photos never get squeezed.
+            */}
+            <div
+              className="hidden md:grid gap-3"
+              style={{
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gridTemplateRows: "260px 200px",
+              }}
+            >
+              {/* Workspace1 — tall left */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.97 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                style={{ gridColumn: "1", gridRow: "1 / 3" }}
+                className="relative overflow-hidden rounded-[2rem] border border-black/8 bg-[#e8e8e5]"
+                whileHover={{ scale: 1.014 }}
+              >
+                <Image
+                  src={Workspace1}
+                  alt="Workspace"
+                  layout="fill"
+                  objectFit="cover"
+                  objectPosition="center"
+                  placeholder="blur"
+                  className="grayscale hover:grayscale-0 transition-all duration-500"
+                />
+              </motion.div>
+
+              {/* Me2 — wide top right (2 cols wide so it never squishes) */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.97 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.08 }}
+                style={{ gridColumn: "2 / 4", gridRow: "1" }}
+                className="relative overflow-hidden rounded-[2rem] border border-black/8 bg-[#e8e8e5]"
+                whileHover={{ scale: 1.014 }}
+              >
+                <Image
+                  src={Me2}
+                  alt="Taylor Bryant"
+                  layout="fill"
+                  objectFit="cover"
+                  objectPosition="center"
+                  placeholder="blur"
+                  className="grayscale hover:grayscale-0 transition-all duration-500"
+                />
+              </motion.div>
+
+              {/* Me3 — bottom middle */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.97 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.13 }}
+                style={{ gridColumn: "2", gridRow: "2" }}
+                className="relative overflow-hidden rounded-[2rem] border border-black/8 bg-[#e8e8e5]"
+                whileHover={{ scale: 1.014 }}
+              >
+                <Image
+                  src={Me3}
+                  alt="Taylor Bryant"
+                  layout="fill"
+                  objectFit="cover"
+                  objectPosition="center top"
+                  placeholder="blur"
+                  className="grayscale hover:grayscale-0 transition-all duration-500"
+                />
+              </motion.div>
+
+              {/* Workspace — bottom right */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.97 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.18 }}
+                style={{ gridColumn: "3", gridRow: "2" }}
+                className="relative overflow-hidden rounded-[2rem] border border-black/8 bg-[#e8e8e5]"
+                whileHover={{ scale: 1.014 }}
+              >
+                <Image
+                  src={Workspace}
+                  alt="Workspace"
+                  layout="fill"
+                  objectFit="cover"
+                  placeholder="blur"
+                  className="grayscale hover:grayscale-0 transition-all duration-500"
+                />
+              </motion.div>
+            </div>
+
+            {/* Mobile — 2-col grid, portrait-friendly aspect ratio */}
+            <div className="grid md:hidden grid-cols-2 gap-3">
+              {[
+                { src: Workspace1, pos: "center" },
+                { src: Me2, pos: "center top" },
+                { src: Me3, pos: "center top" },
+                { src: Workspace, pos: "center" },
+              ].map(({ src, pos }, i) => (
+                <motion.div
+                  key={i}
+                  {...reveal(i * 0.07)}
+                  className="relative overflow-hidden rounded-3xl border border-black/8 bg-[#e8e8e5] aspect-[3/4]"
+                  whileHover={{ y: -3 }}
+                >
+                  <Image
+                    src={src}
+                    alt={i === 0 || i === 3 ? "Workspace" : "Taylor Bryant"}
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition={pos}
+                    placeholder="blur"
+                    className="grayscale hover:grayscale-0 transition-all duration-500"
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        </div>
+      </section>
+
+      {/* ── EXPERIENCE ───────────────────────────────────────────── */}
+      <section id="experience" className="relative px-4 sm:px-6 lg:px-10 py-20">
+        <DotGrid className="opacity-[0.18]" />
+        <div className="relative max-w-7xl mx-auto">
+          <SectionHeader
+            eyebrow="Experience"
+            title="Where the support habits came from"
+            center
+          >
+            Three roles, one theme: helping people move forward with less
+            friction.
+          </SectionHeader>
+
+          <div className="space-y-4">
+            {roles.map((role, index) => (
+              <motion.article
+                key={role.company}
+                {...reveal(index * 0.09)}
+                className="rounded-[2rem] bg-white border border-black/8 p-5 sm:p-6 md:p-7 hover:-translate-y-1 hover:shadow-md transition-all duration-200"
+              >
+                {/* Header */}
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-[#f5f5f3] border border-black/8 flex items-center justify-center text-black/45 font-semibold text-xs shrink-0 mt-0.5">
+                      {String(index + 1).padStart(2, "0")}
                     </div>
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src="/image/otaylorbryantresume26-qr.png"
-                        alt="Taylor Bryant Resume QR Code"
-                        width={112}
-                        height={112}
-                        className="w-24 h-24 md:w-28 md:h-28 border border-neutral-300 rounded bg-white"
-                        style={{ imageRendering: "crisp-edges" }}
-                        aria-label="Resume QR Code - Scan to view resume"
-                      />
-                      <p className="text-xs text-gray-500 mt-2 font-mono">
-                        Scan for resume
+                    <div>
+                      <h3 className="text-base font-semibold text-black leading-tight">
+                        {role.company}
+                      </h3>
+                      <p className="text-black/62 text-sm mt-0.5">
+                        {role.title}
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                  <div className="text-xs text-black/52 leading-relaxed pl-12 sm:pl-0 sm:text-right shrink-0">
+                    <p>{role.period}</p>
+                    <p>{role.setting}</p>
+                  </div>
+                </div>
 
-                {/* Desktop Photo - Minimal Terminal Style */}
-                <motion.div
-                  className="hidden md:flex col-span-1 mx-auto justify-center items-center -ml-12"
-                  initial={{ x: 100, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.7, type: "spring" }}
+                {/* Summary */}
+                <p className="text-sm text-black/65 leading-relaxed mb-4 pl-12">
+                  {role.summary}
+                </p>
+
+                {/* Bullets */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 pl-12">
+                  {role.bullets.map((bullet) => (
+                    <div
+                      key={bullet}
+                      className="rounded-2xl bg-[#f7f7f5] border border-black/7 p-3.5 text-sm text-black/65 leading-relaxed flex items-start gap-2"
+                    >
+                      <span className="mt-0.5 text-black/35 shrink-0 text-xs">
+                        →
+                      </span>
+                      <span>{bullet}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TRAINING ─────────────────────────────────────────────── */}
+      <section id="training" className="px-4 sm:px-6 lg:px-10 py-20 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <SectionHeader
+            eyebrow="Training"
+            title="Technical foundation in progress"
+            center
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {training.map((item, index) => (
+              <motion.div
+                key={item.name}
+                {...reveal(index * 0.09)}
+                className="rounded-[2rem] bg-[#f8f8f6] border border-black/8 p-6 hover:-translate-y-1.5 hover:shadow-md transition-all duration-200"
+              >
+                <span
+                  className={`inline-flex rounded-full px-3 py-1 text-[10px] font-semibold tracking-wide mb-5 ${
+                    item.status.toLowerCase().includes("progress")
+                      ? "bg-black/6 text-black/80 border border-black/15"
+                      : "bg-[#0a0a0a] text-white"
+                  }`}
                 >
-                  <div className="relative flex items-center justify-center">
-                    {/* Terminal Window Frame */}
-                    <motion.div
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.8, type: "spring" }}
-                      className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-80 h-80 flex flex-col"
-                    >
-                      {/* Terminal Header */}
-                      <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 rounded-full bg-black"></div>
-                          <div className="w-3 h-3 rounded-full bg-black"></div>
-                          <div className="w-3 h-3 rounded-full bg-black"></div>
-                        </div>
-                        <div className="text-sm font-mono text-gray-600">
-                          taylor@portfolio:~
-                        </div>
-                      </div>
-                      {/* Terminal Content Area */}
-                      <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
-                        {/* Terminal Text - Simplified */}
-                        <div className="font-mono text-base mb-6">
-                          <div className="mb-3 text-gray-500">
-                            $ ./load_profile
-                          </div>
-                          <div className="text-gray-600 flex items-center">
-                            Loading profile image...
-                            <motion.div
-                              className="w-2 h-5 bg-gray-400 ml-1"
-                              animate={{ opacity: [1, 0, 1] }}
-                              transition={{ duration: 1, repeat: Infinity }}
-                            />
-                          </div>
-                        </div>
-                        {/* Profile Image in Terminal - Moved up */}
-                        <div className="flex-1 flex items-center justify-center -mt-2">
-                          <motion.div
-                            className="relative w-40 h-40 rounded-lg overflow-hidden border border-black"
-                            whileHover={{ scale: 1.02 }}
-                            transition={{ type: "spring", stiffness: 300 }}
-                          >
-                            <Image
-                              src={Me}
-                              width={160}
-                              height={160}
-                              className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                              alt="Taylor Bryant"
-                              placeholder="blur"
-                            />
-                            {/* Subtle Scan Lines Effect */}
-                            <div className="absolute inset-0 opacity-5">
-                              <div className="h-full bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
-                            </div>
-                          </motion.div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </div>
-                </motion.div>
+                  {item.status}
+                </span>
+                <h3 className="font-semibold text-black text-sm mb-2">
+                  {item.name}
+                </h3>
+                <p className="text-sm text-black/62 leading-relaxed">
+                  {item.detail}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CONTACT ──────────────────────────────────────────────── */}
+      <section id="contact" className="px-4 sm:px-6 lg:px-10 pt-4 pb-20">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            {...reveal(0)}
+            className="relative rounded-[2rem] bg-[#0a0a0a] text-white overflow-hidden p-8 md:p-12"
+          >
+            <DotGrid light className="opacity-55" />
+            <div className="relative grid grid-cols-1 lg:grid-cols-[1fr,auto] gap-8 items-center">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.28rem] text-white/50 mb-4">
+                  Contact
+                </p>
+                <h2 className="text-2xl md:text-[2.4rem] font-light leading-[1.25] mb-3">
+                  Ready for support, SaaS,
+                  <br className="hidden md:block" /> onboarding, and operations.
+                </h2>
+                <p className="text-white/58 text-sm">
+                  Email is the best way to reach me.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3 items-center">
+                <a
+                  href="mailto:o.taylor.bryant@gmail.com?subject=Hi Taylor!"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-black px-6 py-3 font-semibold text-sm hover:bg-neutral-100 transition-colors duration-200"
+                >
+                  <FontAwesomeIcon icon={faEnvelope} />
+                  Email Taylor
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/o-taylor-bryant/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-full bg-white/10 border border-white/22 text-white w-12 h-12 hover:bg-white hover:text-black transition-all duration-200"
+                  aria-label="LinkedIn"
+                >
+                  <FontAwesomeIcon icon={faLinkedin} />
+                </a>
+                <a
+                  href="https://github.com/o-taylor-bryant"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-full bg-white/10 border border-white/22 text-white w-12 h-12 hover:bg-white hover:text-black transition-all duration-200"
+                  aria-label="GitHub"
+                >
+                  <FontAwesomeIcon icon={faGithub} />
+                </a>
               </div>
             </div>
-            <div className="section">
-              <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
-                {/* About Me Section - Terminal Style */}
-                {/* Mobile Layout - Stacked */}
-                <div className="md:hidden w-full flex flex-col items-center space-y-8">
-                  <motion.div
-                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 min-h-[18rem] h-auto flex flex-col"
-                    initial={{ scale: 0.95, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
-                  >
-                    {/* Terminal Header */}
-                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                      </div>
-                      <div className="text-sm font-mono text-gray-600">
-                        taylor@portfolio:~
-                      </div>
-                    </div>
-                    {/* Terminal Content Area */}
-                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
-                      {/* Terminal Text */}
-                      <div className="font-mono text-base mb-6">
-                        <div className="mb-3 text-gray-500">$ ./load_about</div>
-                        <div className="text-gray-600 flex items-center">
-                          Loading about section...
-                          <motion.div
-                            className="w-2 h-5 bg-gray-400 ml-1"
-                            animate={{ opacity: [1, 0, 1] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                          />
-                        </div>
-                      </div>
-                      {/* About Image in Terminal */}
-                      <div className="flex-1 flex items-center justify-center py-2">
-                        <motion.div
-                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
-                          whileHover={{ scale: 1.02 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        >
-                          <Image
-                            src={MeAbout}
-                            width={128}
-                            height={128}
-                            className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                            alt="About Me"
-                            placeholder="blur"
-                          />
-                          {/* Subtle Scan Lines Effect */}
-                          <div className="absolute inset-0 opacity-5">
-                            <div className="h-full bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </div>
-                  </motion.div>
+          </motion.div>
 
-                  {/* Mobile Text Content */}
-                  <motion.div
-                    className="w-full flex flex-col justify-center items-start text-left px-4"
-                    initial={{ y: 40, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, type: "spring" }}
-                  >
-                    <motion.h1
-                      className="text-black text-4xl font-bold mb-4 text-left"
-                      initial={{ x: -100, opacity: 0 }}
-                      whileInView={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.1, type: "spring" }}
-                    >
-                      About Me
-                    </motion.h1>
-                    <Hr />
-                    <motion.p
-                      className="title text-lg mt-4 tracking-wider text-black leading-relaxed mb-6 max-w-md"
-                      initial={{ x: -100, opacity: 0 }}
-                      whileInView={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.2, type: "spring" }}
-                    >
-                      A look into my personal processing file!
-                    </motion.p>
-                    <motion.div
-                      initial={{ y: 40, opacity: 0 }}
-                      whileInView={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.3, type: "spring" }}
-                    >
-                      <Button variation="primary">
-                        <Link href="/about">View</Link>
-                      </Button>
-                    </motion.div>
-                  </motion.div>
-                </div>
-
-                {/* Desktop Layout - Original overlapping design */}
-                <div className="hidden md:block z-0 mb-32 md:mb-8 md:absolute md:right-[18%] md:top-1/2 md:-translate-y-1/2 flex items-center justify-center w-72 h-72 md:w-80 md:h-80">
-                  <motion.div
-                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 md:w-80 md:h-80 flex flex-col"
-                    initial={{ scale: 0.95, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
-                  >
-                    {/* Terminal Header */}
-                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                      </div>
-                      <div className="text-sm font-mono text-gray-600">
-                        taylor@portfolio:~
-                      </div>
-                    </div>
-                    {/* Terminal Content Area */}
-                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
-                      {/* Terminal Text */}
-                      <div className="font-mono text-base mb-6">
-                        <div className="mb-3 text-gray-500">$ ./load_about</div>
-                        <div className="text-gray-600 flex items-center">
-                          Loading about section...
-                          <motion.div
-                            className="w-2 h-5 bg-gray-400 ml-1"
-                            animate={{ opacity: [1, 0, 1] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                          />
-                        </div>
-                      </div>
-                      {/* About Image in Terminal */}
-                      <div className="flex-1 flex items-center justify-center -mt-2">
-                        <motion.div
-                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
-                          whileHover={{ scale: 1.02 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        >
-                          <Image
-                            src={MeAbout}
-                            width={128}
-                            height={128}
-                            className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                            alt="About Me"
-                            placeholder="blur"
-                          />
-                          {/* Subtle Scan Lines Effect */}
-                          <div className="absolute inset-0 opacity-5">
-                            <div className="h-full bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-
-                <div className="hidden md:block z-10 w-full absolute md:w-auto md:left-[10%] md:top-1/2 md:-translate-y-1/2 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 pt-4 backdrop-filter backdrop-blur-sm md:backdrop-blur-none bg-gray-100 bg-opacity-50 md:bg-transparent md:pt-0">
-                  <motion.h1
-                    className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.1, type: "spring" }}
-                  >
-                    About Me
-                  </motion.h1>
-                  <Hr />
-                  <motion.p
-                    className="title text-xl mt-4 tracking-wider text-black leading-[1.7rem] mb-5"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, type: "spring" }}
-                  >
-                    A look into my personal processing file!
-                  </motion.p>
-                  <motion.div
-                    initial={{ y: 40, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.3, type: "spring" }}
-                  >
-                    <Button variation="primary">
-                      <Link href="/about">View</Link>
-                    </Button>
-                  </motion.div>
-                </div>
-              </div>
-            </div>
-            <div className="section">
-              <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
-                {/* Projects Section - Terminal Style */}
-                {/* Mobile Layout - Stacked */}
-                <div className="md:hidden w-full flex flex-col items-center space-y-8">
-                  <motion.div
-                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 min-h-[18rem] h-auto flex flex-col"
-                    initial={{ scale: 0.95, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
-                  >
-                    {/* Terminal Header */}
-                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                      </div>
-                      <div className="text-sm font-mono text-gray-600">
-                        taylor@portfolio:~
-                      </div>
-                    </div>
-                    {/* Terminal Content Area */}
-                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
-                      {/* Terminal Text */}
-                      <div className="font-mono text-base mb-6">
-                        <div className="mb-3 text-gray-500">
-                          $ ./load_projects
-                        </div>
-                        <div className="text-gray-600 flex items-center">
-                          Loading projects section...
-                          <motion.div
-                            className="w-2 h-5 bg-gray-400 ml-1"
-                            animate={{ opacity: [1, 0, 1] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                          />
-                        </div>
-                      </div>
-                      {/* Projects Image in Terminal */}
-                      <div className="flex-1 flex items-center justify-center py-2">
-                        <motion.div
-                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
-                          whileHover={{ scale: 1.02 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        >
-                          <Image
-                            src={CloudIcon}
-                            width={128}
-                            height={128}
-                            className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                            alt="Cloud Projects Icon"
-                            placeholder="blur"
-                          />
-                          {/* Subtle Scan Lines Effect */}
-                          <div className="absolute inset-0 opacity-5">
-                            <div className="h-full bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Mobile Text Content */}
-                  <motion.div
-                    className="w-full flex flex-col justify-center items-start text-left px-4"
-                    initial={{ y: 40, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, type: "spring" }}
-                  >
-                    <motion.h1
-                      className="text-black text-4xl font-bold mb-4"
-                      initial={{ x: -100, opacity: 0 }}
-                      whileInView={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.1, type: "spring" }}
-                    >
-                      Projects
-                    </motion.h1>
-                    <Hr />
-                    <motion.p
-                      className="title text-lg mt-4 tracking-wider text-black leading-relaxed mb-6 max-w-md"
-                      initial={{ x: -100, opacity: 0 }}
-                      whileInView={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.2, type: "spring" }}
-                    >
-                      My little collection of personal commits.
-                    </motion.p>
-                    <motion.div
-                      initial={{ y: 40, opacity: 0 }}
-                      whileInView={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.3, type: "spring" }}
-                    >
-                      <Button variation="primary">
-                        <Link href="/projects">View</Link>
-                      </Button>
-                    </motion.div>
-                  </motion.div>
-                </div>
-
-                {/* Desktop Layout - Original overlapping design */}
-                <div className="hidden md:block z-0 mb-32 md:mb-8 md:absolute md:right-[18%] md:top-1/2 md:-translate-y-1/2 flex items-center justify-center w-72 h-72 md:w-80 md:h-80">
-                  <motion.div
-                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 md:w-80 md:h-80 flex flex-col"
-                    initial={{ scale: 0.95, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
-                  >
-                    {/* Terminal Header */}
-                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                      </div>
-                      <div className="text-sm font-mono text-gray-600">
-                        taylor@portfolio:~
-                      </div>
-                    </div>
-                    {/* Terminal Content Area */}
-                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
-                      {/* Terminal Text */}
-                      <div className="font-mono text-base mb-6">
-                        <div className="mb-3 text-gray-500">
-                          $ ./load_projects
-                        </div>
-                        <div className="text-gray-600 flex items-center">
-                          Loading projects section...
-                          <motion.div
-                            className="w-2 h-5 bg-gray-400 ml-1"
-                            animate={{ opacity: [1, 0, 1] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                          />
-                        </div>
-                      </div>
-                      {/* Projects Image in Terminal */}
-                      <div className="flex-1 flex items-center justify-center -mt-2">
-                        <motion.div
-                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
-                          whileHover={{ scale: 1.02 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        >
-                          <Image
-                            src={CloudIcon}
-                            width={128}
-                            height={128}
-                            className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                            alt="Cloud Projects Icon"
-                            placeholder="blur"
-                          />
-                          {/* Subtle Scan Lines Effect */}
-                          <div className="absolute inset-0 opacity-5">
-                            <div className="h-full bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-
-                <div className="hidden md:block z-10 w-full absolute md:w-auto md:left-[10%] md:top-1/2 md:-translate-y-1/2 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 py-5">
-                  <motion.h1
-                    className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.1, type: "spring" }}
-                  >
-                    Projects
-                  </motion.h1>
-                  <Hr />
-                  <motion.p
-                    className="title text-xl mt-4 tracking-wider text-black leading-[1.7rem] mb-5"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, type: "spring" }}
-                  >
-                    My little collection of personal commits.
-                  </motion.p>
-                  <motion.div
-                    initial={{ y: 40, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.3, type: "spring" }}
-                  >
-                    <Button variation="primary">
-                      <Link href="/projects">View</Link>
-                    </Button>
-                  </motion.div>
-                </div>
-              </div>
-            </div>
-            <div className="section">
-              <div className="relative md:h-screen w-screen gap-4 p-10 flex justify-center items-center flex-col overflow-hidden">
-                {/* Contact Section - Terminal Style */}
-                {/* Mobile Layout - Stacked */}
-                <div className="md:hidden w-full flex flex-col items-center space-y-8">
-                  <motion.div
-                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 min-h-[18rem] h-auto flex flex-col"
-                    initial={{ x: 300, opacity: 0, z: -100 }}
-                    whileInView={{ x: 0, opacity: 1, z: 0 }}
-                    transition={{
-                      delay: 0.5,
-                      type: "spring",
-                      stiffness: 100,
-                      damping: 20,
-                    }}
-                  >
-                    {/* Terminal Header */}
-                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                      </div>
-                      <div className="text-sm font-mono text-gray-600">
-                        taylor@portfolio:~
-                      </div>
-                    </div>
-                    {/* Terminal Content Area */}
-                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
-                      {/* Terminal Text */}
-                      <div className="font-mono text-base mb-6">
-                        <div className="mb-3 text-gray-500">
-                          $ ./load_contact
-                        </div>
-                        <div className="text-gray-600 flex items-center">
-                          Loading contact section...
-                          <motion.div
-                            className="w-2 h-5 bg-gray-400 ml-1"
-                            animate={{ opacity: [1, 0, 1] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                          />
-                        </div>
-                      </div>
-                      {/* Contact Image in Terminal */}
-                      <div className="flex-1 flex items-center justify-center py-2">
-                        <motion.div
-                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
-                          whileHover={{ scale: 1.02 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        >
-                          <Image
-                            src={Workspace1}
-                            width={128}
-                            height={128}
-                            className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                            alt="Workspace Photo"
-                            placeholder="blur"
-                            quality={95}
-                          />
-                          {/* Subtle Scan Lines Effect */}
-                          <div className="absolute inset-0 opacity-5">
-                            <div className="h-full bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Mobile Text Content */}
-                  <motion.div
-                    className="w-full flex flex-col justify-center items-start text-left px-4"
-                    initial={{ y: 40, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, type: "spring" }}
-                  >
-                    <motion.h1
-                      className="text-black text-4xl font-bold mb-4 text-left"
-                      initial={{ x: -100, opacity: 0 }}
-                      whileInView={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.1, type: "spring" }}
-                    >
-                      Ping Received
-                    </motion.h1>
-                    <Hr />
-                    {/* Group email and buttons for alignment */}
-                    <div className="flex flex-col items-start w-full gap-4 mt-4">
-                      <motion.p
-                        className="title text-lg tracking-wider text-black leading-relaxed max-w-md text-left"
-                        initial={{ x: -100, opacity: 0 }}
-                        whileInView={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.3, type: "spring" }}
-                      >
-                        <a href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hi Taylor,">
-                          o.taylor.bryant@gmail.com
-                        </a>
-                      </motion.p>
-                      <div className="flex items-center space-x-4">
-                        <motion.a
-                          href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hello Taylor,"
-                          className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
-                          initial={{ y: 40, opacity: 0 }}
-                          whileInView={{ y: 0, opacity: 1 }}
-                          transition={{
-                            y: { delay: 0.1 },
-                            opacity: { delay: 0.2 },
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faEnvelope}
-                            className="text-3xl"
-                          />
-                        </motion.a>
-                        <motion.a
-                          href="https://github.com/o-taylor-bryant"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
-                          initial={{ opacity: 0, y: 40 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{
-                            y: { delay: 0.2 },
-                            opacity: { delay: 0.3 },
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faGithub}
-                            className="text-3xl"
-                          />
-                        </motion.a>
-                        <motion.a
-                          href="https://www.linkedin.com/in/o-taylor-bryant/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
-                          initial={{ opacity: 0, y: 40 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{
-                            y: { delay: 0.4 },
-                            opacity: { delay: 0.5 },
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faLinkedin}
-                            className="text-3xl"
-                          />
-                        </motion.a>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-
-                {/* Desktop Layout - Original overlapping design */}
-                <div className="hidden md:block z-0 mb-48 md:mb-0 md:absolute md:right-[18%] md:top-1/2 md:-translate-y-1/2 w-72 h-72 md:w-80 md:h-80 flex items-center justify-center">
-                  <motion.div
-                    className="relative bg-white rounded-2xl border-2 border-black shadow-lg overflow-hidden w-72 h-72 md:w-80 md:h-80 flex flex-col"
-                    initial={{ x: 300, opacity: 0, z: -100 }}
-                    whileInView={{ x: 0, opacity: 1, z: 0 }}
-                    transition={{
-                      delay: 0.5,
-                      type: "spring",
-                      stiffness: 100,
-                      damping: 20,
-                    }}
-                  >
-                    {/* Terminal Header */}
-                    <div className="bg-gray-100 border-b border-black px-6 py-3 flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                        <div className="w-3 h-3 rounded-full bg-black"></div>
-                      </div>
-                      <div className="text-sm font-mono text-gray-600">
-                        taylor@portfolio:~
-                      </div>
-                    </div>
-                    {/* Terminal Content Area */}
-                    <div className="bg-white text-gray-700 p-6 flex-1 flex flex-col">
-                      {/* Terminal Text */}
-                      <div className="font-mono text-base mb-6">
-                        <div className="mb-3 text-gray-500">
-                          $ ./load_contact
-                        </div>
-                        <div className="text-gray-600 flex items-center">
-                          Loading contact section...
-                          <motion.div
-                            className="w-2 h-5 bg-gray-400 ml-1"
-                            animate={{ opacity: [1, 0, 1] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                          />
-                        </div>
-                      </div>
-                      {/* Contact Image in Terminal */}
-                      <div className="flex-1 flex items-center justify-center py-2">
-                        <motion.div
-                          className="relative w-32 h-32 rounded-lg overflow-hidden border border-black"
-                          whileHover={{ scale: 1.02 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        >
-                          <Image
-                            src={Workspace1}
-                            width={128}
-                            height={128}
-                            className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
-                            alt="Workspace Photo"
-                            placeholder="blur"
-                            quality={95}
-                          />
-                          {/* Subtle Scan Lines Effect */}
-                          <div className="absolute inset-0 opacity-5">
-                            <div className="h-full bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-
-                <div className="hidden md:block z-10 w-full absolute md:w-auto md:left-[10%] md:top-1/2 md:-translate-y-1/2 col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 overflow-hidden">
-                  <motion.h1
-                    className="bg-white lg:bg-transparent bg-opacity-50 px-3 md-px-0 text-black text-5xl md:text-8xl font-bold"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.1, type: "spring" }}
-                  >
-                    Ping Received
-                  </motion.h1>
-                  <Hr />
-                  <motion.p
-                    className="title text-xl mt-4 tracking-wider text-black leading-[1.7rem] mb-5"
-                    initial={{ x: -100, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.3, type: "spring" }}
-                  >
-                    <a href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hi Taylor,">
-                      o.taylor.bryant@gmail.com
-                    </a>
-                  </motion.p>
-                  <div className="flex justify-center items-center space-x-4">
-                    <motion.a
-                      href="mailto:o.taylor.bryant@gmail.com?subject=Hi!&body=Hello Taylor,"
-                      className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
-                      initial={{ y: 40, opacity: 0 }}
-                      whileInView={{ y: 0, opacity: 1 }}
-                      transition={{
-                        y: { delay: 0.1 },
-                        opacity: { delay: 0.2 },
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faEnvelope} className="text-3xl" />
-                    </motion.a>
-                    <motion.a
-                      href="https://github.com/o-taylor-bryant"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
-                      initial={{ opacity: 0, y: 40 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{
-                        y: { delay: 0.2 },
-                        opacity: { delay: 0.3 },
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faGithub} className="text-3xl" />
-                    </motion.a>
-                    <motion.a
-                      href="https://www.linkedin.com/in/o-taylor-bryant/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex justify-center items-center w-14 h-14 rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:bg-white hover:text-black hover:scale-105 active:scale-95"
-                      initial={{ opacity: 0, y: 40 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{
-                        y: { delay: 0.4 },
-                        opacity: { delay: 0.5 },
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faLinkedin} className="text-3xl" />
-                    </motion.a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ReactFullpage.Wrapper>
-        )}
-        {...fullpageOptions}
-      />
-    </div>
+          {/* Back to top */}
+          <motion.a
+            {...reveal(0.1)}
+            href="#home"
+            className="mt-8 mx-auto flex w-fit flex-col items-center gap-1.5 text-black/35 hover:text-black/65 transition-colors duration-200"
+          >
+            <motion.div
+              animate={{ y: [0, -4, 0] }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <FontAwesomeIcon icon={faArrowUp} className="text-xs" />
+            </motion.div>
+            <span className="text-[9px] tracking-[0.25em] uppercase font-medium">
+              Back to top
+            </span>
+          </motion.a>
+        </div>
+      </section>
+    </main>
   );
-};
-
-export default MyPage;
+}
