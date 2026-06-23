@@ -109,42 +109,89 @@ const NavItems = ({ isNavOpen, setIsNavOpen }) => {
 const Navbar = () => {
   const navRef = useRef(null);
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const update = () => setIsScrolled(window.scrollY > 80);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
+  const isLightHeader = isScrolled && !isNavOpen;
 
   return (
     <>
       <nav
         ref={navRef}
-        className={`navbar px-5 md:px-24 w-screen fixed transition-colors ease duration-500 ${
-          isNavOpen
-            ? "backdrop-filter backdrop-blur-md bg-black bg-opacity-50"
-            : "backdrop-filter backdrop-blur-md"
-        } bg-opacity-50 flex flex-row justify-between items-center h-16 z-50`}
+        className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-10 py-4"
       >
-        <div>
-          <h1
-            className={`text-xl font-bold ml-2 md:ml-0 transition-colors ease duration-500 ${
-              isNavOpen ? "text-white" : "text-black"
+        <div
+          className={`mx-auto max-w-7xl rounded-full border backdrop-blur-xl transition-all duration-500 flex items-center justify-between h-14 px-3 pl-4 ${
+            isNavOpen
+              ? "bg-black/65 border-white/12"
+              : isLightHeader
+                ? "bg-white/82 border-black/8 shadow-sm shadow-black/5"
+                : "bg-white/[0.055] border-white/12"
+          }`}
+        >
+          <Link
+            href="/"
+            className={`group inline-flex items-center gap-3 transition-colors duration-300 ${
+              isLightHeader ? "text-black" : "text-white"
             }`}
           >
-            Taylor Bryant
-          </h1>
-        </div>
-        <div className="flex flex-row items-center">
+            <span
+              className={`flex h-9 w-9 items-center justify-center rounded-full text-[11px] font-medium tracking-[0.18em] transition-colors duration-300 ${
+                isLightHeader
+                  ? "bg-black text-white"
+                  : "bg-white text-black"
+              }`}
+            >
+              TB
+            </span>
+            <span className="hidden sm:block">
+              <span className="block text-sm font-medium leading-none tracking-tight">
+                Taylor Bryant
+              </span>
+              <span
+                className={`mt-1 block text-[10px] uppercase tracking-[0.18em] transition-colors duration-300 ${
+                  isLightHeader ? "text-black/45" : "text-white/48"
+                }`}
+              >
+                Support Profile
+              </span>
+            </span>
+          </Link>
+
           <button
-            className="burger button flex flex-col justify-center items-center space-y-1.5"
+            className={`group flex h-10 items-center gap-3 rounded-full border px-4 transition-all duration-300 ${
+              isLightHeader
+                ? "border-black/10 bg-black/[0.03] text-black hover:bg-black/6"
+                : "border-white/12 bg-white/[0.06] text-white hover:bg-white/[0.1]"
+            }`}
             onClick={() => setIsNavOpen(!isNavOpen)}
             aria-label="Toggle navigation menu"
+            aria-expanded={isNavOpen}
           >
+            <span className="hidden sm:block text-[10px] font-medium uppercase tracking-[0.18em]">
+              Menu
+            </span>
             <div
-              className={`w-10 h-1 bg-black rounded-full transition-all ease duration-300 ${
-                isNavOpen ? "rotate-45 bg-white translate-y-[2px]" : ""
-              }`}
-            />
-            <div
-              className={`w-10 h-1 bg-black rounded-full transition-all ease duration-300 ${
-                isNavOpen ? "-rotate-45 -translate-y-2 bg-white" : ""
-              }`}
-            />
+              className="relative h-3.5 w-5"
+              aria-hidden="true"
+            >
+              <span
+                className={`absolute left-0 top-1/2 h-px w-5 rounded-full transition-all duration-300 ${
+                  isLightHeader ? "bg-black" : "bg-white"
+                } ${isNavOpen ? "rotate-45" : "-translate-y-1.5"}`}
+              />
+              <span
+                className={`absolute left-0 top-1/2 h-px w-5 rounded-full transition-all duration-300 ${
+                  isLightHeader ? "bg-black" : "bg-white"
+                } ${isNavOpen ? "-rotate-45" : "translate-y-1.5"}`}
+              />
+            </div>
           </button>
         </div>
       </nav>

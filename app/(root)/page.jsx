@@ -15,6 +15,16 @@ import Me2 from "@/public/image/me2.png";
 import Me3 from "@/public/image/me3.png";
 import Workspace from "@/public/image/Wade.jpg";
 import Workspace1 from "@/public/image/Workspace1.jpg";
+import {
+  marqueeItems,
+  pageStats,
+  processSteps,
+  roles,
+  skillGroups,
+  strengths,
+  summaryCards,
+  training,
+} from "@/data/profileContent";
 
 const reveal = (delay = 0) => ({
   initial: { opacity: 0, y: 22 },
@@ -47,18 +57,6 @@ function DotGrid({ className = "", light = false }) {
 }
 
 function Marquee() {
-  const items = [
-    "Customer Support",
-    "SaaS Support",
-    "Onboarding",
-    "Operations",
-    "Product Support",
-    "Remote Work",
-    "Issue Resolution",
-    "Case Ownership",
-    "Technical Support",
-    "Client Follow-Up",
-  ];
   return (
     <div
       className="overflow-hidden border-y border-black/8 bg-white py-3.5 select-none"
@@ -74,7 +72,7 @@ function Marquee() {
         animate={{ x: ["0%", "-50%"] }}
         transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
       >
-        {[...items, ...items].map((item, i) => (
+        {[...marqueeItems, ...marqueeItems].map((item, i) => (
           <span
             key={i}
             className="inline-flex items-center gap-6 text-[11px] text-black/40 font-medium tracking-[0.2em] uppercase"
@@ -87,171 +85,6 @@ function Marquee() {
     </div>
   );
 }
-
-const summaryCards = [
-  {
-    label: "Target roles",
-    value:
-      "Customer support, SaaS support, product support, onboarding, operations support",
-  },
-  {
-    label: "Work style",
-    value: "Calm communication, careful notes, steady follow through",
-  },
-  {
-    label: "Current growth",
-    value: "CompTIA A+ study with remote support training completed",
-  },
-];
-
-const strengths = [
-  {
-    title: "Customer Communication",
-    detail:
-      "Patient with frustrated users, clear with next steps, and comfortable keeping people informed.",
-  },
-  {
-    title: "Documentation",
-    detail:
-      "Able to turn messy details into notes, updates, and summaries that another teammate can use.",
-  },
-  {
-    title: "Product Learning",
-    detail:
-      "Quick to learn dashboards, internal standards, and support workflows.",
-  },
-  {
-    title: "Issue Ownership",
-    detail:
-      "Keeps track of what happened, what was tried, and what still needs attention.",
-  },
-];
-
-const skillGroups = [
-  {
-    label: "Customer & Support",
-    items: [
-      "Customer communication",
-      "Issue resolution",
-      "Client follow up",
-      "Case ownership",
-      "Onboarding support",
-      "Task tracking",
-      "Escalation awareness",
-      "Remote support",
-      "Product support",
-      "Platform navigation",
-      "CRM style notes",
-      "Knowledge base use",
-    ],
-  },
-  {
-    label: "Technical",
-    items: [
-      "Windows 10/11",
-      "Microsoft 365",
-      "DNS and DHCP",
-      "RDP",
-      "VPN basics",
-      "Excel",
-      "Linux CLI",
-      "Wireshark",
-      "Splunk",
-      "GitHub",
-    ],
-  },
-];
-
-const roles = [
-  {
-    company: "TELUS Digital",
-    title: "Web Search Evaluator",
-    period: "July 2022 – Present",
-    setting: "Remote",
-    summary:
-      "Evaluates AI generated responses and web search results for clarity, quality, and alignment with user intent.",
-    bullets: [
-      "Applies detailed quality standards through a proprietary evaluation dashboard.",
-      "Works independently in a high autonomy remote environment.",
-      "Maintains consistency during periodic accuracy reviews.",
-    ],
-  },
-  {
-    company: "Walgreens",
-    title: "Customer Service Associate",
-    period: "Sept 2017 – Aug 2020",
-    setting: "Beulaville, NC",
-    summary:
-      "Supported customers in a fast paced service environment while helping maintain smooth store operations.",
-    bullets: [
-      "Led weekly conversations around Customer Experience metrics.",
-      "Operated point of sale systems during high volume hours.",
-      "Used inventory tools to support stock accuracy and product availability.",
-    ],
-  },
-  {
-    company: "UNC Greensboro",
-    title: "Lab Monitor",
-    period: "Aug 2016 – Apr 2017",
-    setting: "Greensboro, NC",
-    summary:
-      "Provided front line support to students and staff in a shared academic space.",
-    bullets: [
-      "Created a steady and reliable learning environment.",
-      "Tracked lab attendance through Excel based systems.",
-      "Assisted academic staff with administrative tasks.",
-    ],
-  },
-];
-
-const training = [
-  {
-    name: "CompTIA A+",
-    status: "In Progress",
-    detail:
-      "Studying Windows support, Microsoft 365 basics, hardware, networking, troubleshooting, security basics, Active Directory concepts, and remote support workflows.",
-  },
-  {
-    name: "Miles IT Remote Support Training",
-    status: "Completed 2026",
-    detail:
-      "Completed 30 hours of hands on work with remote desktop support, domain joined systems, file shares, UNC paths, network printers, DNS, DHCP, and basic access issues.",
-  },
-  {
-    name: "Google Cybersecurity Certificate",
-    status: "Completed 2025",
-    detail:
-      "Completed training in security fundamentals, incident response, Linux, Python, SIEM tools, network protocol analysis, risk mitigation, and system hardening.",
-  },
-];
-
-const processSteps = [
-  {
-    step: "01",
-    title: "Listen first",
-    detail:
-      "I make sure I understand what the person is trying to do before jumping into a fix.",
-  },
-  {
-    step: "02",
-    title: "Track the details",
-    detail:
-      "I keep clear notes on what happened, what changed, and what still needs attention.",
-  },
-  {
-    step: "03",
-    title: "Follow through",
-    detail:
-      "I confirm the next step is clear, whether the issue is resolved or needs escalation.",
-  },
-];
-
-const pageStats = [
-  { number: "6", label: "Years with customers" },
-  { number: "3", label: "Certifications" },
-  { number: "30+", label: "Hours remote training" },
-  { number: "100%", label: "Remote ready" },
-];
 
 function SectionHeader({ eyebrow, title, children, center = false }) {
   return (
@@ -353,10 +186,9 @@ export default function HomePage() {
             Available · Open to support roles
           </motion.div>
 
-          {/* Name + photo row */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-12">
-            {/* Text */}
-            <div className="flex-1 min-w-0">
+          {/* Mobile keeps a simple stack; desktop uses a 4-column "Tetris" layout. */}
+          <div>
+            <div className="lg:hidden">
               <motion.h1
                 {...enter(0.1)}
                 className="text-[3.2rem] sm:text-[4.5rem] xl:text-[6rem] font-light text-white leading-[0.95] tracking-tight mb-6"
@@ -373,8 +205,10 @@ export default function HomePage() {
                 Customer Support &amp; Technology Professional
               </motion.p>
 
-              {/* CTAs */}
-              <motion.div {...enter(0.28)} className="flex flex-wrap gap-3 mb-6">
+              <motion.div
+                {...enter(0.28)}
+                className="flex flex-wrap gap-3 mb-6"
+              >
                 <motion.a
                   href="/image/Taylor Bryant - Resume 2026.pdf"
                   target="_blank"
@@ -384,7 +218,7 @@ export default function HomePage() {
                   whileTap={{ scale: 0.97 }}
                 >
                   <FontAwesomeIcon icon={faFileArrowDown} />
-                  View Resume
+                  Resume
                 </motion.a>
                 <motion.a
                   href="#contact"
@@ -392,52 +226,18 @@ export default function HomePage() {
                   whileHover={{ scale: 1.04, backgroundColor: "#e8e8e8" }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  Contact Me
+                  Contact
                 </motion.a>
               </motion.div>
 
-              {/* Stat chips */}
               <motion.div {...enter(0.38)}>
-                {/* Desktop: photo above "Support & SaaS focus", then full chip row */}
-                <div className="hidden lg:block">
-                  <div className="grid grid-cols-4 gap-2 mb-2">
-                    <div /><div /><div />
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.93 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.75, delay: 0.3 }}
-                      className="relative rounded-2xl overflow-hidden border border-white/15 h-[340px]"
-                    >
-                      <Image
-                        src={Me}
-                        alt="Taylor Bryant"
-                        layout="fill"
-                        objectFit="cover"
-                        objectPosition="center top"
-                        placeholder="blur"
-                        className="grayscale hover:grayscale-0 transition-all duration-700"
-                      />
-                    </motion.div>
-                  </div>
-                  <div className="grid grid-cols-4 gap-2">
-                    {["6 years customer-facing", "CompTIA A+ studying", "Remote ready", "Support & SaaS focus"].map((chip, i) => (
-                      <motion.div
-                        key={chip}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.44 + i * 0.08, duration: 0.4 }}
-                        className="rounded-2xl bg-white/7 border border-white/12 px-3 py-3 text-[11px] font-medium text-white/72 flex items-center justify-center text-center min-h-[3.5rem]"
-                        whileHover={{ backgroundColor: "rgba(255,255,255,0.11)" }}
-                      >
-                        {chip}
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Mobile: 2-col text chips only */}
-                <div className="lg:hidden grid grid-cols-2 gap-2">
-                  {["6 years customer-facing", "CompTIA A+ studying", "Remote ready", "Support & SaaS focus"].map((chip, i) => (
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    "Customer Support",
+                    "Problem-Solving",
+                    "Remote-Ready",
+                    "Support & SaaS Focus",
+                  ].map((chip, i) => (
                     <motion.div
                       key={chip}
                       initial={{ opacity: 0, y: 10 }}
@@ -450,6 +250,82 @@ export default function HomePage() {
                     </motion.div>
                   ))}
                 </div>
+              </motion.div>
+            </div>
+
+            <div className="hidden lg:block">
+              <div className="grid grid-cols-4 gap-2 mb-2 items-end">
+                <motion.div {...enter(0.1)} className="col-start-1">
+                  <h1 className="text-[4rem] xl:text-[5rem] font-light text-white leading-[0.95] tracking-tight mb-5">
+                    Taylor
+                    <br />
+                    Bryant
+                  </h1>
+                  <p className="text-sm font-light text-white/65 leading-relaxed mb-7">
+                    Customer Support &amp; Technology Professional
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <motion.a
+                      href="/image/Taylor Bryant - Resume 2026.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black font-semibold text-sm"
+                      whileHover={{ scale: 1.04, backgroundColor: "#e8e8e8" }}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      <FontAwesomeIcon icon={faFileArrowDown} />
+                      View Resume
+                    </motion.a>
+                    <motion.a
+                      href="#contact"
+                      className="inline-flex items-center px-5 py-2.5 rounded-full bg-white text-black font-medium text-sm"
+                      whileHover={{ scale: 1.04, backgroundColor: "#e8e8e8" }}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      Contact Me
+                    </motion.a>
+                  </div>
+                </motion.div>
+
+                <div />
+                <div />
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.93 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.75, delay: 0.3 }}
+                  className="relative rounded-2xl overflow-hidden border border-white/15 h-[340px]"
+                >
+                  <Image
+                    src={Me}
+                    alt="Taylor Bryant"
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center top"
+                    placeholder="blur"
+                    className="grayscale hover:grayscale-0 transition-all duration-700"
+                  />
+                </motion.div>
+              </div>
+
+              <motion.div {...enter(0.38)} className="grid grid-cols-4 gap-2 mt-7">
+                {[
+                  "Service Experience",
+                  "Growth Mindset",
+                  "Remote Ready",
+                  "Support & SaaS Focus",
+                ].map((chip, i) => (
+                  <motion.div
+                    key={chip}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.44 + i * 0.08, duration: 0.4 }}
+                    className="rounded-2xl bg-white/7 border border-white/12 px-3 py-3 text-[11px] font-medium text-white/72 flex items-center justify-center text-center min-h-[3.5rem]"
+                    whileHover={{ backgroundColor: "rgba(255,255,255,0.11)" }}
+                  >
+                    {chip}
+                  </motion.div>
+                ))}
               </motion.div>
             </div>
           </div>
@@ -523,11 +399,11 @@ export default function HomePage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-black/65 leading-relaxed text-sm">
                 <p>
                   A customer support and technology professional with six years
-                  of customer facing experience.
+                  of customer-facing experience.
                 </p>
                 <p>
                   Background connects retail service, academic support, AI
-                  quality evaluation, and hands on technical training.
+                  quality evaluation, and hands-on technical training.
                 </p>
                 <p>
                   Focused on helping people feel heard, informed, and confident
@@ -568,7 +444,7 @@ export default function HomePage() {
               title="How I show up at work"
               center
             >
-              Practical habits I would bring to a support team.
+              Practical habits I would bring to your team.
             </SectionHeader>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
               {strengths.map((item, index) => (
@@ -598,7 +474,7 @@ export default function HomePage() {
               title="How I handle support work"
               center
             >
-              A simple workflow that keeps things clear for users and teammates.
+              A simple workflow that keeps things clear for users and the team.
             </SectionHeader>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 relative">
               <motion.div
@@ -736,7 +612,7 @@ export default function HomePage() {
                   alt="Taylor Bryant"
                   layout="fill"
                   objectFit="cover"
-                  objectPosition="center top"
+                  objectPosition="center 38%"
                   placeholder="blur"
                   className="grayscale hover:grayscale-0 transition-all duration-500"
                 />
@@ -768,7 +644,7 @@ export default function HomePage() {
               {[
                 { src: Workspace1, pos: "center" },
                 { src: Me2, pos: "center top" },
-                { src: Me3, pos: "center top" },
+                { src: Me3, pos: "center 38%" },
                 { src: Workspace, pos: "center" },
               ].map(({ src, pos }, i) => (
                 <motion.div
